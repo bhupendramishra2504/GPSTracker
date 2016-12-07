@@ -259,6 +259,8 @@ class Channel_list_view_adapter extends BaseAdapter {
         Global.channel_id=channellist.get(position).getChannelid().split(":")[1].trim();
         DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("followers");
         DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("status");
+        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("status");
+        ref2.setValue(update);
         //ref1.onDisconnect().setValue("0");
         ref1.setValue(update);
         //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);

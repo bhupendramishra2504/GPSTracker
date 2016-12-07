@@ -216,6 +216,8 @@ public class TimeServiceGPS extends Service {
         DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(Global.channel_id).child("followers");
         DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(Global.channel_id).child("status");
         ref1.setValue(update);
+        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("status");
+        ref2.setValue(update);
         //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
 
         if(user_ref!=null) {
@@ -252,6 +254,8 @@ public class TimeServiceGPS extends Service {
         DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(Global.channel_id).child("followers");
         DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(Global.channel_id).child("status");
         ref1.setValue("0");
+        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("status");
+        ref2.setValue("0");
         //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
 
         if(user_ref!=null) {
@@ -291,6 +295,8 @@ public class TimeServiceGPS extends Service {
         DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(Global.channel_id).child("followers");
         DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(Global.channel_id).child("status");
         ref1.onDisconnect().setValue("0");
+        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("status");
+        ref2.onDisconnect().setValue("0");
         //offline_network_issue();
 
         ref1.keepSynced(true);

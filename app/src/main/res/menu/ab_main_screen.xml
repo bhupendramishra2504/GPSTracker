@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dash="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
+
+
+        <item android:id="@+id/broadcast"
+            android:title="My Broadcast"
+            dash:showAsAction="never"/>
+            <item android:id="@+id/user_setting"
+                android:title="User Settings"
+                dash:showAsAction="never"/>
+           <item
+               android:title="Generate Dummy Channel"
+                 dash:showAsAction="never"/>
+            <item
+                android:title="Contact Us"
+                dash:showAsAction="never"/>
+            <item
+                android:title="Notifications"
+                dash:showAsAction="never"/>
+            <item
+                android:title="About"
+                dash:showAsAction="never"/>
+            <item android:id="@+id/search"
+                android:title="Search"
+                dash:showAsAction="always"/>
+
+
+
+</menu>

@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:layout_gravity="center_horizontal">
+    <ProgressBar
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+
+
+        />
+
+       <ListView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:id="@+id/user_subscribe_list"
+           android:layout_marginTop="10dp"
+           android:dividerHeight="2px"
+           android:divider="#bbbbbb"
+           >
+       </ListView>
+
+
+    </LinearLayout>
+
+
+
+

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1042003916989",
+    "firebase_url": "https://joinin-440f7.firebaseio.com",
+    "project_id": "joinin-440f7",
+    "storage_bucket": "joinin-440f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042003916989:android:cffe60eff6d463f4",
+        "android_client_info": {
+          "package_name": "gps.tracker.com.gpstracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042003916989-op3medrmpo47o1u97uo0aqiokebm1uec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQWkBtHzTUWGhE2quuXxuJWuEkKqBKwrE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

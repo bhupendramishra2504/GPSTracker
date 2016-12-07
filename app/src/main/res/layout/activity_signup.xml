@@ -1,0 +1,149 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:fillViewport="true"
+    android:layout_height="match_parent"
+    tools:context="gps.tracker.com.gpstracker.Signup"
+    android:fadeScrollbars="false"
+    >
+
+    <LinearLayout
+
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_gravity="center_horizontal"
+        >
+
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rname"
+            android:inputType="text"
+            android:hint="NAME"
+            android:layout_marginTop="20dp"
+            android:textColorHint="#B3B6B7"
+            android:textCursorDrawable="@null"
+            android:textColor="#3F51B5"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DOB"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:gravity="left"
+            android:id="@+id/rdob"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColor="#ffffff"
+            android:drawableRight="@drawable/drop_down"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GENDER"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:gravity="left"
+            android:id="@+id/rgender"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColor="#ffffff"
+            android:drawableRight="@drawable/drop_down"
+            />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rmobile"
+            android:inputType="number"
+            android:hint="MOBILE NUMBER"
+            android:textColorHint="#B3B6B7"
+            android:textCursorDrawable="@null"
+            android:textColor="#3F51B5"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rcity"
+            android:inputType="text"
+            android:hint="CITY"
+            android:textCursorDrawable="@null"
+            android:textColor="#3F51B5"
+            android:textColorHint="#B3B6B7"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rcountry"
+            android:inputType="text"
+            android:hint="COUNTRY"
+            android:textColorHint="#B3B6B7"
+            android:textCursorDrawable="@null"
+            android:textColor="#3F51B5"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I agreed to terms and conditions"
+            android:textColor="#3353e0" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REGISTER"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:id="@+id/rregister"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/allborder"
+            />
+
+        <ProgressBar
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="20dp"
+            />
+
+
+
+    </LinearLayout>
+
+
+
+
+</ScrollView>

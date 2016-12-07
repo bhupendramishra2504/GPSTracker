@@ -1,0 +1,74 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:fillViewport="true"
+    android:layout_height="match_parent"
+    tools:context="gps.tracker.com.gpstracker.Signup;"
+    android:fadeScrollbars="false"
+    >
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/uchange"
+            android:inputType="number"
+            android:hint="New Mobile Number"
+            android:textColorHint="#B3B6B7"
+            android:textCursorDrawable="@null"
+            android:layout_marginTop="20dp"
+            android:textColor="#3353e0"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+
+            />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CHANGE NUMBER"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:id="@+id/uchg_num"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/allborder"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DELETE ACCOUNT"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/allborder"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+</ScrollView>

@@ -1,0 +1,227 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:fillViewport="true"
+    android:layout_height="match_parent"
+    tools:context="gps.tracker.com.gpstracker.Add_Channel"
+    android:fadeScrollbars="false"
+    >
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_gravity="center_horizontal"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logged as : "
+            android:id="@+id/logged_user"
+            android:gravity="center"
+            android:textColor="#3353e0"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/aowner"
+            android:inputType="text"
+            android:hint="OWNER"
+            android:textColorHint="#B3B6B7"
+            android:textCursorDrawable="@null"
+            android:textColor="#3F51B5"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm "
+            />
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/pic"
+            android:layout_gravity="center"
+            android:src="@drawable/default_photo"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Browse for picture ..."
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:id="@+id/browse"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColor="#ffffff"
+
+            />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/avname"
+            android:inputType="text"
+            android:hint="VEHICLE NAME"
+            android:textCursorDrawable="@null"
+            android:textColor="#3F51B5"
+            android:textColorHint="#B3B6B7"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="VEHICLE TYPE"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:gravity="left"
+            android:id="@+id/vtype"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColor="#ffffff"
+            android:drawableRight="@drawable/drop_down"
+
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CATEGORY"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:gravity="left"
+            android:id="@+id/acategory"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColor="#ffffff"
+            android:drawableRight="@drawable/drop_down"
+            />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/avnumber"
+            android:inputType="text"
+            android:hint="VEHICLE NUMBER"
+            android:textColorHint="#B3B6B7"
+            android:textCursorDrawable="@null"
+            android:textColor="#3F51B5"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/acity"
+            android:inputType="text"
+            android:hint="CITY"
+            android:textCursorDrawable="@null"
+            android:textColor="#3F51B5"
+            android:textColorHint="#B3B6B7"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:digits="qwertzuiopasdfghjklyxcvbnm "
+
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TRAVEL TYPE"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:gravity="left"
+            android:id="@+id/atravel"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColor="#ffffff"
+            android:drawableRight="@drawable/drop_down"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REFRESH RATE"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:gravity="left"
+            android:id="@+id/arefresh"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColor="#ffffff"
+            android:drawableRight="@drawable/drop_down"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Default follower setting"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"/>
+
+        <RadioGroup
+            android:id="@+id/rg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/rblock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Block"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/rallow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Allow" />
+
+        </RadioGroup>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD CHANNEL"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:id="@+id/rregister"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColor="#ffffff"
+
+            />
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+</ScrollView>

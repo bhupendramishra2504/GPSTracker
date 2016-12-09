@@ -345,7 +345,7 @@ public class MyChannels_RV extends AppCompatActivity {
                                 Global.channel_broadcasting_vnumber = "NONE";
 
                             } else {
-                                if (!isMyServiceRunning(TimeServiceGPS.class)) {
+                                if (!Global.broadcasting) {
                                     status_update("0", child.getKey());
                                     sr1.setImageid(images[1]);
                                     Global.channel_broadcasting_name = "NONE";

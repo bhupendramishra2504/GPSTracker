@@ -226,7 +226,7 @@ public class Dashboard extends AppCompatActivity {
             }
             else if (id==R.id.broadcast) {
             if (grant_permission() && isNetworkAvailable()) {
-                Intent i2 = new Intent(Dashboard.this, MyChannels.class);
+                Intent i2 = new Intent(Dashboard.this, MyChannels_RV.class);
                 startActivity(i2);
                 finish();
             }

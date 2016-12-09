@@ -92,7 +92,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         }
         else
         {
-            Toast.makeText(context,"cannot fetch the gps location",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"cannot fetch the gps location in gps tracker",Toast.LENGTH_LONG).show();
         }
 
 
@@ -104,10 +104,10 @@ public class Broadcast_Receiver extends BroadcastReceiver {
             DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("locations").child("latest_location");
             client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
             loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
-            Toast.makeText(context,"Location saved to server",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
         }
         {
-            Toast.makeText(context,"cannot fetch the gps location",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"cannot fetch the gps location in add location to server func",Toast.LENGTH_LONG).show();
         }
 
     }

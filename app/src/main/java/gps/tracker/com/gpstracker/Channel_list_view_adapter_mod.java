@@ -1,8 +1,10 @@
 package gps.tracker.com.gpstracker;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
@@ -41,7 +43,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
 
     private final LayoutInflater mInflater;
     private final Intent i;
-
+    private PendingIntent pendingIntent;
+    Intent alarmIntent;
 
 
     public Channel_list_view_adapter_mod(Context context, ArrayList<Channel_list> results) {
@@ -49,6 +52,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         this.context=context;
         mInflater = LayoutInflater.from(context);
         i=new Intent(this.context, TimeServiceGPS.class);
+        alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
+
     }
 
     public int getCount() {
@@ -119,14 +124,15 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
             public void onClick(View v) {
                 Global.channel_id=channellist.get(position).getChannelid().split(":")[1].trim();
                 if((Global.broadcasting && Global.ch_list_pos==position) | !Global.broadcasting) {
-                    if (!isMyServiceRunning(TimeServiceGPS.class)) {
+                    if (!Global.broadcasting) {
                         LocationManager locationManager = (LocationManager) context
                                 .getSystemService(Context.LOCATION_SERVICE);
                         boolean isGPSEnabled = locationManager
                                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
                         if(isGPSEnabled) {
-                            context.startService(i);
+                            //context.startService(i);
+
 
                             Global.rr = channellist.get(position).getsvcategary().split(":")[2].trim();
                             Global.broadcasting = true;
@@ -140,6 +146,15 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             //holder.broadcast.setImageResource(setImageid(images[0]));
                             holder.broadcast.setImageResource(R.drawable.broadcast_icon);
                             channellist.get(position).setImageid(images[0]);
+
+                            alarmIntent.putExtra("channel_id",channellist.get(position).getChannelid().split(":")[1].trim());
+                            pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                            AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                            int interval = 20000;
+
+                            manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+                            Toast.makeText(context,"Alarm service activated",Toast.LENGTH_LONG).show();
                             // Broadcasting_on_Notification();
                         }
                         else
@@ -149,8 +164,9 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         //subscribe();
 
 
-                    } else {
-                        context.stopService(i);
+                    }
+                    /*else {
+                        //context.stopService(i);
                         status = false;
                         Global.broadcasting = false;
                         Global.ch_list_pos = -1;
@@ -163,9 +179,11 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         status_update("0", position);
                         holder.broadcast.setImageResource(R.drawable.red_circle);
                         channellist.get(position).setImageid(images[1]);
+                        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        manager.cancel(pendingIntent);
 
 
-                    }
+                    }*/
                 }
                 else
                 {

@@ -228,7 +228,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
            if(map!=null) {
 
-               points.clear();
+
                map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
                map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
                points = map.addDataLayer("mz_default_point");
@@ -548,7 +548,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                     if(longitude!=0.0 && latitude!=0.0) {
                                         //System.out.println("map data : " + data[0]);
                                        // System.out.println("map data : " + data[1]);
-                                        //goToLandmark_mod();
+                                        goToLandmark_mod();
                                         count++;
                                         System.out.println("online map data : " + String.valueOf(count));
                                         update_tf_realtime();

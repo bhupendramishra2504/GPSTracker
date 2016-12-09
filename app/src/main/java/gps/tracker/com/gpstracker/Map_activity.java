@@ -228,13 +228,10 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
            if(map!=null) {
 
-
+               points.clear();
                map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
                map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
                points = map.addDataLayer("mz_default_point");
-               if(points!=null ){
-                   points.clear();
-               }
                props.put("type", "point");
                props.put("color", "#000000");
                points.addPoint(new LngLat(longitude, latitude), props);

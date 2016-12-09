@@ -238,6 +238,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                props.put("type", "point");
                props.put("color", "#000000");
                points.addPoint(new LngLat(longitude, latitude), props);
+               System.out.println("map data UPDATED");
            }
             //map_style.setText("Last updated on :"+ time_stamp + Global.separator);
             // map_style.setText("showing channel location");
@@ -552,13 +553,14 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                        // System.out.println("map data : " + data[1]);
                                         //goToLandmark_mod();
                                         count++;
-                                      //  System.out.println("map data : " + String.valueOf(count));
+                                        System.out.println("online map data : " + String.valueOf(count));
                                         update_tf_realtime();
                                     }
                                     else
                                     {
                                         get_last_location_offline_mod();
                                        // goToLandmark();
+                                        System.out.println("offline map data : " + String.valueOf(count));
                                         update_tf_offline();
                                     }
                                     //Map_activity.this.map_style.setText("Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude));

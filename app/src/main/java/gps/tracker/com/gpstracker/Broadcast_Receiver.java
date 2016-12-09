@@ -106,6 +106,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
             loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
             Toast.makeText(context,"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
         }
+        else
         {
             Toast.makeText(context,"cannot fetch the gps location in add location to server func",Toast.LENGTH_LONG).show();
         }

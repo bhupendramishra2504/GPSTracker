@@ -59,21 +59,23 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
         channel_id=arg1.getStringExtra("channel_id");
         context=arg0;
-        try {
-            Ortc ortc = new Ortc();
-            OrtcFactory factory;
-            factory = ortc.loadOrtcFactory("IbtRealtimeSJ");
-            client = factory.createClient();
-            client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1");
-            client.connect("Cmo9Y1", "testToken");
-            client.setApplicationContext(context);
-        }
-        catch (InstantiationException e) {
-            //e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            //e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            //e.printStackTrace();
+        if(client!=null) {
+
+            try {
+                Ortc ortc = new Ortc();
+                OrtcFactory factory;
+                factory = ortc.loadOrtcFactory("IbtRealtimeSJ");
+                client = factory.createClient();
+                client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1");
+                client.connect("Cmo9Y1", "testToken");
+                client.setApplicationContext(context);
+            } catch (InstantiationException e) {
+                //e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                //e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                //e.printStackTrace();
+            }
         }
 
         client.setGoogleProjectId("joinin-440f7");

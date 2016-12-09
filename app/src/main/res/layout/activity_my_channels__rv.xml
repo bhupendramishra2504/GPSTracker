@@ -32,11 +32,17 @@
         android:id="@+id/dd"
         />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
+    <ListView
+        android:id="@+id/channel_list"
+        android:layout_height="match_parent"
+        android:paddingLeft="4dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:dividerHeight="2px"
+        android:divider="#bbbbbb"
+        android:layout_below="@+id/dd"
+        android:transcriptMode="normal"
+        >
+    </ListView>
 
 
 </RelativeLayout>

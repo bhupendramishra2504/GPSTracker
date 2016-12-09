@@ -84,9 +84,15 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         gps = new GPSTracker(context);
         if(gps.canGetLocation()) {
             //Global.gps_ok=true;
+            latitude=0.0;
+            longitude=0.0;
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
             add_location_to_server();
+        }
+        else
+        {
+            Toast.makeText(context,"cannot fetch the gps location",Toast.LENGTH_LONG).show();
         }
 
 
@@ -98,7 +104,10 @@ public class Broadcast_Receiver extends BroadcastReceiver {
             DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("locations").child("latest_location");
             client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
             loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
-            //Toast.makeText(Channel_settings.this,"Location saved to server",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"Location saved to server",Toast.LENGTH_LONG).show();
+        }
+        {
+            Toast.makeText(context,"cannot fetch the gps location",Toast.LENGTH_LONG).show();
         }
 
     }

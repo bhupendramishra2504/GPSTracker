@@ -59,7 +59,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
         channel_id=arg1.getStringExtra("channel_id");
         context=arg0;
-        if(client!=null) {
+        if(client==null) {
 
             try {
                 Ortc ortc = new Ortc();

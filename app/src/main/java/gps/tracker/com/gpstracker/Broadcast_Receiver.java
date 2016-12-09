@@ -49,7 +49,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
     private boolean status=false;
     //OrtcFactory factory;
-    private OrtcClient client;
+    public static OrtcClient client;
     private String channel_id="";
 
     @Override

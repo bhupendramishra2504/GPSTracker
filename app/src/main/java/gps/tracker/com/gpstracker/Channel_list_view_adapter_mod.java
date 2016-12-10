@@ -192,7 +192,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         channellist.get(position).setImageid(images[1]);
                         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         manager.cancel(pendingIntent);
-
+                        pendingIntent.cancel();
 
                     }
 

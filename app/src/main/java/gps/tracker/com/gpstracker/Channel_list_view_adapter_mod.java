@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 
@@ -122,9 +124,12 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         holder.broadcast.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+                String channel_broadcasting = prefs.getString("broadcasting", "NA");
+
                 Global.channel_id=channellist.get(position).getChannelid().split(":")[1].trim();
-                if((Global.broadcasting && Global.ch_list_pos==position) | !Global.broadcasting) {
-                    if (!Global.broadcasting) {
+                if(channel_broadcasting.equalsIgnoreCase("NA")) {
+
                         LocationManager locationManager = (LocationManager) context
                                 .getSystemService(Context.LOCATION_SERVICE);
                         boolean isGPSEnabled = locationManager
@@ -138,10 +143,13 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             Global.broadcasting = true;
                             Global.ch_list_pos = position;
                             status = true;
+                            SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+                            editor.putString("broadcasting",channellist.get(position).getChannelid().split(":")[1].trim());
+                            editor.commit();
                             Global.channel_broadcasting_name = channellist.get(position).getsName().split(":")[1].trim();
                             Global.channel_broadcasting_vnumber = channellist.get(position).getsVnumber().split(":")[1].trim();
                             Global.channel_id_bd = channellist.get(position).getChannelid().split(":")[1].trim();
-                            status_update("1", position);
+                            status_update_mod("1", channellist.get(position).getChannelid().split(":")[1].trim());
                             play_sound();
                             //holder.broadcast.setImageResource(setImageid(images[0]));
                             holder.broadcast.setImageResource(R.drawable.broadcast_icon);
@@ -165,7 +173,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
 
 
                     }
-                    /*else {
+                    else if(channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid().split(":")[1].trim())){
                         //context.stopService(i);
                         status = false;
                         Global.broadcasting = false;
@@ -173,19 +181,22 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         Global.channel_broadcasting_name="NONE";
                         Global.channel_broadcasting_vnumber="NONE";
                         Global.channel_id_bd ="none";
+                         SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+                         editor.putString("broadcasting","NA");
+                         editor.commit();
                         play_sound_bstop();
                         // Broadcasting_off_Notification();
                         //DatabaseReference ref=Global.firebase_dbreference.child("CHANNELS").child(Global.username).child("status");
-                        status_update("0", position);
+                        status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
                         holder.broadcast.setImageResource(R.drawable.red_circle);
                         channellist.get(position).setImageid(images[1]);
                         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         manager.cancel(pendingIntent);
 
 
-                    }*/
-                }
-                else
+                    }
+
+                else if(!channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid().split(":")[1].trim()))
                 {
                     Toast.makeText(context,"Other Channel is Broadcasting",Toast.LENGTH_LONG).show();
                 }
@@ -311,6 +322,46 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         }
     }
 
+
+
+    private void status_update_mod(final String update, final String channel_id)
+    {
+        Global.channel_id=channel_id;
+        DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(channel_id).child("followers");
+        DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("status");
+        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+        ref2.setValue(update);
+        //ref1.onDisconnect().setValue("0");
+        ref1.setValue(update);
+        //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
+
+        if(user_ref!=null) {
+
+            user_ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                        if (child != null) {
+
+                            DatabaseReference ref=Global.firebase_dbreference.child("USERS").child(child.getKey()).child("Subscribers").child(channel_id).child("status");
+                            //ref.onDisconnect().setValue("0");
+                            ref.setValue(update);
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    //Toast.makeText(Channel_settings.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }
+    }
 
 
     private void play_sound()

@@ -41,12 +41,12 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private MapController map;
 
     // MapView is the View used to display the map.
-    private MapView mapview;
+    private static MapView mapview;
     private static double latitude; // latitude
     private static double longitude;
     private static double my_latitude; // latitude
     private static double my_longitude;
-    private static MapData points=null;
+    private static MapData points;
     // --Commented out by Inspection (01/12/16, 10:08 PM):public static MapData marker;
     // --Commented out by Inspection (01/12/16, 10:08 PM):Map<String,String> desc;
 
@@ -57,7 +57,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     private String s_phone;
     // --Commented out by Inspection (01/12/16, 10:09 PM):OrtcFactory factory;
-    private OrtcClient client;
+    private static OrtcClient client;
     private boolean map_is_ready=false;
     private Thread location_update;
     // --Commented out by Inspection (01/12/16, 10:09 PM):private Activity activity;

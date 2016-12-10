@@ -11,6 +11,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.v7.app.NotificationCompat;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,11 +23,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Timer;
 
 import ibt.ortc.api.Ortc;
 import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
+
+import static gps.tracker.com.gpstracker.R.drawable.error;
 
 /**
  * Created by bhupendramishra on 09/12/16.
@@ -80,7 +85,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
         client.setGoogleProjectId("joinin-440f7");
 
-        offline_update();
+        //offline_update();
         gps = new GPSTracker(context);
         if(gps.canGetLocation()) {
             //Global.gps_ok=true;
@@ -101,6 +106,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
     private void add_location_to_server()
     {
         if(longitude!=0.0 && latitude!=0.0 && !channel_id.equalsIgnoreCase("")) {
+            update_channel_status();
             DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("locations").child("latest_location");
             client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
             loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
@@ -145,6 +151,36 @@ public class Broadcast_Receiver extends BroadcastReceiver {
     }
 
 
+    private void update_channel_status()
+    {
+        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+        user_ref.keepSynced(true);
+        user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //results.clear();
+                        if(dataSnapshot!=null)
+                        {
+                            if(dataSnapshot.getValue().toString().equalsIgnoreCase("0"))
+                            {
+                                DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+                                user_ref.setValue("1");
+
+                            }
+                        }
+
+
+                    }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
 
 
 

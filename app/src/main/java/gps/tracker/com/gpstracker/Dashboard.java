@@ -419,33 +419,24 @@ private void getSubscriberdetails(final DataSnapshot child)
             String act;
             if(dataSnapshot!=null) {
                 act = dataSnapshot.getValue().toString();
-            }
-            else
-            {
-                act="0";
-            }
-                if (child != null){
+
+
+                if (child != null) {
 
 
                     Map<String, Object> map = (Map<String, Object>) child.getValue();
                     Suscriber_results sr1 = new Suscriber_results();
-                    if(map!=null && map.get("name")!=null && map.get("vehicle_number")!=null && map.get("status")!=null && map.get("vname")!=null && map.get("mobile")!=null) {
+                    if (map != null && map.get("name") != null && map.get("vehicle_number") != null && map.get("status") != null && map.get("vname") != null && map.get("mobile") != null) {
                         sr1.setsName("Name : " + map.get("name").toString());
                         sr1.setChannelid(child.getKey());
-                        sr1.setsPhone("Mobile No. : "+map.get("mobile").toString());
+                        sr1.setsPhone("Mobile No. : " + map.get("mobile").toString());
                         sr1.setsVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
-                        sr1.setsvname("V-Name : "+map.get("vname").toString());
-                        if(map.get("unblock")!=null) {
+                        sr1.setsvname("V-Name : " + map.get("vname").toString());
+                        if (map.get("unblock") != null) {
                             sr1.setstatus(map.get("unblock").toString());
-                        }
-                        else
-                        {
+                        } else {
                             sr1.setstatus("1");
                         }
-
-
-
-
 
 
                         //act = map.get("status").toString();
@@ -455,37 +446,33 @@ private void getSubscriberdetails(final DataSnapshot child)
                             sr1.setImageid(images[1]);
                         }
 
-                        if(map.get("image")!=null) {
+                        if (map.get("image") != null) {
                             sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
-                        }
-                        else
-                        {
+                        } else {
                             sr1.setImage(download_image_to_firebase1("default"));
                         }
-                        if(map.get("vtype")!=null) {
-                            sr1.setvtype("Type : "+map.get("vtype").toString());
+                        if (map.get("vtype") != null) {
+                            sr1.setvtype("Type : " + map.get("vtype").toString());
+                        } else {
+                            sr1.setvtype("Type : " + "NA");
                         }
-                        else
-                        {
-                            sr1.setvtype("Type : "+"NA");
+                        if (map.get("category") != null) {
+                            sr1.setcategory("category : " + map.get("category").toString());
+                        } else {
+                            sr1.setcategory("category : " + "NA");
                         }
-                        if(map.get("category")!=null) {
-                            sr1.setcategory("category : "+map.get("category").toString());
-                        }
-                        else
-                        {
-                            sr1.setcategory("category : "+"NA");
-                        }
-
-
 
 
                         results.add(sr1);
                     }
 
 
-
                 }
+            }
+            else
+            {
+                Toast.makeText(Dashboard.this,"Invalid Subscriber Details",Toast.LENGTH_LONG).show();
+            }
 
 
 

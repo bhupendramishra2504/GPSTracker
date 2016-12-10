@@ -166,21 +166,15 @@ public class MyChannels_RV extends AppCompatActivity {
                                     Global.channel_broadcasting_vnumber = "NONE";
 
                                 } else {
-                                    if(!isMyServiceRunning(TimeServiceGPS.class))
-                                    {
-                                        status_update("0", child.getKey());
-                                        sr1.setImageid(images[1]);
-                                        Global.channel_broadcasting_name = "NONE";
-                                        Global.channel_broadcasting_vnumber = "NONE";
-                                    }
-                                    else {
+
+
                                         status_update("1", child.getKey());
                                         sr1.setImageid(images[0]);
                                         Global.broadcasting = true;
                                         Global.ch_list_pos = position;
                                         Global.channel_broadcasting_name = map.get("owner").toString();
                                         Global.channel_broadcasting_vnumber = map.get("vehicle_number").toString();
-                                    }
+
 
                                 }
                                 if (map.get("image") != null) {

@@ -1,7 +1,10 @@
 package gps.tracker.com.gpstracker;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,6 +26,7 @@ import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.MapView;
 import com.mapzen.tangram.TouchInput;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,28 +42,31 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     // MapView is the View used to display the map.
     private MapView mapview;
-    private  double latitude; // latitude
-    private  double longitude;
-    private double my_latitude; // latitude
-    private  double my_longitude;
-    public  MapData points;
+    private static double latitude; // latitude
+    private static double longitude;
+    private static double my_latitude; // latitude
+    private static double my_longitude;
+    private static MapData points=null;
     // --Commented out by Inspection (01/12/16, 10:08 PM):public static MapData marker;
     // --Commented out by Inspection (01/12/16, 10:08 PM):Map<String,String> desc;
 
     // --Commented out by Inspection (01/12/16, 10:09 PM):int sel=0;
     private int first_child=1;
     private TextView map_style;
-    private  float scale_map=10f;
+    private static float scale_map=10f;
 
     private String s_phone;
     // --Commented out by Inspection (01/12/16, 10:09 PM):OrtcFactory factory;
     private OrtcClient client;
     private boolean map_is_ready=false;
+    private Thread location_update;
     // --Commented out by Inspection (01/12/16, 10:09 PM):private Activity activity;
     private long count;
     private String status;
     private String time_stamp="NA";
     private final Map<String, String> props = new HashMap<>();
+    private ImageButton zoomminus;
+    private ImageButton zoomplus;
     private ImageButton center;
     private GPSTracker gps;
     // --Commented out by Inspection (01/12/16, 10:09 PM):private String details;
@@ -76,8 +83,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         //activity=this;
         count=0;
         map_style=(TextView)findViewById(R.id.maps);
-        ImageButton zoomplus = (ImageButton) findViewById(R.id.zoomplus);
-        ImageButton zoomminus = (ImageButton) findViewById(R.id.zoomminus);
+        zoomplus=(ImageButton)findViewById(R.id.zoomplus);
+        zoomminus=(ImageButton)findViewById(R.id.zoomminus);
         center=(ImageButton)findViewById(R.id.center);
         Intent i = getIntent();
         s_phone= i.getStringExtra("subscriber");
@@ -215,7 +222,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
       //  scale_map=12f;
 
         if (map == null) {
-            //Toast.makeText(Map_activity.this,"Map is still not initialized :)",Toast.LENGTH_LONG).show();
+            Toast.makeText(Map_activity.this,"Map is still not initialized :)",Toast.LENGTH_LONG).show();
 
             return;
         }
@@ -227,7 +234,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         if(longitude!=0.0 && latitude!=0.0) {
 
            if(map!=null) {
-
+               if(points!=null ){
+                   points.clear();
+              }
 
                map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
                map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
@@ -235,7 +244,6 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                props.put("type", "point");
                props.put("color", "#000000");
                points.addPoint(new LngLat(longitude, latitude), props);
-               System.out.println("map data UPDATED");
            }
             //map_style.setText("Last updated on :"+ time_stamp + Global.separator);
             // map_style.setText("showing channel location");
@@ -270,7 +278,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         // Different types of "easing" are available to make the transition smoother or sharper.
         if(my_latitude!=0.0 && my_longitude!=0.0) {
             map.setPositionEased(new LngLat(my_longitude, my_latitude), duration, MapController.EaseType.CUBIC);
-            map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
+            //map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
             points = map.addDataLayer("mz_dropped_pin");
             props.put("type", "point");
             props.put("color", "#ff0000");
@@ -355,7 +363,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
 
         if(my_latitude!=0.0 && my_longitude!=0.0) {
-            scale_map=13f;
+           // scale_map=13f;
             map.setPositionEased(new LngLat(my_longitude,my_latitude), 1, MapController.EaseType.CUBIC);
             map.setZoomEased(scale_map, 1, MapController.EaseType.QUINT);
             points = map.addDataLayer("mz_dropped_pin");
@@ -387,14 +395,12 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     public void onResume() {
         super.onResume();
         mapview.onResume();
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mapview.onPause();
-
     }
 
 
@@ -402,24 +408,24 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     {
 
 
-        Thread location_update = new Thread() {
+        location_update = new Thread()
+        {
 
             @Override
             public void run() {
                 //yourOperation
-                Map_activity.this.runOnUiThread(new Runnable() {
+                Map_activity.this.runOnUiThread(new Runnable(){
 
                     @Override
                     public void run() {
 
                         goToLandmark_mod();
-                        map_style.setText("Time Stamp : " + time_stamp + Global.separator);
+                        map_style.setText("Time Stamp : "+time_stamp+Global.separator);
                         //blink();
                         //Toast.makeText(activity,"Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude)+Global.separator+"Total Location Recieved : "+String.valueOf(count),Toast.LENGTH_LONG).show();
 
 
-                    }
-                });
+                    }});
                 super.run();
             }
         };
@@ -548,21 +554,24 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                     if(longitude!=0.0 && latitude!=0.0) {
                                         //System.out.println("map data : " + data[0]);
                                        // System.out.println("map data : " + data[1]);
-                                        goToLandmark_mod();
+                                        //goToLandmark_mod();
                                         count++;
-                                        System.out.println("online map data : " + String.valueOf(count));
+                                      //  System.out.println("map data : " + String.valueOf(count));
                                         update_tf_realtime();
                                     }
                                     else
                                     {
                                         get_last_location_offline_mod();
                                        // goToLandmark();
-                                        System.out.println("offline map data : " + String.valueOf(count));
                                         update_tf_offline();
                                     }
                                     //Map_activity.this.map_style.setText("Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude));
                                 }
+                                else
+                                {
+                                    //Map_activity.this.map_style.setText("Channel not active or map not initialized");
 
+                                }
                                 //Toast.makeText(Channel_settings.this,"message recieved "+message,Toast.LENGTH_LONG ).show();
                             }
                         });
@@ -771,7 +780,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                         System.out.println("map data : " + data[0]);
                         System.out.println("map data : " + data[1]);
                         if (longitude != 0.0 && latitude != 0.0) {
-
+                            if (points != null) {
+                                points.clear();
+                            }
 
                             int duration = 1; // Milliseconds
 
@@ -779,11 +790,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                             // Different types of "easing" are available to make the transition smoother or sharper.
                             if (longitude != 0.0 && latitude != 0.0) {
                                 map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
-                                map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
+                               // map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
                                 points = map.addDataLayer("mz_default_point");
-                                if (points != null) {
-                                    points.clear();
-                                }
                                 props.put("type", "point");
                                 props.put("color", "#000000");
                                 props.put("text", "hiii");
@@ -833,16 +841,12 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     public void onDestroy() {
         super.onDestroy();
         mapview.onDestroy();
-        map=null;
-        //System.gc();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         mapview.onLowMemory();
-        map=null;
-        //System.gc();
     }
 
     @Override

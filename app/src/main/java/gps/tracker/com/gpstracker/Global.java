@@ -18,6 +18,9 @@ import java.util.Map;
 
 /**
  * Created by bhupendramishra on 08/10/16.
+ * cd /Users/bhupendramishra/Library/Android/sdk/platform-tools
+ ./adb shell dumpsys alarm > dump.txt
+
  */
 
 class Global {

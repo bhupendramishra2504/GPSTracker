@@ -99,7 +99,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
     private void add_location_to_server()
     {
-        if(longitude!=0.0 && latitude!=0.0 && !channel_id.equalsIgnoreCase("")) {
+        if(longitude!=0.0 && latitude!=0.0 && !channel_id.equalsIgnoreCase("") && isNetworkAvailable(context)) {
             update_channel_status();
             DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("locations").child("latest_location");
             client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
@@ -130,6 +130,13 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
         ref2.setValue("0");
         //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 

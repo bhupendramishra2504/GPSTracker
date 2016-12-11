@@ -169,7 +169,7 @@ public class Splash extends AppCompatActivity {
                             //Global.gender=map.get("gender").toString();
                             Global.city=map.get("city").toString();
                             //Global.country=map.get("country").toString();
-                            Global.read_refresh_rate();
+                           // Global.read_refresh_rate();
                             Intent intent = new Intent(Splash.this, Dashboard.class);
                             startActivity(intent);
                             finish();

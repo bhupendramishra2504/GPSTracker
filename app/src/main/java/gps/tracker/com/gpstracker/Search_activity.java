@@ -956,7 +956,7 @@ public class Search_activity extends AppCompatActivity {
                             //Global.gender = map.get("gender").toString();
                             Global.city = map.get("city").toString();
                             //Global.country = map.get("country").toString();
-                            Global.read_refresh_rate();
+                            //Global.read_refresh_rate();
 
                         } else {
                             Intent intent = new Intent(Search_activity.this, Register.class);

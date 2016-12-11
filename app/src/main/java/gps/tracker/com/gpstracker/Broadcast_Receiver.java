@@ -40,10 +40,6 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
     Context context;
     private static final long  NOTIFY_INTERVAL=20000;
-    //Global.refresh_rate();
-    //public static final long NOTIFY_INTERVAL1=10000;
-    // 15 mins
-    private GPSTracker gps;
 
     // run on another Thread to avoid crash
     private final Handler mHandler = new Handler();
@@ -86,7 +82,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         client.setGoogleProjectId("joinin-440f7");
 
         //offline_update();
-        gps = new GPSTracker(context);
+        GPSTracker gps = new GPSTracker(context);
         if(gps.canGetLocation()) {
             //Global.gps_ok=true;
             latitude=0.0;

@@ -41,7 +41,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private MapController map;
 
     // MapView is the View used to display the map.
-    private static MapView mapview;
+    private MapView mapview;
     private static double latitude; // latitude
     private static double longitude;
     private static double my_latitude; // latitude
@@ -59,14 +59,11 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     // --Commented out by Inspection (01/12/16, 10:09 PM):OrtcFactory factory;
     private static OrtcClient client;
     private boolean map_is_ready=false;
-    private Thread location_update;
     // --Commented out by Inspection (01/12/16, 10:09 PM):private Activity activity;
     private long count;
     private String status;
     private String time_stamp="NA";
     private final Map<String, String> props = new HashMap<>();
-    private ImageButton zoomminus;
-    private ImageButton zoomplus;
     private ImageButton center;
     private GPSTracker gps;
     // --Commented out by Inspection (01/12/16, 10:09 PM):private String details;
@@ -83,8 +80,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         //activity=this;
         count=0;
         map_style=(TextView)findViewById(R.id.maps);
-        zoomplus=(ImageButton)findViewById(R.id.zoomplus);
-        zoomminus=(ImageButton)findViewById(R.id.zoomminus);
+        ImageButton zoomplus = (ImageButton) findViewById(R.id.zoomplus);
+        ImageButton zoomminus = (ImageButton) findViewById(R.id.zoomminus);
         center=(ImageButton)findViewById(R.id.center);
         Intent i = getIntent();
         s_phone= i.getStringExtra("subscriber");
@@ -408,24 +405,24 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     {
 
 
-        location_update = new Thread()
-        {
+        Thread location_update = new Thread() {
 
             @Override
             public void run() {
                 //yourOperation
-                Map_activity.this.runOnUiThread(new Runnable(){
+                Map_activity.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
 
                         goToLandmark_mod();
-                        map_style.setText("Time Stamp : "+time_stamp+Global.separator);
+                        map_style.setText("Time Stamp : " + time_stamp + Global.separator);
                         //blink();
                         //Toast.makeText(activity,"Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude)+Global.separator+"Total Location Recieved : "+String.valueOf(count),Toast.LENGTH_LONG).show();
 
 
-                    }});
+                    }
+                });
                 super.run();
             }
         };

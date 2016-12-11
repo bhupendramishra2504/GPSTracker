@@ -24,7 +24,7 @@ public class Subscriber_list_view_adapter extends BaseAdapter {
     // --Commented out by Inspection (01/12/16, 10:31 PM):private List<String> originalData = null;
     private final List<String>filteredData = null;
     // --Commented out by Inspection (01/12/16, 10:31 PM):
-    private static  Context context;
+    private   Context context;
     //private final List<SearchResults> stocks;
 
     private final LayoutInflater mInflater;
@@ -44,7 +44,7 @@ public class Subscriber_list_view_adapter extends BaseAdapter {
     }
 
     public  void setContext(Context context){
-        Subscriber_list_view_adapter.context =context;}
+        Subscriber_list_view_adapter.this.context =context;}
 
     public long getItemId(int position) {
         return position;

@@ -46,7 +46,6 @@ public class Subscribe_Channel extends AppCompatActivity {
     private String subscriber_vnumber;
     private String subscriber_vname;
     private String subscriber_mobile;
-    private FirebaseDatabase firebase_database;
     // --Commented out by Inspection (01/12/16, 10:30 PM):private DatabaseReference firebase_dbreference;
     private ProgressBar spinner;
     // --Commented out by Inspection (01/12/16, 10:30 PM):Bitmap bitmap;
@@ -60,7 +59,7 @@ public class Subscribe_Channel extends AppCompatActivity {
         setContentView(R.layout.activity_subscribe__channel);
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.VISIBLE);
-        firebase_database = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebase_database = FirebaseDatabase.getInstance();
         //firebase_dbreference=firebase_database.getReference("JustIn");
         Global.set_action_bar_details(Subscribe_Channel.this,"JoinIn-Subscribe Channel","[ "+Global.username+" ]");
         lv1 = (ListView) findViewById(R.id.user_subscribe_list);

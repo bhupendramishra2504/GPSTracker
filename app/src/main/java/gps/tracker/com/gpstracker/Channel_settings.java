@@ -66,7 +66,6 @@ public class Channel_settings extends AppCompatActivity{
     private DatePickerDialog.OnDateSetListener date;
     private boolean validated1=false,validated2=false,validated3=false,validated4=false;
     private RadioGroup rg;
-    private RadioButton block,allow;
 
 
     @Override
@@ -74,8 +73,8 @@ public class Channel_settings extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel_settings);
         rg = (RadioGroup) findViewById(R.id.rg);
-        block=(RadioButton)findViewById(R.id.rblock);
-        allow=(RadioButton)findViewById(R.id.rallow);
+        RadioButton block = (RadioButton) findViewById(R.id.rblock);
+        RadioButton allow = (RadioButton) findViewById(R.id.rallow);
         Button change = (Button) findViewById(R.id.change);
         Button delete = (Button) findViewById(R.id.delete);
         Button edit = (Button) findViewById(R.id.edit);

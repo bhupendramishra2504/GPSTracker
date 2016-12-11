@@ -26,7 +26,6 @@ import java.util.Locale;
 
 public class Register extends AppCompatActivity {
 
-    private Button otp;
     private Button gender;
     private Button dob;
     private EditText name;
@@ -42,7 +41,7 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         Global.set_action_bar_details(Register.this,"JoinIn-Register","");
-        otp=(Button)findViewById(R.id.rregister);
+        Button otp = (Button) findViewById(R.id.rregister);
         gender=(Button)findViewById(R.id.rgender);
         name=(EditText)findViewById(R.id.rname);
         dob=(Button)findViewById(R.id.rdob);

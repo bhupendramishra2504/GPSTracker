@@ -23,20 +23,20 @@ import java.util.Map;
 class Global {
     private static final FirebaseDatabase firebase_database = FirebaseDatabase.getInstance();
     public static final DatabaseReference firebase_dbreference=firebase_database.getReference("JustIn");
-    public static String channel_broadcasting_name="NONE";
-    public static String channel_broadcasting_vnumber="NONE";
+    //public static String channel_broadcasting_name="NONE";
+    //public static String channel_broadcasting_vnumber="NONE";
     public static String username="NA";
     public static String user_desc_name="NA";
     public static final String separator = System.getProperty("line.separator");
-    public static long high=0,med=0,low=0;
-    public static String rr="LOW";
+    //public static long high=0,med=0,low=0;
+    //public static String rr="LOW";
     public static String channel_id="";
     // --Commented out by Inspection (01/12/16, 10:07 PM):public static boolean authenticated=false;
     public static boolean block;
     // --Commented out by Inspection (01/12/16, 10:07 PM):public static boolean gps_ok=false;
-    public static boolean broadcasting=false;
-    public static int ch_list_pos=-1;
-    public static String channel_id_bd="";
+    //public static boolean broadcasting=false;
+    //public static int ch_list_pos=-1;
+   // public static String channel_id_bd="";
     public static String dob="",city="";
     public static int validate_string(String data)
     {
@@ -98,7 +98,7 @@ class Global {
 //    }
 // --Commented out by Inspection STOP (01/12/16, 10:08 PM)
 
-    public static void read_refresh_rate() {
+   /* public static void read_refresh_rate() {
         DatabaseReference user_ref = Global.firebase_dbreference.child("REFRESH_RATE");
         user_ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -128,7 +128,7 @@ class Global {
             }
         });
 
-    }
+    }*/
 
     public static void getUserdetails()
     {
@@ -144,7 +144,7 @@ class Global {
                         Global.user_desc_name = map.get("name").toString();
                         Global.dob = map.get("dob").toString();
                         Global.city = map.get("city").toString();
-                        Global.read_refresh_rate();
+                        //Global.read_refresh_rate();
 
 
                     }

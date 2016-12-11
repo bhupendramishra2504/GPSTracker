@@ -323,7 +323,7 @@ public class Add_Channel extends AppCompatActivity {
     public void onBackPressed() {
 
 
-        Intent intent = new Intent(Add_Channel.this, MyChannels.class);
+        Intent intent = new Intent(Add_Channel.this, MyChannels_RV.class);
         startActivity(intent);
         finish();
     }
@@ -334,7 +334,7 @@ public class Add_Channel extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // app icon in action bar clicked; go home
-                Intent intent = new Intent(this, MyChannels.class);
+                Intent intent = new Intent(this, MyChannels_RV.class);
                 startActivity(intent);
                 finish();
                 return true;
@@ -432,7 +432,7 @@ public class Add_Channel extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             // execution of result of Long time consuming operation
-            Intent intent = new Intent(Add_Channel.this, MyChannels.class);
+            Intent intent = new Intent(Add_Channel.this, MyChannels_RV.class);
             startActivity(intent);
             finish();
             Toast.makeText(Add_Channel.this,"Channel created for user : "+Global.username+" Channel Id : "+Global.generate_channel_id(), Toast.LENGTH_LONG).show();

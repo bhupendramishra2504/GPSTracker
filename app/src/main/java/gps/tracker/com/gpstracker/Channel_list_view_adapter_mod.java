@@ -147,9 +147,9 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                             editor.putString("broadcasting",channellist.get(position).getChannelid().split(":")[1].trim());
                             editor.commit();
-                            Global.channel_broadcasting_name = channellist.get(position).getsName().split(":")[1].trim();
-                            Global.channel_broadcasting_vnumber = channellist.get(position).getsVnumber().split(":")[1].trim();
-                            Global.channel_id_bd = channellist.get(position).getChannelid().split(":")[1].trim();
+                            //Global.channel_broadcasting_name = channellist.get(position).getsName().split(":")[1].trim();
+                            //Global.channel_broadcasting_vnumber = channellist.get(position).getsVnumber().split(":")[1].trim();
+                            //Global.channel_id_bd = channellist.get(position).getChannelid().split(":")[1].trim();
                             status_update_mod("1", channellist.get(position).getChannelid().split(":")[1].trim());
                             play_sound();
                             //holder.broadcast.setImageResource(setImageid(images[0]));
@@ -392,7 +392,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     }
 
 
-    private void Broadcasting_on_Notification() {
+    /*private void Broadcasting_on_Notification() {
         Notification.Builder builder = new Notification.Builder(context);
         builder.setSmallIcon(R.drawable.ic_launcher)
                 .setPriority(Notification.PRIORITY_HIGH)
@@ -403,7 +403,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         builder.setLights(0xff00ff00, 300, 100);
         NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         manager.notify(0, builder.build());
-    }
+    }*/
 
 // --Commented out by Inspection START (01/12/16, 10:04 PM):
 //    private void Broadcasting_off_Notification() {

@@ -256,20 +256,7 @@ public class Dashboard extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        handleIntent(intent);
-    }
 
-    private void handleIntent(Intent intent) {
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(Dashboard.this,"qurey is : "+ query,Toast.LENGTH_LONG).show();
-
-
-        }
-    }
 
 
 
@@ -332,7 +319,7 @@ private void getSubscriberdetails(final DataSnapshot child)
                 if (child != null) {
 
 
-                    WeakHashMap<String, Object> map = (WeakHashMap<String, Object>) child.getValue();
+                    Map<String, Object> map = (Map<String, Object>) child.getValue();
                     Suscriber_results sr1 = new Suscriber_results();
                     if (map != null && map.get("name") != null && map.get("vehicle_number") != null && map.get("status") != null && map.get("vname") != null && map.get("mobile") != null) {
                         sr1.setsName("Name : " + map.get("name").toString());
@@ -372,6 +359,8 @@ private void getSubscriberdetails(final DataSnapshot child)
 
 
                         results.add(sr1);
+                        map.clear();
+                        sr1=null;
                     }
 
 

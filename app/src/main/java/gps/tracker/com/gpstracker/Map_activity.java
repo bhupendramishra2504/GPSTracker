@@ -27,6 +27,7 @@ import com.mapzen.tangram.MapView;
 import com.mapzen.tangram.TouchInput;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,6 +69,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private GPSTracker gps;
     // --Commented out by Inspection (01/12/16, 10:09 PM):private String details;
     private int sel_loc =1;
+    Thread location_update;
+    private static WeakReference<Map_activity> activity;
 
 
     @Override
@@ -78,6 +81,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         mapview=(MapView)findViewById(R.id.map);
         Handler handler = new Handler();
         //activity=this;
+        activity = new WeakReference<>(this);
         count=0;
         map_style=(TextView)findViewById(R.id.maps);
         ImageButton zoomplus = (ImageButton) findViewById(R.id.zoomplus);
@@ -179,7 +183,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
        // scale_map=15f;
 
         if (map == null) {
-            Toast.makeText(Map_activity.this,"Map is still not initialized :)",Toast.LENGTH_LONG).show();
+            Toast.makeText(activity.get(),"Map is still not initialized :)",Toast.LENGTH_LONG).show();
 
             return;
         }
@@ -219,7 +223,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
       //  scale_map=12f;
 
         if (map == null) {
-            Toast.makeText(Map_activity.this,"Map is still not initialized :)",Toast.LENGTH_LONG).show();
+            Toast.makeText(activity.get(),"Map is still not initialized :)",Toast.LENGTH_LONG).show();
 
             return;
         }
@@ -269,7 +273,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
        // scale_map=12f;
 
         if (map == null) {
-            Toast.makeText(Map_activity.this,"Map is null :)",Toast.LENGTH_LONG).show();
+            Toast.makeText(activity.get(),"Map is null :)",Toast.LENGTH_LONG).show();
 
             return;
         }
@@ -307,7 +311,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             case android.R.id.home:
                 // app icon in action bar clicked; go home
                 //mapview.onDestroy();
-                Intent intent = new Intent(this, Dashboard.class);
+                Intent intent = new Intent(activity.get(), Dashboard.class);
                 startActivity(intent);
                 finish();
                 return true;
@@ -377,7 +381,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         }
         else
         {
-            Toast.makeText(Map_activity.this,"your location could not be determined",Toast.LENGTH_LONG).show();
+            Toast.makeText(activity.get(),"your location could not be determined",Toast.LENGTH_LONG).show();
         }
 
 
@@ -412,7 +416,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     {
 
 
-        Thread location_update = new Thread() {
+        location_update = new Thread() {
 
             @Override
             public void run() {
@@ -619,7 +623,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                         }
                         else
                         {
-                            Toast.makeText(Map_activity.this,"No Last location found",Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity.get(),"No Last location found",Toast.LENGTH_LONG).show();
                             //Map_activity.this.map_style.setText("Channel not active or map not initialized");
 
                         }
@@ -634,7 +638,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(Map_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -683,7 +687,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(Map_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -738,7 +742,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
                         //Map_activity.this.map_style.setText("Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude));
                     } else {
-                        Toast.makeText(Map_activity.this, "No Last location found", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity.get(), "No Last location found", Toast.LENGTH_LONG).show();
                         //Map_activity.this.map_style.setText("Channel not active or map not initialized");
 
                     }
@@ -747,7 +751,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 }
                 else
                 {
-                    Toast.makeText(Map_activity.this, "No Last location found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity.get(), "No Last location found", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -758,7 +762,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(Map_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -813,7 +817,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
                         //Map_activity.this.map_style.setText("Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude));
                     } else {
-                        Toast.makeText(Map_activity.this, "No Last location found", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity.get(), "No Last location found", Toast.LENGTH_LONG).show();
                         //Map_activity.this.map_style.setText("Channel not active or map not initialized");
 
                     }
@@ -822,7 +826,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 }
                 else
                 {
-                    Toast.makeText(Map_activity.this, "No Last location found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity.get(), "No Last location found", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -833,7 +837,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(Map_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -850,6 +854,13 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             points.clear();
 
         }
+        if(location_update!=null) {
+            location_update.interrupt();
+        }
+        if(gps!=null)
+        {
+            gps=null;
+        }
 
         mapview.onDestroy();
     }
@@ -864,7 +875,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     public void onBackPressed() {
 
         //mapview.onDestroy();
-        Intent intent = new Intent(Map_activity.this, Dashboard.class);
+        Intent intent = new Intent(activity.get(), Dashboard.class);
         startActivity(intent);
         finish();
     }
@@ -872,7 +883,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     private void my_location_gps()
     {
-        gps = new GPSTracker(Map_activity.this);
+        gps = new GPSTracker(activity.get());
         if(gps.canGetLocation()){
             my_latitude=0.0;
             my_longitude=0.0;
@@ -884,7 +895,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             }
             else
             {
-                Toast.makeText(Map_activity.this,"channel location could not be determined",Toast.LENGTH_LONG).show();
+                Toast.makeText(activity.get(),"channel location could not be determined",Toast.LENGTH_LONG).show();
                 map_style.setText("channel location could not be determined");
             }
            // Toast.makeText(Map_activity.this,"Your location in red point",Toast.LENGTH_LONG).show();

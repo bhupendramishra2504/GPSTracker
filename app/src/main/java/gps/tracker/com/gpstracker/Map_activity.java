@@ -302,7 +302,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         switch (item.getItemId()) {
             case android.R.id.home:
                 // app icon in action bar clicked; go home
-                mapview.onDestroy();
+                //mapview.onDestroy();
                 Intent intent = new Intent(this, Dashboard.class);
                 startActivity(intent);
                 finish();
@@ -770,6 +770,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                //scale_map=13f;
                 if (dataSnapshot.getValue() != null) {
                     String data[] = dataSnapshot.getValue().toString().split(";");
                     if (data.length == 3) {
@@ -790,7 +791,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                             // Different types of "easing" are available to make the transition smoother or sharper.
                             if (longitude != 0.0 && latitude != 0.0) {
                                 map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
-                               // map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
+                                map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
                                 points = map.addDataLayer("mz_default_point");
                                 props.put("type", "point");
                                 props.put("color", "#000000");

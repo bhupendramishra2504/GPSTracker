@@ -23,7 +23,7 @@ import java.util.Map;
 class Global {
     private static final FirebaseDatabase firebase_database = FirebaseDatabase.getInstance();
     public static final DatabaseReference firebase_dbreference=firebase_database.getReference("JustIn");
-     public static String channel_broadcasting_name="NONE";
+    public static String channel_broadcasting_name="NONE";
     public static String channel_broadcasting_vnumber="NONE";
     public static String username="NA";
     public static String user_desc_name="NA";

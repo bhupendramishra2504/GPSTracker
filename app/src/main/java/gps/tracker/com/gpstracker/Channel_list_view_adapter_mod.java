@@ -140,9 +140,9 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             //context.startService(i);
 
 
-                            Global.rr = channellist.get(position).getsvcategary().split(":")[2].trim();
-                            Global.broadcasting = true;
-                            Global.ch_list_pos = position;
+                           // Global.rr = channellist.get(position).getsvcategary().split(":")[2].trim();
+                          //  Global.broadcasting = true;
+                          //  Global.ch_list_pos = position;
                             status = true;
                             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                             editor.putString("broadcasting",channellist.get(position).getChannelid().split(":")[1].trim());
@@ -177,11 +177,11 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                     else if(channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid().split(":")[1].trim())){
                         //context.stopService(i);
                         status = false;
-                        Global.broadcasting = false;
-                        Global.ch_list_pos = -1;
-                        Global.channel_broadcasting_name="NONE";
-                        Global.channel_broadcasting_vnumber="NONE";
-                        Global.channel_id_bd ="none";
+                        //Global.broadcasting = false;
+                       // Global.ch_list_pos = -1;
+                       // Global.channel_broadcasting_name="NONE";
+                      //  Global.channel_broadcasting_vnumber="NONE";
+                      //  Global.channel_id_bd ="none";
                          SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                          editor.putString("broadcasting","NA");
                          editor.commit();

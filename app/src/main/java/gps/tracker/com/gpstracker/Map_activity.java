@@ -230,22 +230,29 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         // Different types of "easing" are available to make the transition smoother or sharper.
         if(longitude!=0.0 && latitude!=0.0) {
 
-           if(map!=null) {
-               if(points!=null ){
-                   points.clear();
-              }
+            try {
+                if (map != null) {
+                    try {
+                        if (points != null) {
+                            points.clear();
+                        }
+                    } catch (NullPointerException rr) {
 
-               map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
-               map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
-               points = map.addDataLayer("mz_default_point");
-               props.put("type", "point");
-               props.put("color", "#000000");
-               points.addPoint(new LngLat(longitude, latitude), props);
-           }
-            //map_style.setText("Last updated on :"+ time_stamp + Global.separator);
-            // map_style.setText("showing channel location");
+                    }
+
+                    map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
+                    map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
+                    points = map.addDataLayer("mz_default_point");
+                    props.put("type", "point");
+                    props.put("color", "#000000");
+                    points.addPoint(new LngLat(longitude, latitude), props);
+                }
+                //map_style.setText("Last updated on :"+ time_stamp + Global.separator);
+                // map_style.setText("showing channel location");
+            } catch (NullPointerException ee) {
+
+            }
         }
-
         // Toast.makeText(Map_activity.this,String.valueOf(latitude)+" , "+String.valueOf(longitude),Toast.LENGTH_LONG).show();
 
 

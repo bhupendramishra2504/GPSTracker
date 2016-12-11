@@ -44,17 +44,19 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     private final Integer[] visible_images={R.drawable.visible,R.drawable.invisible};
 
     private final LayoutInflater mInflater;
-    private final Intent i;
-    private PendingIntent pendingIntent;
-    Intent alarmIntent;
+    //private final Intent i;
+    private static PendingIntent pendingIntent;
+    private static Intent alarmIntent;
+    private static AlarmManager manager;
 
 
     public Channel_list_view_adapter_mod(Context context, ArrayList<Channel_list> results) {
         channellist = results;
         this.context=context;
         mInflater = LayoutInflater.from(context);
-        i=new Intent(this.context, TimeServiceGPS.class);
+        //i=new Intent(this.context, TimeServiceGPS.class);
         alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
+        pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
     }
 
@@ -158,7 +160,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             alarmIntent.putExtra("channel_id",channellist.get(position).getChannelid().split(":")[1].trim());
                             pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                            AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                            manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                             int interval = 20000;
 
                             manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
@@ -190,7 +192,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
                         holder.broadcast.setImageResource(R.drawable.red_circle);
                         channellist.get(position).setImageid(images[1]);
-                        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         manager.cancel(pendingIntent);
                         //pendingIntent.cancel();
                         Toast.makeText(context,"Alarm service stopped",Toast.LENGTH_LONG).show();

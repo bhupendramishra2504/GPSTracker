@@ -102,7 +102,7 @@ public class Channel_settings extends AppCompatActivity{
 
         lv1 = (ListView) findViewById(R.id.list);
         Activity activity = this;
-        i=new Intent(Channel_settings.this, TimeServiceGPS.class);
+        //i=new Intent(Channel_settings.this, TimeServiceGPS.class);
         Channel_settings.Broadcast_channel_class bcc=new Channel_settings.Broadcast_channel_class();
         bcc.execute();
         GetfollowerResults();
@@ -118,7 +118,7 @@ public class Channel_settings extends AppCompatActivity{
 
             public void onClick(View v) {
                 delete_channel();
-                Intent i1 = new Intent(Channel_settings.this, MyChannels.class);
+                Intent i1 = new Intent(Channel_settings.this, MyChannels_RV.class);
                 startActivity(i1);
                 finish();
             }
@@ -506,7 +506,7 @@ public class Channel_settings extends AppCompatActivity{
                     if (dataSnapshot.getValue() != null) {
                         Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                         data = "Owner : " + map.get("owner").toString() + Global.separator + "Vehicle Name : " + map.get("vehicle_name").toString() + Global.separator + "Vehicle Number : " + map.get("vehicle_number").toString() + Global.separator + "Vehicle type :" + map.get("vtype").toString() + Global.separator + "City : " + map.get("city").toString() + Global.separator + "Refresh Rate : " + map.get("refresh_status").toString() + Global.separator + "Intercity : " + map.get("intercity").toString() + Global.separator + "Category :" + map.get("category").toString() + Global.separator + "Visible : " + map.get("visible").toString() + Global.separator;
-                        Global.rr=map.get("refresh_status").toString();
+                        //Global.rr=map.get("refresh_status").toString();
                         owner.setText(map.get("owner").toString());
                         vname.setText(map.get("vehicle_name").toString());
                         vnumber.setText(map.get("vehicle_number").toString());
@@ -851,7 +851,7 @@ public class Channel_settings extends AppCompatActivity{
     {
        // Toast.makeText(Channel_settings.this,"Back pressed is called",Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(Channel_settings.this, MyChannels.class);
+        Intent intent = new Intent(Channel_settings.this, MyChannels_RV.class);
         startActivity(intent);
         finish();
     }
@@ -876,7 +876,7 @@ public class Channel_settings extends AppCompatActivity{
         @Override
         protected void onPostExecute(String result) {
             // execution of result of Long time consuming operation
-            Intent intent = new Intent(Channel_settings.this, MyChannels.class);
+            Intent intent = new Intent(Channel_settings.this, MyChannels_RV.class);
             startActivity(intent);
             finish();
             Toast.makeText(Channel_settings.this,"Channel created for user : "+Global.username+" Channel Id : "+Global.channel_id, Toast.LENGTH_LONG).show();

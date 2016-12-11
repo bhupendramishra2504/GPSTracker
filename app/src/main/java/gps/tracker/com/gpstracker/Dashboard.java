@@ -75,14 +75,14 @@ public class Dashboard extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setTitle("JUSTIN");
-        if(Global.channel_broadcasting_name.equalsIgnoreCase("NONE"))
+        /*if(Global.channel_broadcasting_name.equalsIgnoreCase("NONE"))
         {
             ab.setSubtitle("");
         }
         else
         {
             ab.setSubtitle(Global.channel_broadcasting_name+","+Global.channel_broadcasting_vnumber);
-        }
+        }*/
 
         ab.setDisplayHomeAsUpEnabled(false);
 
@@ -621,7 +621,7 @@ private void getSubscriberdetails(final DataSnapshot child)
                                     //Global.gender = map.get("gender").toString();
                                     Global.city = map.get("city").toString();
                                     //Global.country = map.get("country").toString();
-                                    Global.read_refresh_rate();
+                                    //Global.read_refresh_rate();
 
                                 } else {
                                     Intent intent = new Intent(Dashboard.this, Register.class);

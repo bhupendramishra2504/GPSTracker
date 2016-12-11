@@ -56,7 +56,6 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         mInflater = LayoutInflater.from(context);
         //i=new Intent(this.context, TimeServiceGPS.class);
         alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
-        pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
     }
 
@@ -192,6 +191,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
                         holder.broadcast.setImageResource(R.drawable.red_circle);
                         channellist.get(position).setImageid(images[1]);
+                        Intent intent = new Intent(context, Broadcast_Receiver.class);
+                        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         manager.cancel(pendingIntent);
                         //pendingIntent.cancel();

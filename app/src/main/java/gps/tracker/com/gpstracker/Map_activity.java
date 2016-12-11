@@ -46,7 +46,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private static double longitude;
     private static double my_latitude; // latitude
     private static double my_longitude;
-    private static MapData points;
+    private  MapData points;
     // --Commented out by Inspection (01/12/16, 10:08 PM):public static MapData marker;
     // --Commented out by Inspection (01/12/16, 10:08 PM):Map<String,String> desc;
 
@@ -838,6 +838,11 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(points!=null)
+        {
+            points.clear();
+        }
+        System.gc();
         mapview.onDestroy();
     }
 

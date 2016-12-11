@@ -192,8 +192,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         channellist.get(position).setImageid(images[1]);
                         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         manager.cancel(pendingIntent);
-                        pendingIntent.cancel();
-
+                        //pendingIntent.cancel();
+                        Toast.makeText(context,"Alarm service stopped",Toast.LENGTH_LONG).show();
                     }
 
                 else if(!channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid().split(":")[1].trim()))

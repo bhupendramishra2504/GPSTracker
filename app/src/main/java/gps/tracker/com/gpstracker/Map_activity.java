@@ -852,7 +852,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     @Override
     public void onBackPressed() {
 
-        mapview.onDestroy();
+        //mapview.onDestroy();
         Intent intent = new Intent(Map_activity.this, Dashboard.class);
         startActivity(intent);
         finish();

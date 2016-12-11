@@ -39,16 +39,13 @@ import static gps.tracker.com.gpstracker.R.drawable.error;
 public class Broadcast_Receiver extends BroadcastReceiver {
 
     Context context;
-    private static final long  NOTIFY_INTERVAL=20000;
 
-    // run on another Thread to avoid crash
-    private final Handler mHandler = new Handler();
-    // timer handling
-    private Timer mTimer = null;
+
+
     private double latitude=0.0,longitude=0.0;
     // --Commented out by Inspection (01/12/16, 10:33 PM):private final String log = "ServiceGPS";
 
-    private boolean status=false;
+
     //OrtcFactory factory;
     public static OrtcClient client;
     private String channel_id="";
@@ -81,7 +78,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
         client.setGoogleProjectId("joinin-440f7");
 
-        //offline_update();
+        offline_update();
         GPSTracker gps = new GPSTracker(context);
         if(gps.canGetLocation()) {
             //Global.gps_ok=true;
@@ -94,6 +91,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         else
         {
             Toast.makeText(context,"cannot fetch the gps location in gps tracker",Toast.LENGTH_LONG).show();
+            status_update("0");
         }
 
 
@@ -111,6 +109,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         else
         {
             Toast.makeText(context,"cannot fetch the gps location in add location to server func",Toast.LENGTH_LONG).show();
+            status_update("0");
         }
 
     }

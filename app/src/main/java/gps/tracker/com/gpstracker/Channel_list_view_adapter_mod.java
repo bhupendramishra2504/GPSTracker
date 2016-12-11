@@ -137,22 +137,13 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
                         if(isGPSEnabled) {
-                            //context.startService(i);
 
-
-                           // Global.rr = channellist.get(position).getsvcategary().split(":")[2].trim();
-                          //  Global.broadcasting = true;
-                          //  Global.ch_list_pos = position;
                             status = true;
                             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                             editor.putString("broadcasting",channellist.get(position).getChannelid().split(":")[1].trim());
                             editor.commit();
-                            //Global.channel_broadcasting_name = channellist.get(position).getsName().split(":")[1].trim();
-                            //Global.channel_broadcasting_vnumber = channellist.get(position).getsVnumber().split(":")[1].trim();
-                            //Global.channel_id_bd = channellist.get(position).getChannelid().split(":")[1].trim();
-                            status_update_mod("1", channellist.get(position).getChannelid().split(":")[1].trim());
+                             status_update_mod("1", channellist.get(position).getChannelid().split(":")[1].trim());
                             play_sound();
-                            //holder.broadcast.setImageResource(setImageid(images[0]));
                             holder.broadcast.setImageResource(R.drawable.broadcast_icon);
                             channellist.get(position).setImageid(images[0]);
 
@@ -177,18 +168,12 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                     else if(channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid().split(":")[1].trim())){
                         //context.stopService(i);
                         status = false;
-                        //Global.broadcasting = false;
-                       // Global.ch_list_pos = -1;
-                       // Global.channel_broadcasting_name="NONE";
-                      //  Global.channel_broadcasting_vnumber="NONE";
-                      //  Global.channel_id_bd ="none";
+
                          SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                          editor.putString("broadcasting","NA");
                          editor.commit();
                         play_sound_bstop();
-                        // Broadcasting_off_Notification();
-                        //DatabaseReference ref=Global.firebase_dbreference.child("CHANNELS").child(Global.username).child("status");
-                        status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
+                         status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
                         holder.broadcast.setImageResource(R.drawable.red_circle);
                         channellist.get(position).setImageid(images[1]);
                         Intent intent = new Intent(context, Broadcast_Receiver.class);

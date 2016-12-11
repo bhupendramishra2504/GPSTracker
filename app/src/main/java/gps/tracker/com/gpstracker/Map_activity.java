@@ -841,7 +841,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         if(points!=null)
         {
             points.clear();
-            System.gc();
+
         }
 
         mapview.onDestroy();

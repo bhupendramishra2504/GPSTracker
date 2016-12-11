@@ -8,6 +8,7 @@ import android.support.multidex.MultiDexApplication;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.leakcanary.LeakCanary;
 
+
 /**
  * Created by bhupendramishra on 18/10/16.
  */
@@ -19,13 +20,14 @@ public class Justin_app extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         //MultiDex.install(this);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
             return;
         }
         LeakCanary.install(this);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
     }
 
    @Override

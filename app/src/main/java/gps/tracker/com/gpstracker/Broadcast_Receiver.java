@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -30,6 +31,7 @@ import ibt.ortc.api.Ortc;
 import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
 
+import static android.content.Context.MODE_PRIVATE;
 import static gps.tracker.com.gpstracker.R.drawable.error;
 
 /**
@@ -92,6 +94,9 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         {
             Toast.makeText(context,"cannot fetch the gps location in gps tracker",Toast.LENGTH_LONG).show();
             status_update("0");
+            SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+            editor.putString("broadcasting","NA");
+            editor.commit();
         }
 
 
@@ -110,6 +115,9 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         {
             Toast.makeText(context,"cannot fetch the gps location in add location to server func",Toast.LENGTH_LONG).show();
             status_update("0");
+            SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+            editor.putString("broadcasting","NA");
+            editor.commit();
         }
 
     }

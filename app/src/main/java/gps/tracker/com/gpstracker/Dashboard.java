@@ -38,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 
 public class Dashboard extends AppCompatActivity {
@@ -272,99 +273,6 @@ public class Dashboard extends AppCompatActivity {
 
 
 
-    private void GetSubscriberResults_modified(){
-        //ArrayList<SearchResults> results = new ArrayList<SearchResults>();
-        adapter=null;
-        results.clear();
-        DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers");
-        user_ref.keepSynced(true);
-        user_ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                results.clear();
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-                    if (child != null){
-
-
-                        Map<String, Object> map = (Map<String, Object>) child.getValue();
-                        Suscriber_results sr1 = new Suscriber_results();
-                        if(map!=null && map.get("name")!=null && map.get("vehicle_number")!=null && map.get("status")!=null && map.get("vname")!=null && map.get("mobile")!=null) {
-                            sr1.setsName("Name : " + map.get("name").toString());
-                            sr1.setChannelid(child.getKey());
-                            sr1.setsPhone("Mobile No. : "+map.get("mobile").toString());
-                            sr1.setsVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
-                            if(map.get("unblock")!=null) {
-                                sr1.setstatus(map.get("unblock").toString());
-                            }
-                            else
-                            {
-                                sr1.setstatus("1");
-                            }
-                            String act = map.get("status").toString();
-                            if (act.equalsIgnoreCase("1")) {
-                                sr1.setsvname("V-Name : "+map.get("vname").toString());
-                                sr1.setImageid(images[0]);
-                            } else {
-                                sr1.setsvname("V-Name : "+map.get("vname").toString());
-                                sr1.setImageid(images[1]);
-                            }
-
-                            if(map.get("image")!=null) {
-                                sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
-                            }
-                            else
-                            {
-                                sr1.setImage(download_image_to_firebase1("default"));
-                            }
-                            if(map.get("vtype")!=null) {
-                                sr1.setvtype("Type : "+map.get("vtype").toString());
-                            }
-                            else
-                            {
-                                sr1.setvtype("Type : "+"NA");
-                            }
-                            if(map.get("category")!=null) {
-                                sr1.setcategory("category : "+map.get("category").toString());
-                            }
-                            else
-                            {
-                                sr1.setcategory("category : "+"NA");
-                            }
-
-
-
-
-                            results.add(sr1);
-                        }
-
-
-
-                    }
-
-                }
-
-                adapter = new Subscriber_list_view_adapter(Dashboard.this, results);
-                lv1.setAdapter(adapter);
-                adapter.setContext(Dashboard.this);
-                spinner.setVisibility(View.GONE);
-
-
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
-
-
 
     private void GetSubscriberResults_modified_v2(){
         //ArrayList<SearchResults> results = new ArrayList<SearchResults>();
@@ -424,7 +332,7 @@ private void getSubscriberdetails(final DataSnapshot child)
                 if (child != null) {
 
 
-                    Map<String, Object> map = (Map<String, Object>) child.getValue();
+                    WeakHashMap<String, Object> map = (WeakHashMap<String, Object>) child.getValue();
                     Suscriber_results sr1 = new Suscriber_results();
                     if (map != null && map.get("name") != null && map.get("vehicle_number") != null && map.get("status") != null && map.get("vname") != null && map.get("mobile") != null) {
                         sr1.setsName("Name : " + map.get("name").toString());

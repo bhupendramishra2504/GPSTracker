@@ -33,7 +33,9 @@ import java.util.Map;
 
 import ibt.ortc.api.Ortc;
 import ibt.ortc.extensibility.OnConnected;
+import ibt.ortc.extensibility.OnException;
 import ibt.ortc.extensibility.OnMessage;
+import ibt.ortc.extensibility.OnReconnected;
 import ibt.ortc.extensibility.OnRegistrationId;
 import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
@@ -579,8 +581,75 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 //Toast.makeText(Channel_settings.this,"message recieved "+message,Toast.LENGTH_LONG ).show();
                             }
                         });
+
             }
         };
+
+        client.onReconnected = new OnReconnected() {
+
+            public void run(final OrtcClient sender) {
+                runOnUiThread(new Runnable() {
+
+                    public void run() {
+                        client.subscribe(s_phone, true,
+                                new OnMessage() {
+                                    // This function is the message handler
+                                    // It will be invoked for each message received in myChannel
+
+                                    public void run(OrtcClient sender, String channel, String message) {
+                                        // Received a message
+                                        //System.out.println("map data : "+message);
+                                        String[] data=parse_location_data(message);
+                                        if(data.length==3 && map_is_ready)
+                                        {
+
+                                            longitude=Double.parseDouble(data[0]);
+                                            latitude=Double.parseDouble(data[1]);
+                                            time_stamp=data[2];
+                                            if(longitude!=0.0 && latitude!=0.0) {
+                                                //System.out.println("map data : " + data[0]);
+                                                // System.out.println("map data : " + data[1]);
+                                                //goToLandmark_mod();
+                                                count++;
+                                                //  System.out.println("map data : " + String.valueOf(count));
+                                                update_tf_realtime();
+                                            }
+                                            else
+                                            {
+                                                get_last_location_offline_mod();
+                                                // goToLandmark();
+                                                update_tf_offline();
+                                            }
+                                            //Map_activity.this.map_style.setText("Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude));
+                                        }
+                                        else
+                                        {
+                                            Map_activity.this.map_style.setText("Channel not active or map not initialized");
+
+                                        }
+                                        //Toast.makeText(Channel_settings.this,"message recieved "+message,Toast.LENGTH_LONG ).show();
+                                    }
+                                });
+
+                    }
+                });
+            }
+        };
+
+
+        client.onException = new OnException() {
+
+            public void run(OrtcClient send, Exception ex) {
+                final Exception exception = ex;
+                runOnUiThread(new Runnable() {
+
+                    public void run() {
+                        Toast.makeText(activity.get(),exception.getMessage().toString(),Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        };
+
 
         
 

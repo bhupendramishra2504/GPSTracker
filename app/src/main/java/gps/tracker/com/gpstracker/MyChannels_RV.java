@@ -122,128 +122,6 @@ public class MyChannels_RV extends AppCompatActivity {
 
 
 
-    private void GetChannelResults(){
-        //ArrayList<SearchResults> results = new ArrayList<SearchResults>();
-
-        DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels");
-        user_ref.keepSynced(true);
-
-        user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-                    if (child != null) {
-
-
-                        try {
-                            Map<String, Object> map = (Map<String, Object>) child.getValue();
-
-
-                            Channel_list sr1 = new Channel_list();
-                            if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("category") != null && map.get("vtype") != null && map.get("visible") != null) {
-                                sr1.setsName("Owner : " + map.get("owner").toString());
-                                sr1.setChannelid("Channel Id :" + child.getKey());
-                                sr1.setscategary("Category : " + map.get("category").toString() + Global.separator + "Refresh Rate: " + map.get("refresh_status").toString());
-                                sr1.setsVnumber("Vehicle No. : " + map.get("vehicle_number").toString());
-                                sr1.setsvtype("Vehicle Type : " + map.get("vtype").toString());
-                                String act = map.get("visible").toString();
-                                String status = map.get("status").toString();
-                                if (act.equalsIgnoreCase("1")) {
-                                    sr1.setvisibleimageid(visible_images[0]);
-
-                                } else {
-                                    sr1.setvisibleimageid(visible_images[1]);
-
-                                }
-
-
-                                if (status.equalsIgnoreCase("0")) {
-                                    status_update("0", child.getKey());
-                                    sr1.setImageid(images[1]);
-
-                                } else {
-
-
-                                        status_update("1", child.getKey());
-                                        sr1.setImageid(images[0]);
-
-
-                                }
-                                if (map.get("image") != null) {
-                                    sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
-                                } else {
-                                    sr1.setImage(download_image_to_firebase1("default"));
-                                }
-
-                                if (map.get("vehicle_name") != null) {
-                                    sr1.setvname("vehicle name : " + map.get("vehicle_name").toString());
-                                } else {
-                                    sr1.setvname("vehicle name : NA");
-                                }
-
-
-                                results.add(sr1);
-                                position++;
-                            }
-
-
-                        }
-                        catch(ClassCastException ce)
-                        {
-                            Toast.makeText(MyChannels_RV.this,"Filtered few invalid Channels",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-
-                adapter = new Channel_list_view_adapter_mod(MyChannels_RV.this, results);
-                lv1.setAdapter(adapter);
-                adapter.setContext(MyChannels_RV.this);
-
-
-                lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                        if(Global.isNetworkAvailable(MyChannels_RV.this)) {
-                            Object o = lv1.getItemAtPosition(position);
-                            Channel_list fullObject = (Channel_list) o;
-                            Toast.makeText(MyChannels_RV.this, "You have chosen: " + " " + fullObject.getsName() + Global.separator + fullObject.getsPhone(), Toast.LENGTH_LONG).show();
-                            subscriber_invite = fullObject.getChannelid();
-                            String subscriber = subscriber_invite.split(":")[1].trim();
-                            //subscriber_name = fullObject.getsName();
-                            Global.getUserdetails();
-                            Intent i1 = new Intent(MyChannels_RV.this, Channel_settings.class);
-                            i1.putExtra("subscriber", subscriber);
-                            i1.putExtra("status", status);
-                            startActivity(i1);
-                            finish();
-                        }
-                        else
-                        {
-                            Toast.makeText(MyChannels_RV.this,"No Internet connection found chekc wifi/mobile networks",Toast.LENGTH_LONG).show();
-                        }
-
-
-                    }
-                });
-
-
-                spinner.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(MyChannels_RV.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-
-    }
 
 
     private void GetChannelResults_mod(){
@@ -371,9 +249,9 @@ public class MyChannels_RV extends AppCompatActivity {
 
                 }
 
-                adapter = new Channel_list_view_adapter_mod(MyChannels_RV.this, results);
+                adapter = new Channel_list_view_adapter_mod(getApplicationContext(), results);
                 lv1.setAdapter(adapter);
-                adapter.setContext(MyChannels_RV.this);
+                adapter.setContext(getApplicationContext());
 
 
                 lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {

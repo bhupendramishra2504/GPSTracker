@@ -45,7 +45,6 @@ public class Dashboard extends AppCompatActivity {
 
     private ListView lv1;
     private final ArrayList<Suscriber_results> results = new ArrayList<Suscriber_results>();
-    private final ArrayList<Channel_search> search_results = new ArrayList<Channel_search>();
     private Subscriber_list_view_adapter adapter;
     private String subscriber_invite,subscriber_name;
     private String status="offline";
@@ -102,13 +101,6 @@ public class Dashboard extends AppCompatActivity {
         lv1=(ListView)findViewById(R.id.subscriber_list);
 
         ImageView add_channel = (ImageView) findViewById(R.id.add);
-
-        Channel_search sr1 = new Channel_search();
-        sr1.setName("Search Results");
-
-
-
-        search_results.add(sr1);
 
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.VISIBLE);
@@ -327,8 +319,6 @@ private void getSubscriberdetails(final DataSnapshot child)
                             sr1.setstatus("1");
                         }
 
-
-                        //act = map.get("status").toString();
                         if (act.equalsIgnoreCase("1")) {
                             sr1.setImageid(images[0]);
                         } else {
@@ -369,7 +359,7 @@ private void getSubscriberdetails(final DataSnapshot child)
 
             adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
             lv1.setAdapter(adapter);
-            adapter.setContext(Dashboard.this);
+            adapter.setContext(getApplicationContext());
             spinner.setVisibility(View.GONE);
 
 
@@ -426,7 +416,7 @@ private void getSubscriberdetails(final DataSnapshot child)
     private class Subscriber_channel_class extends AsyncTask<String, String, String> {
 
         private String resp;
-        private boolean res;
+        //private boolean res;
 
         @Override
         protected String doInBackground(String... params) {
@@ -602,6 +592,7 @@ private void getSubscriberdetails(final DataSnapshot child)
         {
             adapter=null;
         }
+
 
     }
 

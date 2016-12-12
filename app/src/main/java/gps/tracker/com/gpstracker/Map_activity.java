@@ -805,6 +805,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         }
 
         mapview.onDestroy();
+
         //map=null;
     }
 

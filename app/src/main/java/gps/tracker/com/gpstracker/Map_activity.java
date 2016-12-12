@@ -52,7 +52,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     // --Commented out by Inspection (01/12/16, 10:08 PM):Map<String,String> desc;
 
     // --Commented out by Inspection (01/12/16, 10:09 PM):int sel=0;
-    private int first_child=1;
+    //private int first_child=1;
     private TextView map_style;
     private static float scale_map=10f;
 
@@ -356,7 +356,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     private void initialize_map()
     {
-        gps = new GPSTracker(Map_activity.this);
+        gps = new GPSTracker(getApplicationContext());
         if(gps.canGetLocation()){
             my_latitude = gps.getLatitude();
             my_longitude = gps.getLongitude();
@@ -522,15 +522,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        OrtcClient.setOnRegistrationId(new OnRegistrationId() {
-            @Override
-            public void run(String registrationId) {
-                Log.i("REG", "GCM Registration ID: " + registrationId);
 
-                // Use this method if you have implemented a backend to store your user's GCM registration ids
-                //RegistrationIdRemoteStore.setRegistrationIdToBackend(getApplicationContext(), registrationId);
-            }
-        });
     }
 
     private void update_loc_realtime()
@@ -618,7 +610,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                             count++;
                             System.out.println("map data : "+String.valueOf(count));
 
-                            first_child++;
+                            //first_child++;
                             //Map_activity.this.map_style.setText("Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude));
                         }
                         else
@@ -644,56 +636,6 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         });
 
     }
-
-
-    private void get_last_location_offline_mod2()
-    {
-
-        System.out.println("reached offline location reading facility by firebase");
-        DatabaseReference ref = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("locations").child("latest_location");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-
-                    String data[]=child.getValue().toString().split(";");
-                    if(data.length==3)
-                    {
-
-                        longitude=Double.parseDouble(data[0]);
-                        latitude=Double.parseDouble(data[1]);
-                        time_stamp=data[2];
-                        System.out.println("map data : "+data[0]);
-                        System.out.println("map data : "+data[1]);
-
-
-
-                        count++;
-                        System.out.println("map data : "+String.valueOf(count));
-
-                        first_child++;
-                        //Map_activity.this.map_style.setText("Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude));
-                    }
-
-
-                }
-
-            }
-
-
-
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
-
 
 
     private void get_last_location_offline_mod()
@@ -863,6 +805,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         }
 
         mapview.onDestroy();
+        //map=null;
     }
 
     @Override
@@ -883,7 +826,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     private void my_location_gps()
     {
-        gps = new GPSTracker(activity.get());
+        gps = new GPSTracker(getApplicationContext());
         if(gps.canGetLocation()){
             my_latitude=0.0;
             my_longitude=0.0;

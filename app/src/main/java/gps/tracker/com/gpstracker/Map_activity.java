@@ -39,7 +39,7 @@ import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
 
 public class Map_activity extends AppCompatActivity implements MapView.OnMapReadyCallback{
-    private MapController map;
+    private static MapController map;
 
     // MapView is the View used to display the map.
     private MapView mapview;
@@ -164,6 +164,10 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
             }
         });
+
+        initial_realtime_service();
+
+        update_loc_realtime();
 
     }
 
@@ -328,7 +332,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         map.useCachedGlState(true);
         map_is_ready=true;
 
-       if(map!=null) {
+      /* if(map!=null) {
            if (status.equalsIgnoreCase("online")) {
                blink();
                initial_realtime_service();
@@ -336,11 +340,11 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
            } else {
                get_last_location_offline();
 
-           }
+           }*/
 
 
            initialize_map();
-       }
+      // }
 
         map.setScaleResponder(new TouchInput.ScaleResponder() {
             @Override public boolean onScale(float x, float y, float scale, float velocity) {
@@ -427,7 +431,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                     public void run() {
 
                         goToLandmark_mod();
-                        map_style.setText("Time Stamp : " + time_stamp + Global.separator);
+                        map_style.setText("[ONLINE] : " + time_stamp + Global.separator);
                         //blink();
                         //Toast.makeText(activity,"Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude)+Global.separator+"Total Location Recieved : "+String.valueOf(count),Toast.LENGTH_LONG).show();
 
@@ -480,7 +484,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
 
                         if(latitude!=0.0 | longitude!=0.0) {
-                            map_style.setText("Last updated on :"+ time_stamp + Global.separator);
+                            map_style.setText("[OFFLINE] :"+ time_stamp + Global.separator);
                             //Toast.makeText(activity,"Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude)+Global.separator+"Total Location Recieved : "+String.valueOf(count),Toast.LENGTH_LONG).show();
                         }
                         else
@@ -569,7 +573,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 }
                                 else
                                 {
-                                    //Map_activity.this.map_style.setText("Channel not active or map not initialized");
+                                    Map_activity.this.map_style.setText("Channel not active or map not initialized");
 
                                 }
                                 //Toast.makeText(Channel_settings.this,"message recieved "+message,Toast.LENGTH_LONG ).show();
@@ -672,7 +676,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 props.put("color", "#000000");
                                 props.put("text", "hiii");
                                 points.addPoint(new LngLat(longitude, latitude), props);
-                                map_style.setText("Last updated on :" + time_stamp + Global.separator);
+                                map_style.setText("[OFFLINE] :" + time_stamp + Global.separator);
 
                                 // map_style.setText("showing channel location");
                             }
@@ -747,7 +751,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 props.put("color", "#000000");
                                 props.put("text", "hiii");
                                 points.addPoint(new LngLat(longitude, latitude), props);
-                                map_style.setText("Last updated on :" + time_stamp + Global.separator);
+                                map_style.setText("[OFFLINE] :" + time_stamp + Global.separator);
 
                                 // map_style.setText("showing channel location");
                             }
@@ -803,7 +807,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         {
             gps=null;
         }
-
+        client.disconnect();
         mapview.onDestroy();
 
         //map=null;

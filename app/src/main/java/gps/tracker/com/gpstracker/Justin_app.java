@@ -19,6 +19,7 @@ public class Justin_app extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         //MultiDex.install(this);
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
@@ -26,7 +27,7 @@ public class Justin_app extends MultiDexApplication {
             return;
         }
         LeakCanary.install(this);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
 
     }
 

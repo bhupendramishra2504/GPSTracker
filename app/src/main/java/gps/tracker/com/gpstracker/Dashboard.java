@@ -367,10 +367,10 @@ private void getSubscriberdetails(final DataSnapshot child)
 
 
 
-           // adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
-           // lv1.setAdapter(adapter);
-           // adapter.setContext(Dashboard.this);
-           // spinner.setVisibility(View.GONE);
+            adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
+            lv1.setAdapter(adapter);
+            adapter.setContext(Dashboard.this);
+            spinner.setVisibility(View.GONE);
 
 
 
@@ -587,6 +587,20 @@ private void getSubscriberdetails(final DataSnapshot child)
         String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if(!has_permissions(PERMISSIONS)){
             ActivityCompat.requestPermissions(Dashboard.this, PERMISSIONS, PERMISSION_ALL);
+        }
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(results!=null) {
+            results.clear();
+        }
+        if(adapter!=null)
+        {
+            adapter=null;
         }
 
     }

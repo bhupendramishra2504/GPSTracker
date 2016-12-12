@@ -50,11 +50,7 @@ public class Dashboard extends AppCompatActivity {
     private String subscriber_invite,subscriber_name;
     private String status="offline";
     private static final Integer[] images = { R.drawable.green_circle,R.drawable.red_circle };
-
     private ProgressBar spinner;
-    private SearchManager searchManager;
-    private SearchView searchView;
-    private int count=0;
     private String name,id;
     // --Commented out by Inspection (01/12/16, 10:05 PM):private String channel_mobile,channel_name,channel_vnumber,channel_vname,channel_invite,channel_bmp,channel_category,channel_vtype;
     private String subscriber;
@@ -113,8 +109,6 @@ public class Dashboard extends AppCompatActivity {
 
 
         search_results.add(sr1);
-        // search_adapter.setContext(Search_channel.this);
-        Channel_search_list_view search_adapter = new Channel_search_list_view(Dashboard.this, search_results);
 
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.VISIBLE);
@@ -284,9 +278,9 @@ public class Dashboard extends AppCompatActivity {
 
                 }
 
-                adapter = new Subscriber_list_view_adapter(Dashboard.this, results);
+                adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
                 lv1.setAdapter(adapter);
-                adapter.setContext(Dashboard.this);
+                adapter.setContext(getApplicationContext());
                 spinner.setVisibility(View.GONE);
 
 
@@ -373,10 +367,10 @@ private void getSubscriberdetails(final DataSnapshot child)
 
 
 
-            adapter = new Subscriber_list_view_adapter(Dashboard.this, results);
-            lv1.setAdapter(adapter);
-            adapter.setContext(Dashboard.this);
-            spinner.setVisibility(View.GONE);
+           // adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
+           // lv1.setAdapter(adapter);
+           // adapter.setContext(Dashboard.this);
+           // spinner.setVisibility(View.GONE);
 
 
 

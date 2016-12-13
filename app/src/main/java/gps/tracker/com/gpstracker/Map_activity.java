@@ -530,7 +530,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                     public void run() {
 
                         goToLandmark_mod();
-                        map_style.setText("[ONLINE] : " + time_stamp + Global.separator);
+                        map_style.setText( time_stamp + Global.separator);
                         //blink();
                         //Toast.makeText(activity,"Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude)+Global.separator+"Total Location Recieved : "+String.valueOf(count),Toast.LENGTH_LONG).show();
 
@@ -555,7 +555,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
 
 
-    private void blink(){
+  /*  private void blink(){
         final Handler handler = new Handler();
         new Thread(new Runnable() {
             @Override
@@ -576,14 +576,14 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 });
             }
         }).start();
-    }
+    }*/
 
     private void update_tf_offline()
     {
 
 
                         if(latitude!=0.0 | longitude!=0.0) {
-                            map_style.setText("[OFFLINE] :"+ time_stamp + Global.separator);
+                            map_style.setText(time_stamp + Global.separator);
                             //Toast.makeText(activity,"Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude)+Global.separator+"Total Location Recieved : "+String.valueOf(count),Toast.LENGTH_LONG).show();
                         }
                         else
@@ -600,7 +600,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         return data.split(";");
     }
 
-    private void initial_realtime_service()
+   /* private void initial_realtime_service()
     {
         try {
             Ortc ortc = new Ortc();
@@ -626,9 +626,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             e.printStackTrace();
         }
 
-    }
+    }*/
 
-    private void update_loc_realtime()
+   /* private void update_loc_realtime()
     {
 
 
@@ -751,10 +751,10 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         
 
 
-    }
+    }*/
 
 
-    private void get_last_location_offline()
+   /* private void get_last_location_offline()
     {
 
         System.out.println("reached offline location reading facility by firebase");
@@ -805,7 +805,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             }
         });
 
-    }
+    }*/
 
 
     private void get_last_location_offline_mod()
@@ -842,7 +842,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 props.put("color", "#000000");
                                 props.put("text", "hiii");
                                 points.addPoint(new LngLat(longitude, latitude), props);
-                                map_style.setText("[OFFLINE] :" + time_stamp + Global.separator);
+                                map_style.setText(time_stamp + Global.separator);
 
                                 // map_style.setText("showing channel location");
                             }
@@ -917,7 +917,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 props.put("color", "#000000");
                                 props.put("text", "hiii");
                                 points.addPoint(new LngLat(longitude, latitude), props);
-                                map_style.setText("[OFFLINE] :" + time_stamp + Global.separator);
+                                map_style.setText(time_stamp + Global.separator);
 
                                 // map_style.setText("showing channel location");
                             }
@@ -973,7 +973,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         {
             gps=null;
         }
-        client.disconnect();
+        //client.disconnect();
         mapview.onDestroy();
 
         //map=null;

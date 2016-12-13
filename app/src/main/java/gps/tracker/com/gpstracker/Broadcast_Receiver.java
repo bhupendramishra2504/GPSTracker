@@ -1,38 +1,23 @@
 package gps.tracker.com.gpstracker;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
-import android.support.v7.app.NotificationCompat;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.Timer;
-
-import ibt.ortc.api.Ortc;
-import ibt.ortc.extensibility.OrtcClient;
-import ibt.ortc.extensibility.OrtcFactory;
+//import ibt.ortc.api.Ortc;
+//import ibt.ortc.extensibility.OrtcClient;
+//import ibt.ortc.extensibility.OrtcFactory;
 
 import static android.content.Context.MODE_PRIVATE;
-import static gps.tracker.com.gpstracker.R.drawable.error;
 
 /**
  * Created by bhupendramishra on 09/12/16.
@@ -49,7 +34,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
 
     //OrtcFactory factory;
-    public static OrtcClient client;
+    //public static OrtcClient client;
     private String channel_id="";
 
     @Override
@@ -59,7 +44,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
         channel_id=arg1.getStringExtra("channel_id");
         context=arg0;
-        if(client==null) {
+       /* if(client==null) {
 
             try {
                 Ortc ortc = new Ortc();
@@ -78,7 +63,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
             }
         }
 
-        client.setGoogleProjectId("joinin-440f7");
+        client.setGoogleProjectId("joinin-440f7");*/
 
         offline_update();
         GPSTracker gps = new GPSTracker(context);
@@ -107,7 +92,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         if(longitude!=0.0 && latitude!=0.0 && !channel_id.equalsIgnoreCase("") && isNetworkAvailable(context)) {
             update_channel_status();
             DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("locations").child("latest_location");
-            client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
+            //client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
             loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
             Toast.makeText(context,"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
         }

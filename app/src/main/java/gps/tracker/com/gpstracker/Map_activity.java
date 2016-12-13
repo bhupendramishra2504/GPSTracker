@@ -1,14 +1,10 @@
 package gps.tracker.com.gpstracker;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,19 +23,11 @@ import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.MapView;
 import com.mapzen.tangram.TouchInput;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import ibt.ortc.api.Ortc;
-import ibt.ortc.extensibility.OnConnected;
-import ibt.ortc.extensibility.OnException;
-import ibt.ortc.extensibility.OnMessage;
-import ibt.ortc.extensibility.OnReconnected;
-import ibt.ortc.extensibility.OnRegistrationId;
-import ibt.ortc.extensibility.OrtcClient;
-import ibt.ortc.extensibility.OrtcFactory;
+//import ibt.ortc.extensibility.OrtcClient;
 
 public class Map_activity extends AppCompatActivity implements MapView.OnMapReadyCallback{
     private static MapController map;
@@ -61,7 +49,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     private String s_phone;
     // --Commented out by Inspection (01/12/16, 10:09 PM):OrtcFactory factory;
-    private static OrtcClient client;
+    //private static OrtcClient client;
     private boolean map_is_ready=false;
     // --Commented out by Inspection (01/12/16, 10:09 PM):private Activity activity;
     //private long count;

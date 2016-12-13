@@ -43,7 +43,7 @@ import java.util.Map;
 
 
 public class Channel_settings extends AppCompatActivity{
-    private String data;
+    //private String data;
     private ListView lv1;
     private final ArrayList<Follower_results> results = new ArrayList<Follower_results>();
     private Follower_list_view_adapter adapter;
@@ -505,7 +505,7 @@ public class Channel_settings extends AppCompatActivity{
 
                     if (dataSnapshot.getValue() != null && (dataSnapshot.getValue() instanceof Map)) {
                          Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                        data = "Owner : " + map.get("owner").toString() + Global.separator + "Vehicle Name : " + map.get("vehicle_name").toString() + Global.separator + "Vehicle Number : " + map.get("vehicle_number").toString() + Global.separator + "Vehicle type :" + map.get("vtype").toString() + Global.separator + "City : " + map.get("city").toString() + Global.separator + "Refresh Rate : " + map.get("refresh_status").toString() + Global.separator + "Intercity : " + map.get("intercity").toString() + Global.separator + "Category :" + map.get("category").toString() + Global.separator + "Visible : " + map.get("visible").toString() + Global.separator;
+                        //data = "Owner : " + map.get("owner").toString() + Global.separator + "Vehicle Name : " + map.get("vehicle_name").toString() + Global.separator + "Vehicle Number : " + map.get("vehicle_number").toString() + Global.separator + "Vehicle type :" + map.get("vtype").toString() + Global.separator + "City : " + map.get("city").toString() + Global.separator + "Refresh Rate : " + map.get("refresh_status").toString() + Global.separator + "Intercity : " + map.get("intercity").toString() + Global.separator + "Category :" + map.get("category").toString() + Global.separator + "Visible : " + map.get("visible").toString() + Global.separator;
                         //Global.rr=map.get("refresh_status").toString();
                         owner.setText(map.get("owner").toString());
                         vname.setText(map.get("vehicle_name").toString());
@@ -810,7 +810,7 @@ public class Channel_settings extends AppCompatActivity{
 
                 }
 
-                adapter=new Follower_list_view_adapter(Channel_settings.this, results);
+                adapter=new Follower_list_view_adapter(getApplicationContext(), results);
                 lv1.setAdapter(adapter);
 
                 lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -1003,6 +1003,15 @@ public class Channel_settings extends AppCompatActivity{
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         dob.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        popup.dismiss();
+        popup_travel.dismiss();
+        popup_category.dismiss();
+        popup_refresh.dismiss();
     }
 
 }

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -73,7 +74,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private int sel_loc =1;
     Thread location_update;
     private static WeakReference<Map_activity> activity;
-
+    private ActionBar ab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +96,11 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         String name=i.getStringExtra("name");
         String vnumber=i.getStringExtra("vnumber");
        // details=name.split(":")[1].trim()+" : "+vnumber.split(":")[1].trim();
-        Global.set_action_bar_details(Map_activity.this,name.split(":")[1].trim(),vnumber.split(":")[1].trim());
-
+        //Global.set_action_bar_details(Map_activity.this,name.split(":")[1].trim(),vnumber.split(":")[1].trim());
+        ab = getSupportActionBar();
+        ab.setTitle(name.split(":")[1].trim()+" "+vnumber.split(":")[1].trim());
+        //ab.setSubtitle(sub_title);
+        ab.setDisplayHomeAsUpEnabled(true);
         mapview.onCreate(savedInstanceState);
        // mapview.getMapAsync(this, "scene/scene.yaml");
         //mapview.getMapAsync(this, "cinnabar/cinnabar-style.yaml");
@@ -167,11 +171,104 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             }
         });
 
-        initial_realtime_service();
+        //initial_realtime_service();
 
-        update_loc_realtime();
+        //update_loc_realtime();
+        channel_status_check();
+        fetch_loc_fb();
 
     }
+
+
+    private void fetch_loc_fb()
+    {
+        DatabaseReference ref = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("locations").child("latest_location");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                if (dataSnapshot != null) {
+                    String data[] = dataSnapshot.getValue().toString().split(";");
+                    if (data.length == 3 && map_is_ready) {
+
+                        longitude = Double.parseDouble(data[0]);
+                        latitude = Double.parseDouble(data[1]);
+                        time_stamp = data[2];
+                        if (longitude != 0.0 && latitude != 0.0) {
+                            //System.out.println("map data : " + data[0]);
+                            // System.out.println("map data : " + data[1]);
+                            //goToLandmark_mod();
+                            count++;
+                            //  System.out.println("map data : " + String.valueOf(count));
+                            update_tf_realtime();
+                        } else {
+                            get_last_location_offline_mod();
+                            // goToLandmark();
+                            update_tf_offline();
+                        }
+                        //Map_activity.this.map_style.setText("Data Recieved : "+String.valueOf(longitude)+" , "+String.valueOf(latitude));
+                    } else {
+                        Map_activity.this.map_style.setText("Channel not active or map not initialized");
+
+                    }
+                    //Toast.makeText(Channel_settings.this,"message recieved "+message,Toast.LENGTH_LONG ).show();
+                }
+            }
+
+
+
+
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+
+    private void channel_status_check()
+    {
+        DatabaseReference ref = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("status");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                if (dataSnapshot != null) {
+                    if(dataSnapshot.getValue().toString().equalsIgnoreCase("1"))
+                    {
+                        ab.setSubtitle("ONLINE");
+                    }
+                    else if(dataSnapshot.getValue().toString().equalsIgnoreCase("0"))
+                    {
+                        ab.setSubtitle("OFFLINE");
+                    }
+                    else
+                    {
+                        ab.setSubtitle("STATUS UNKNOWN");
+                    }
+
+                }
+            }
+
+
+
+
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -4,7 +4,7 @@
 
     android:fillViewport="true"
     android:layout_height="match_parent"
-    tools:context="gps.tracker.com.gpstracker.Signup;"
+    tools:context="gps.tracker.com.gpstracker.User_setting"
     android:fadeScrollbars="false"
     >
 

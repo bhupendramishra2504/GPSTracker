@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 
+@SuppressWarnings("ALL")
 public class Dashboard extends AppCompatActivity {
 
     private ListView lv1;

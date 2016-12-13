@@ -202,6 +202,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
+
                         Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                         if(map.get("visible").toString().equalsIgnoreCase("1"))
                         {

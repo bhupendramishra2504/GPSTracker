@@ -42,7 +42,7 @@ import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
 
 public class Map_activity extends AppCompatActivity implements MapView.OnMapReadyCallback{
-    private static MapController map;
+    private MapController map;
 
     // MapView is the View used to display the map.
     private MapView mapview;
@@ -64,8 +64,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private static OrtcClient client;
     private boolean map_is_ready=false;
     // --Commented out by Inspection (01/12/16, 10:09 PM):private Activity activity;
-    private long count;
-    private String status;
+    //private long count;
+    //private String status;
     private String time_stamp="NA";
     private final Map<String, String> props = new HashMap<>();
     private ImageButton center;
@@ -85,14 +85,14 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         Handler handler = new Handler();
         //activity=this;
         activity = new WeakReference<>(this);
-        count=0;
+        //count=0;
         map_style=(TextView)findViewById(R.id.maps);
         ImageButton zoomplus = (ImageButton) findViewById(R.id.zoomplus);
         ImageButton zoomminus = (ImageButton) findViewById(R.id.zoomminus);
         center=(ImageButton)findViewById(R.id.center);
         Intent i = getIntent();
         s_phone= i.getStringExtra("subscriber");
-        status= i.getStringExtra("status");
+        //status= i.getStringExtra("status");
         String name=i.getStringExtra("name");
         String vnumber=i.getStringExtra("vnumber");
        // details=name.split(":")[1].trim()+" : "+vnumber.split(":")[1].trim();
@@ -199,7 +199,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                             //System.out.println("map data : " + data[0]);
                             // System.out.println("map data : " + data[1]);
                             //goToLandmark_mod();
-                            count++;
+                            //count++;
                             //  System.out.println("map data : " + String.valueOf(count));
                             update_tf_realtime();
                         } else {

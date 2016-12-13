@@ -502,8 +502,8 @@ public class Channel_settings extends AppCompatActivity{
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    if (dataSnapshot.getValue() != null) {
-                        Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    if (dataSnapshot.getValue() != null && (dataSnapshot.getValue() instanceof Map)) {
+                         Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                         data = "Owner : " + map.get("owner").toString() + Global.separator + "Vehicle Name : " + map.get("vehicle_name").toString() + Global.separator + "Vehicle Number : " + map.get("vehicle_number").toString() + Global.separator + "Vehicle type :" + map.get("vtype").toString() + Global.separator + "City : " + map.get("city").toString() + Global.separator + "Refresh Rate : " + map.get("refresh_status").toString() + Global.separator + "Intercity : " + map.get("intercity").toString() + Global.separator + "Category :" + map.get("category").toString() + Global.separator + "Visible : " + map.get("visible").toString() + Global.separator;
                         //Global.rr=map.get("refresh_status").toString();
                         owner.setText(map.get("owner").toString());

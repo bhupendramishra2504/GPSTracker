@@ -94,9 +94,9 @@ public class Broadcast_Receiver extends BroadcastReceiver {
         {
             Toast.makeText(context,"cannot fetch the gps location in gps tracker",Toast.LENGTH_LONG).show();
             status_update("0");
-            SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
-            editor.putString("broadcasting","NA");
-            editor.commit();
+            //SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+            //editor.putString("broadcasting","NA");
+            //editor.commit();
         }
 
 

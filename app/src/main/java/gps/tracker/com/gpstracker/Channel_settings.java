@@ -445,6 +445,7 @@ public class Channel_settings extends AppCompatActivity{
             try {
                 if(data.getData()!=null) {
                     InputStream inputStream = Channel_settings.this.getContentResolver().openInputStream(data.getData());
+                    assert (inputStream != null ? inputStream : null) != null;
                     BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream != null ? inputStream : null);
 
                     Bitmap bmp = BitmapFactory.decodeStream(bufferedInputStream);

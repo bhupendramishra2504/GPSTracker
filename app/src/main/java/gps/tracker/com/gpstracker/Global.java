@@ -71,6 +71,7 @@ class Global {
     public static void set_action_bar_details(AppCompatActivity context,String title,String sub_title)
     {
         ActionBar ab = context.getSupportActionBar();
+        assert ab != null;
         ab.setTitle(title);
         ab.setSubtitle(sub_title);
         ab.setDisplayHomeAsUpEnabled(true);

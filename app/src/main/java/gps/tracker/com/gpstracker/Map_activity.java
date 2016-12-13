@@ -42,7 +42,7 @@ import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
 
 public class Map_activity extends AppCompatActivity implements MapView.OnMapReadyCallback{
-    private MapController map;
+    private static MapController map;
 
     // MapView is the View used to display the map.
     private MapView mapview;

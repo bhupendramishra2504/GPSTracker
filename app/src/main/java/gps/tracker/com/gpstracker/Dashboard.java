@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class Dashboard extends AppCompatActivity {
     private String name,id;
     // --Commented out by Inspection (01/12/16, 10:05 PM):private String channel_mobile,channel_name,channel_vnumber,channel_vname,channel_invite,channel_bmp,channel_category,channel_vtype;
     private String subscriber;
+    private DatabaseReference user_ref;
 
 
     @Override
@@ -259,7 +261,9 @@ public class Dashboard extends AppCompatActivity {
         //ArrayList<SearchResults> results = new ArrayList<SearchResults>();
         adapter=null;
         results.clear();
-        DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers");
+        FirebaseDatabase firebase_database = FirebaseDatabase.getInstance();
+        DatabaseReference firebase_dbreference=firebase_database.getReference("JustIn");
+        user_ref = firebase_dbreference.child("USERS").child(Global.username).child("Subscribers");
         user_ref.keepSynced(true);
         user_ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -614,6 +618,10 @@ private void getSubscriberdetails(final DataSnapshot child)
 
     @Override
     public void onBackPressed() {
+
+        //user_ref.removeEventListener();
+
+        System.gc();
 
           finish();
 

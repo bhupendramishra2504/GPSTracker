@@ -37,7 +37,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="4dp"
         android:layout_width="match_parent"
-        android:dividerHeight="2px"
+        android:dividerHeight="2dp"
         android:divider="#bbbbbb"
         android:layout_below="@+id/dd"
         android:transcriptMode="normal"

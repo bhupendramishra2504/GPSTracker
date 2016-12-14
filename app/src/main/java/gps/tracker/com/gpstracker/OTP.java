@@ -206,7 +206,7 @@ public class OTP extends AppCompatActivity {
             SharedPreferences.Editor editor = getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
             editor.putString("mobile",number );
             editor.putString("id", imei);
-            editor.commit();
+            editor.apply();
 
     }
 

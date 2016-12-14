@@ -55,7 +55,7 @@ public class Subscriber_list_view_adapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
        final Subscriber_list_view_adapter.ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.subscriber_list_view, null);
+            convertView = mInflater.inflate(R.layout.subscriber_list_view, parent, false);
             holder = new ViewHolder();
 
             holder.txtName = (TextView) convertView.findViewById(R.id.sname);

@@ -35,7 +35,7 @@
         android:textColor="#ffffff"
         android:textColorHint="#B3B6B7"
         android:imeOptions="actionDone"
-        android:singleLine="true"
+        android:maxLines="1"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"
         android:background="@drawable/allborder"
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:id="@+id/user_subscribe_list"
-        android:dividerHeight="2px"
+        android:dividerHeight="2dp"
         android:divider="#bbbbbb">
     </ListView>
 

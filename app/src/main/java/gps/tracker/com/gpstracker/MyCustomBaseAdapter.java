@@ -81,7 +81,7 @@ public class MyCustomBaseAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.user_list_layout, null);
+            convertView = mInflater.inflate(R.layout.user_list_layout, parent, false);
             holder = new ViewHolder();
             holder.txtName = (TextView) convertView.findViewById(R.id.name);
             holder.txtCityState = (TextView) convertView.findViewById(R.id.city);

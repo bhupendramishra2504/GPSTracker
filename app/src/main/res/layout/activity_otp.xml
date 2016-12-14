@@ -9,7 +9,7 @@
     >
 
     <LinearLayout
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:paddingLeft="20dp"
@@ -27,7 +27,7 @@
             android:textCursorDrawable="@null"
             android:textColor="#3353e0"
             android:imeOptions="actionDone"
-            android:singleLine="true"
+            android:maxLines="1"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
 

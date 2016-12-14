@@ -64,7 +64,7 @@ class Follower_list_view_adapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Follower_list_view_adapter.ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.follower_list_view, null);
+            convertView = mInflater.inflate(R.layout.follower_list_view, parent, false);
             holder = new ViewHolder();
 
             holder.txtName = (TextView) convertView.findViewById(R.id.fname);

@@ -102,7 +102,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
             status_update("0");
             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
             editor.putString("broadcasting","NA");
-            editor.commit();
+            editor.apply();
         }
 
     }

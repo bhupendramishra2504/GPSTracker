@@ -87,7 +87,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Channel_list_view_adapter_mod.ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.channel_list_view, null);
+            convertView = mInflater.inflate(R.layout.channel_list_view, parent, false);
             holder = new ViewHolder();
 
 
@@ -138,7 +138,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             status = true;
                             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                             editor.putString("broadcasting",channellist.get(position).getChannelid().split(":")[1].trim());
-                            editor.commit();
+                            editor.apply();
                              status_update_mod("1", channellist.get(position).getChannelid().split(":")[1].trim());
                             play_sound();
                             holder.broadcast.setImageResource(R.drawable.broadcast_icon);
@@ -168,7 +168,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
 
                          SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                          editor.putString("broadcasting","NA");
-                         editor.commit();
+                         editor.apply();
                         play_sound_bstop();
                          status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
                         holder.broadcast.setImageResource(R.drawable.red_circle);

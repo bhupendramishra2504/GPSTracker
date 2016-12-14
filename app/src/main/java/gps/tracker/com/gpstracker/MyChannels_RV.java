@@ -210,7 +210,7 @@ public class MyChannels_RV extends AppCompatActivity {
                                 {
                                     SharedPreferences.Editor editor = getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                                     editor.putString("broadcasting","NA");
-                                    editor.commit();
+                                    editor.apply();
                                 }
                                 status_update("0", child.getKey());
                                 sr1.setImageid(images[1]);
@@ -222,7 +222,7 @@ public class MyChannels_RV extends AppCompatActivity {
                                     sr1.setImageid(images[0]);
                                     SharedPreferences.Editor editor = getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                                     editor.putString("broadcasting",child.getKey());
-                                    editor.commit();
+                                    editor.apply();
 
 
                             }

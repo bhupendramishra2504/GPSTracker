@@ -22,7 +22,7 @@
            android:layout_height="match_parent"
            android:id="@+id/user_subscribe_list"
            android:layout_marginTop="10dp"
-           android:dividerHeight="2px"
+           android:dividerHeight="2dp"
            android:divider="#bbbbbb"
            >
        </ListView>

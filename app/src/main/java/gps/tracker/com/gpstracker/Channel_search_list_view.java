@@ -51,7 +51,7 @@ public class Channel_search_list_view extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Channel_search_list_view.ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.channel_search_list_view, null);
+            convertView = mInflater.inflate(R.layout.channel_search_list_view, parent, false);
             holder = new Channel_search_list_view.ViewHolder();
 
 

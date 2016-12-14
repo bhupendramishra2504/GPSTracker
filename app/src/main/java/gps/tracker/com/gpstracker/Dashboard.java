@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.Menu;
@@ -227,6 +228,16 @@ public class Dashboard extends AppCompatActivity {
             finish();
             return true;
 
+        }
+        else if(id==R.id.about)
+        {
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(this);
+            builder.setTitle("JustIn");
+            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Jusin-beta-1.6.1"+System.getProperty("line.separator")+"Release Date : 16/12/2016"+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator"));
+            builder.setPositiveButton("OK", null);
+            builder.show();
+            return true;
         }
 
 

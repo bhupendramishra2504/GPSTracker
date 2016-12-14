@@ -250,9 +250,11 @@ public class MyChannels_RV extends AppCompatActivity {
 
                 }
 
-                adapter = new Channel_list_view_adapter_mod(getApplicationContext(), results);
-                lv1.setAdapter(adapter);
-                adapter.setContext(getApplicationContext());
+                if(adapter!=null) {
+                    adapter = new Channel_list_view_adapter_mod(getApplicationContext(), results);
+                    lv1.setAdapter(adapter);
+                    adapter.setContext(getApplicationContext());
+                }
 
 
                 lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {

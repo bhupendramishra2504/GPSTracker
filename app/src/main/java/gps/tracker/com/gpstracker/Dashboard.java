@@ -267,10 +267,10 @@ public class Dashboard extends AppCompatActivity {
 
                 }
 
-                adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
-                lv1.setAdapter(adapter);
-                adapter.setContext(getApplicationContext());
-                spinner.setVisibility(View.GONE);
+                //adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
+                //lv1.setAdapter(adapter);
+                //adapter.setContext(getApplicationContext());
+                //spinner.setVisibility(View.GONE);
 
 
 
@@ -355,8 +355,10 @@ private void getSubscriberdetails(final DataSnapshot child)
 
 
             adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
-            lv1.setAdapter(adapter);
-            adapter.setContext(getApplicationContext());
+            if(adapter!=null) {
+                lv1.setAdapter(adapter);
+                adapter.setContext(getApplicationContext());
+            }
             spinner.setVisibility(View.GONE);
 
 

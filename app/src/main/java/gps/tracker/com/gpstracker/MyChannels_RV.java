@@ -250,8 +250,9 @@ public class MyChannels_RV extends AppCompatActivity {
 
                 }
 
-                if(adapter!=null) {
+
                     adapter = new Channel_list_view_adapter_mod(getApplicationContext(), results);
+                if(adapter!=null) {
                     lv1.setAdapter(adapter);
                     adapter.setContext(getApplicationContext());
                 }

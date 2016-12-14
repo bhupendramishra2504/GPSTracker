@@ -312,50 +312,55 @@ private void getSubscriberdetails(final DataSnapshot child)
 
                 if (child != null) {
 
+                    try {
 
-                    Map<String, Object> map = (Map<String, Object>) child.getValue();
-                    Suscriber_results sr1 = new Suscriber_results();
-                    if (map != null && map.get("name") != null && map.get("vehicle_number") != null && map.get("status") != null && map.get("vname") != null && map.get("mobile") != null) {
-                        sr1.setsName("Name : " + map.get("name").toString());
-                        sr1.setChannelid(child.getKey());
-                        sr1.setsPhone("Mobile No. : " + map.get("mobile").toString());
-                        sr1.setsVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
-                        sr1.setsvname("V-Name : " + map.get("vname").toString());
-                        if (map.get("unblock") != null) {
-                            sr1.setstatus(map.get("unblock").toString());
-                        } else {
-                            sr1.setstatus("1");
+                        Map<String, Object> map = (Map<String, Object>) child.getValue();
+                        Suscriber_results sr1 = new Suscriber_results();
+                        if (map != null && map.get("name") != null && map.get("vehicle_number") != null && map.get("status") != null && map.get("vname") != null && map.get("mobile") != null) {
+                            sr1.setsName("Name : " + map.get("name").toString());
+                            sr1.setChannelid(child.getKey());
+                            sr1.setsPhone("Mobile No. : " + map.get("mobile").toString());
+                            sr1.setsVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
+                            sr1.setsvname("V-Name : " + map.get("vname").toString());
+                            if (map.get("unblock") != null) {
+                                sr1.setstatus(map.get("unblock").toString());
+                            } else {
+                                sr1.setstatus("1");
+                            }
+
+                            if (act.equalsIgnoreCase("1")) {
+                                sr1.setImageid(images[0]);
+                            } else {
+                                sr1.setImageid(images[1]);
+                            }
+
+                            if (map.get("image") != null) {
+                                sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
+                            } else {
+                                sr1.setImage(download_image_to_firebase1("default"));
+                            }
+                            if (map.get("vtype") != null) {
+                                sr1.setvtype("Type : " + map.get("vtype").toString());
+                            } else {
+                                sr1.setvtype("Type : " + "NA");
+                            }
+                            if (map.get("category") != null) {
+                                sr1.setcategory("category : " + map.get("category").toString());
+                            } else {
+                                sr1.setcategory("category : " + "NA");
+                            }
+
+
+                            results.add(sr1);
+                            map.clear();
+                            sr1 = null;
                         }
 
-                        if (act.equalsIgnoreCase("1")) {
-                            sr1.setImageid(images[0]);
-                        } else {
-                            sr1.setImageid(images[1]);
-                        }
 
-                        if (map.get("image") != null) {
-                            sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
-                        } else {
-                            sr1.setImage(download_image_to_firebase1("default"));
-                        }
-                        if (map.get("vtype") != null) {
-                            sr1.setvtype("Type : " + map.get("vtype").toString());
-                        } else {
-                            sr1.setvtype("Type : " + "NA");
-                        }
-                        if (map.get("category") != null) {
-                            sr1.setcategory("category : " + map.get("category").toString());
-                        } else {
-                            sr1.setcategory("category : " + "NA");
-                        }
-
-
-                        results.add(sr1);
-                        map.clear();
-                        sr1=null;
                     }
-
-
+                    catch (ClassCastException ce) {
+                        Toast.makeText(Dashboard.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
             else
@@ -368,7 +373,7 @@ private void getSubscriberdetails(final DataSnapshot child)
             adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
             if(adapter!=null) {
                 lv1.setAdapter(adapter);
-                adapter.setContext(getApplicationContext());
+                //adapter.setContext(getApplicationContext());
             }
             spinner.setVisibility(View.GONE);
 

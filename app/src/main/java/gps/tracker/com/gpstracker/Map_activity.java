@@ -517,6 +517,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                     @Override
                     public void run() {
 
+                        map.requestRender();
+                        map.useCachedGlState(true);
+
                         goToLandmark_mod();
                         map_style.setText( time_stamp + Global.separator);
                         //blink();
@@ -977,7 +980,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     public void onBackPressed() {
 
         //mapview.onDestroy();
-        Intent intent = new Intent(activity.get(), Dashboard.class);
+        Intent intent = new Intent(Map_activity.this, Dashboard.class);
         startActivity(intent);
         finish();
     }

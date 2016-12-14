@@ -12,9 +12,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal"
-        android:layout_alignParentLeft="true"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp">
+    <!--android:layout_alignParentLeft="true"-->
 
         <TextView android:id="@+id/cname"
             android:textColor="#000000"
@@ -85,10 +85,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp">
+        <!--android:layout_alignParentRight="true"-->
 
         <ImageView
             android:layout_width="50dp"

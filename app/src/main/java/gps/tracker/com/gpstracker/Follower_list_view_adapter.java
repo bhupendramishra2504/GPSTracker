@@ -20,7 +20,7 @@ import java.util.List;
 class Follower_list_view_adapter extends BaseAdapter {
     private static ArrayList<Follower_results> searchArrayList;
     // --Commented out by Inspection (01/12/16, 10:06 PM):private List<String> originalData = null;
-    private final List<String>filteredData = null;
+    //private final List<String>filteredData = null;
     //private final List<SearchResults> stocks;
 
     private final LayoutInflater mInflater;

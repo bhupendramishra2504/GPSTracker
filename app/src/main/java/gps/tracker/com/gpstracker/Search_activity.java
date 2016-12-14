@@ -34,7 +34,7 @@ public class Search_activity extends AppCompatActivity {
     private Button search_type;
     private Button search;
     private EditText search_string;
-    ListView lv1;
+    //ListView lv1;
     private ListView lv2;
     // --Commented out by Inspection (01/12/16, 10:25 PM):ArrayList<Suscriber_results> results = new ArrayList<Suscriber_results>();
     private final ArrayList<Channel_search> search_results = new ArrayList<Channel_search>();

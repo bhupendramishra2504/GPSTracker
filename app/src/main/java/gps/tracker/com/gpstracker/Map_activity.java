@@ -70,7 +70,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         setContentView(R.layout.activity_map_activity);
         //getSupportActionBar().hide();
         mapview=(MapView)findViewById(R.id.map);
-        Handler handler = new Handler();
+        //Handler handler = new Handler();
         //activity=this;
         activity = new WeakReference<>(this);
         //count=0;
@@ -331,7 +331,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                         if (points != null) {
                             points.clear();
                         }
-                    } catch (NullPointerException rr) {
+                    } catch (NullPointerException ignored) {
 
                     }
 
@@ -344,7 +344,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 }
                 //map_style.setText("Last updated on :"+ time_stamp + Global.separator);
                 // map_style.setText("showing channel location");
-            } catch (NullPointerException ee) {
+            } catch (NullPointerException ignored) {
 
             }
         }
@@ -586,10 +586,12 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     }
 
-    private String[] parse_location_data(String data)
-    {
-        return data.split(";");
-    }
+// --Commented out by Inspection START (14/12/16, 10:20 PM):
+//    private String[] parse_location_data(String data)
+//    {
+//        return data.split(";");
+//    }
+// --Commented out by Inspection STOP (14/12/16, 10:20 PM)
 
    /* private void initial_realtime_service()
     {

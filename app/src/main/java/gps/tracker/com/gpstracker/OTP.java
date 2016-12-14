@@ -138,9 +138,14 @@ public class OTP extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.getValue() != null) {
+                    try {
+
                     Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                     DatabaseReference ref=Global.firebase_dbreference.child("USERS").child(new_number);
                     ref.setValue(map);
+                    } catch (ClassCastException ce) {
+                        //Toast.makeText(MyChannels_RV.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                    }
 
                 }
 

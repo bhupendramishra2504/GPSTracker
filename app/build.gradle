@@ -25,11 +25,13 @@ android {
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
         debug {
             minifyEnabled false
         }
     }
+    return void
    // sourceSets.main.assets.srcDirs = ['../styles']
 }
 

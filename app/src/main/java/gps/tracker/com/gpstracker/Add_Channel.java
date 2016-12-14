@@ -415,13 +415,13 @@ public class Add_Channel extends AppCompatActivity {
 
     private class Add_channel_class extends AsyncTask<String, String, String> {
 
-        private String resp;
+        // --Commented out by Inspection (14/12/16, 10:13 PM):private String resp;
 
         @Override
         protected String doInBackground(String... params) {
 
             add_channel_details();
-            return resp;
+            return "o";
         }
 
         /*
@@ -514,7 +514,8 @@ public class Add_Channel extends AppCompatActivity {
                     Toast.makeText(Add_Channel.this,"picture cannnot uploaded from this location",Toast.LENGTH_LONG).show();
                 }
             }
-            catch(FileNotFoundException e) {
+            catch(FileNotFoundException ignored) {
+
             }
 
             //add_pic.setImageBitmap(BitmapFactory.decodeFile(picturePath));

@@ -51,16 +51,15 @@ class Global {
 
     public static String date_time()
     {
-        String datetime="";
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        datetime = sdf.format(cal.getTime());
+        String datetime = sdf.format(cal.getTime());
         return datetime;
     }
 
     public static String generate_channel_id()
     {
-        String channel_id="";
+        channel_id="";
         Calendar cal = Calendar.getInstance();
         String num=String.valueOf(Math.abs(100000000000L-Long.parseLong(Global.username)));
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmm");
@@ -143,14 +142,18 @@ class Global {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 if (dataSnapshot.getValue().toString() != null) {
-                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                    if (map.get("id") != null && map.get("name") != null) {
-                        Global.user_desc_name = map.get("name").toString();
-                        Global.dob = map.get("dob").toString();
-                        Global.city = map.get("city").toString();
-                        //Global.read_refresh_rate();
+                    try {
+                        Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                        if (map.get("id") != null && map.get("name") != null) {
+                            Global.user_desc_name = map.get("name").toString();
+                            Global.dob = map.get("dob").toString();
+                            Global.city = map.get("city").toString();
+                            //Global.read_refresh_rate();
 
 
+                        }
+                    } catch (ClassCastException ce) {
+                        //Toast.makeText(MyChannels_RV.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
                     }
 
 

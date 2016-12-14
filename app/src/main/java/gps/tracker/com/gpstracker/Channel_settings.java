@@ -48,7 +48,7 @@ public class Channel_settings extends AppCompatActivity{
     private final ArrayList<Follower_results> results = new ArrayList<Follower_results>();
     private Follower_list_view_adapter adapter;
 
-    private Intent i;
+   // private Intent i;
     private String channel_id;
     private EditText new_number;
     private final Integer[] images2 = { R.drawable.block_icon,R.drawable.unblock_icon };
@@ -73,8 +73,8 @@ public class Channel_settings extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel_settings);
         rg = (RadioGroup) findViewById(R.id.rg);
-        RadioButton block = (RadioButton) findViewById(R.id.rblock);
-        RadioButton allow = (RadioButton) findViewById(R.id.rallow);
+        //RadioButton block = (RadioButton) findViewById(R.id.rblock);
+        //RadioButton allow = (RadioButton) findViewById(R.id.rallow);
         Button change = (Button) findViewById(R.id.change);
         Button delete = (Button) findViewById(R.id.delete);
         Button edit = (Button) findViewById(R.id.edit);
@@ -100,7 +100,7 @@ public class Channel_settings extends AppCompatActivity{
 
 
         lv1 = (ListView) findViewById(R.id.list);
-        Activity activity = this;
+       // Activity activity = this;
         //i=new Intent(Channel_settings.this, TimeServiceGPS.class);
         Channel_settings.Broadcast_channel_class bcc=new Channel_settings.Broadcast_channel_class();
         bcc.execute();
@@ -446,7 +446,7 @@ public class Channel_settings extends AppCompatActivity{
                 if(data.getData()!=null) {
                     InputStream inputStream = Channel_settings.this.getContentResolver().openInputStream(data.getData());
                     assert (inputStream != null ? inputStream : null) != null;
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream != null ? inputStream : null);
+                    BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
 
                     Bitmap bmp = BitmapFactory.decodeStream(bufferedInputStream);
 
@@ -462,7 +462,7 @@ public class Channel_settings extends AppCompatActivity{
                     Toast.makeText(Channel_settings.this,"picture cannnot uploaded from this location",Toast.LENGTH_LONG).show();
                 }
             }
-            catch(FileNotFoundException e) {
+            catch(FileNotFoundException ignored) {
             }
 
             //add_pic.setImageBitmap(BitmapFactory.decodeFile(picturePath));
@@ -504,36 +504,34 @@ public class Channel_settings extends AppCompatActivity{
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     if (dataSnapshot.getValue() != null && (dataSnapshot.getValue() instanceof Map)) {
-                         Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                        //data = "Owner : " + map.get("owner").toString() + Global.separator + "Vehicle Name : " + map.get("vehicle_name").toString() + Global.separator + "Vehicle Number : " + map.get("vehicle_number").toString() + Global.separator + "Vehicle type :" + map.get("vtype").toString() + Global.separator + "City : " + map.get("city").toString() + Global.separator + "Refresh Rate : " + map.get("refresh_status").toString() + Global.separator + "Intercity : " + map.get("intercity").toString() + Global.separator + "Category :" + map.get("category").toString() + Global.separator + "Visible : " + map.get("visible").toString() + Global.separator;
-                        //Global.rr=map.get("refresh_status").toString();
-                        owner.setText(map.get("owner").toString());
-                        vname.setText(map.get("vehicle_name").toString());
-                        vnumber.setText(map.get("vehicle_number").toString());
-                        vtype.setText(map.get("vtype").toString());
-                        city1.setText(map.get("city").toString());
-                        refresh_rate.setText(map.get("refresh_status").toString());
-                        withincity.setText(map.get("intercity").toString());
-                        category.setText(map.get("category").toString());
-                        if(map.get("image")!=null)
-                        {
-                            add_pic.setImageBitmap(download_image_to_firebase1(map.get("image").toString()));
-                        }
-                        if(map.get("follower_setting")!=null)
-                        {
-                            if(map.get("follower_setting").toString().equalsIgnoreCase("1"))
-                            {
-                                rg.check(R.id.rallow);
+                        try {
+                            Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                            //data = "Owner : " + map.get("owner").toString() + Global.separator + "Vehicle Name : " + map.get("vehicle_name").toString() + Global.separator + "Vehicle Number : " + map.get("vehicle_number").toString() + Global.separator + "Vehicle type :" + map.get("vtype").toString() + Global.separator + "City : " + map.get("city").toString() + Global.separator + "Refresh Rate : " + map.get("refresh_status").toString() + Global.separator + "Intercity : " + map.get("intercity").toString() + Global.separator + "Category :" + map.get("category").toString() + Global.separator + "Visible : " + map.get("visible").toString() + Global.separator;
+                            //Global.rr=map.get("refresh_status").toString();
+                            owner.setText(map.get("owner").toString());
+                            vname.setText(map.get("vehicle_name").toString());
+                            vnumber.setText(map.get("vehicle_number").toString());
+                            vtype.setText(map.get("vtype").toString());
+                            city1.setText(map.get("city").toString());
+                            refresh_rate.setText(map.get("refresh_status").toString());
+                            withincity.setText(map.get("intercity").toString());
+                            category.setText(map.get("category").toString());
+                            if (map.get("image") != null) {
+                                add_pic.setImageBitmap(download_image_to_firebase1(map.get("image").toString()));
                             }
-                            else if(map.get("follower_setting").toString().equalsIgnoreCase("0"))
-                            {
+                            if (map.get("follower_setting") != null) {
+                                if (map.get("follower_setting").toString().equalsIgnoreCase("1")) {
+                                    rg.check(R.id.rallow);
+                                } else if (map.get("follower_setting").toString().equalsIgnoreCase("0")) {
+                                    rg.check(R.id.rblock);
+                                }
+                            } else {
                                 rg.check(R.id.rblock);
                             }
                         }
-                        else
-                        {
-                            rg.check(R.id.rblock);
-                        }
+                    catch (ClassCastException ce) {
+                        //Toast.makeText(MyChannels_RV.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                    }
                     }
 
 
@@ -555,14 +553,14 @@ public class Channel_settings extends AppCompatActivity{
 
     private class Broadcast_channel_class extends AsyncTask<String, String, String> {
 
-        private String resp;
-        private boolean res;
+        //private String resp;
+        //private boolean res;
 
         @Override
         protected String doInBackground(String... params) {
 
-          res=broadcast_channel();
-            return resp;
+          broadcast_channel();
+            return "0";
         }
 
         /*
@@ -616,33 +614,35 @@ public class Channel_settings extends AppCompatActivity{
     {
         DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_id);
 
-        boolean channel_exist=false;
+       // boolean channel_exist=false;
         if(user_ref!=null) {
-            channel_exist=true;
+          //  channel_exist=true;
             user_ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     if (dataSnapshot.getValue() != null) {
-                        Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                       try {
+                           Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
 
-                        String dob_get=Global.dob;
-                        if(dob_get.equalsIgnoreCase(dob.getText().toString().trim()) && !new_number.getText().toString().equalsIgnoreCase(null) && !new_number.getText().toString().equalsIgnoreCase("") &&  !dob.getText().toString().equalsIgnoreCase(null) && !dob.getText().toString().equalsIgnoreCase(null) )
-                        {
-                            DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(new_number.getText().toString().trim()).child("channels").child(channel_id);
-                            ref1.setValue(map);
-                            DatabaseReference ref2=Global.firebase_dbreference.child("USERS").child(new_number.getText().toString().trim()).child("channels").child(channel_id).child("mobile");
-                            ref2.setValue(null);
-                            DatabaseReference ref3=Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("mobile");
-                            ref3.setValue(new_number.getText().toString());
-                            DatabaseReference ref4=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id);
-                            ref4.setValue(null);
-                            Toast.makeText(Channel_settings.this,"Channel Transferred to new User Successfully",Toast.LENGTH_LONG).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(Channel_settings.this,"Channel cannot be transferred to new user check your detials",Toast.LENGTH_LONG).show();
-                        }
+                           String dob_get = Global.dob;
+                           if (dob_get.equalsIgnoreCase(dob.getText().toString().trim()) && !new_number.getText().toString().equalsIgnoreCase(null) && !new_number.getText().toString().equalsIgnoreCase("") && !dob.getText().toString().equalsIgnoreCase(null) && !dob.getText().toString().equalsIgnoreCase(null)) {
+                               DatabaseReference ref1 = Global.firebase_dbreference.child("USERS").child(new_number.getText().toString().trim()).child("channels").child(channel_id);
+                               ref1.setValue(map);
+                               DatabaseReference ref2 = Global.firebase_dbreference.child("USERS").child(new_number.getText().toString().trim()).child("channels").child(channel_id).child("mobile");
+                               ref2.setValue(null);
+                               DatabaseReference ref3 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("mobile");
+                               ref3.setValue(new_number.getText().toString());
+                               DatabaseReference ref4 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id);
+                               ref4.setValue(null);
+                               Toast.makeText(Channel_settings.this, "Channel Transferred to new User Successfully", Toast.LENGTH_LONG).show();
+                           } else {
+                               Toast.makeText(Channel_settings.this, "Channel cannot be transferred to new user check your detials", Toast.LENGTH_LONG).show();
+                           }
+                       }
+                     catch (ClassCastException ce) {
+                        //Toast.makeText(MyChannels_RV.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                    }
 
 
                     }
@@ -662,13 +662,13 @@ public class Channel_settings extends AppCompatActivity{
 
     private boolean chk_delete_channel()
     {
-        View v;
+        //View v;
         boolean delete_flag=false;
-        ImageButton buib;
+        //ImageButton buib;
         for(int i=0;i<lv1.getCount();i++)
         {
             Object o = lv1.getItemAtPosition(i);
-            final Follower_results fullObject = (Follower_results) o;
+            //final Follower_results fullObject = (Follower_results) o;
 
             //buib=(ImageButton)v.findViewById(R.id.block);
             //int resource=(Integer)buib.getTag(R.id.resource);
@@ -778,33 +778,30 @@ public class Channel_settings extends AppCompatActivity{
 
                     if (child != null){
 
-
-                        Map<String, Object> map = (Map<String, Object>) child.getValue();
-                        Follower_results sr1 = new Follower_results();
-                        sr1.setfName(map.get("name").toString());
-                        sr1.setfPhone(child.getKey());
-                        if(map.get("unblock")!=null)
-                        {
-                            if(map.get("unblock").toString().equalsIgnoreCase("1"))
-                            {
+                        try {
+                            Map<String, Object> map = (Map<String, Object>) child.getValue();
+                            Follower_results sr1 = new Follower_results();
+                            sr1.setfName(map.get("name").toString());
+                            sr1.setfPhone(child.getKey());
+                            if (map.get("unblock") != null) {
+                                if (map.get("unblock").toString().equalsIgnoreCase("1")) {
+                                    sr1.setImageid(images2[1]);
+                                    sr1.setstatus("1");
+                                } else {
+                                    sr1.setImageid(images2[0]);
+                                    sr1.setstatus("0");
+                                }
+                            } else {
                                 sr1.setImageid(images2[1]);
                                 sr1.setstatus("1");
                             }
-                            else
-                            {
-                                sr1.setImageid(images2[0]);
-                                sr1.setstatus("0");
-                            }
+
+                            results.add(sr1);
+
                         }
-                        else
-                        {
-                            sr1.setImageid(images2[1]);
-                            sr1.setstatus("1");
-                        }
-
-                        results.add(sr1);
-
-
+                     catch (ClassCastException ce) {
+                        //Toast.makeText(MyChannels_RV.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                    }
 
                     }
 
@@ -859,13 +856,13 @@ public class Channel_settings extends AppCompatActivity{
 
     private class Add_channel_class extends AsyncTask<String, String, String> {
 
-        private String resp;
+        //private String resp;
 
         @Override
         protected String doInBackground(String... params) {
 
             add_channel_details();
-            return resp;
+            return "0";
         }
 
         /*

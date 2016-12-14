@@ -4,7 +4,7 @@ package gps.tracker.com.gpstracker;
  * Created by bhupendramishra on 31/10/16.
  */
 
-public class Channel_search {
+class Channel_search {
 
     private String name = "";
     private String phone = "";

@@ -13,10 +13,10 @@ import java.util.ArrayList;
  * Created by bhupendramishra on 31/10/16.
  */
 
-public class Channel_search_list_view extends BaseAdapter {
+class Channel_search_list_view extends BaseAdapter {
 
     private static ArrayList<Channel_search> channellistsearch;
-    private Context context;
+    //private Context context;
 
 
     private final LayoutInflater mInflater;
@@ -25,7 +25,7 @@ public class Channel_search_list_view extends BaseAdapter {
 
     public Channel_search_list_view(Context context, ArrayList<Channel_search> results) {
         channellistsearch = results;
-        this.context=context;
+        //this.context=context;
         mInflater = LayoutInflater.from(context);
 
     }
@@ -38,7 +38,7 @@ public class Channel_search_list_view extends BaseAdapter {
         return channellistsearch.get(position);
     }
 
-    public  void setContext(Context context){this.context=context;}
+    // --Commented out by Inspection (14/12/16, 10:16 PM):public  void setContext(Context context){this.context=context;}
 
     public long getItemId(int position) {
         return position;
@@ -46,7 +46,7 @@ public class Channel_search_list_view extends BaseAdapter {
 
     // --Commented out by Inspection (01/12/16, 10:04 PM):public Context getcontext(){return context;}
 
-    boolean status=false;
+    // --Commented out by Inspection (14/12/16, 10:17 PM):boolean status=false;
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Channel_search_list_view.ViewHolder holder;

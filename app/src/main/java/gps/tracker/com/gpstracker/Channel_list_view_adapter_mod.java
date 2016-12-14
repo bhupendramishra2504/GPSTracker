@@ -35,7 +35,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 class Channel_list_view_adapter_mod extends BaseAdapter {
     private static ArrayList<Channel_list> channellist;
-    private final List<String>filteredData = null;
+    // --Commented out by Inspection (14/12/16, 10:13 PM):private final List<String>filteredData = null;
     private  Context context;
     private final Integer[] images = { R.drawable.broadcast_icon,R.drawable.red_circle };
     private final Integer[] visible_images={R.drawable.visible,R.drawable.invisible};
@@ -70,7 +70,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         return position;
     }
 
-    private boolean status=false;
+    // --Commented out by Inspection (14/12/16, 10:14 PM):private boolean status=false;
 
     @Override
     public int getViewTypeCount() {
@@ -135,7 +135,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
 
                         if(isGPSEnabled) {
 
-                            status = true;
+                            //status = true;
                             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                             editor.putString("broadcasting",channellist.get(position).getChannelid().split(":")[1].trim());
                             editor.apply();
@@ -164,7 +164,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                     }
                     else if(channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid().split(":")[1].trim())){
                         //context.stopService(i);
-                        status = false;
+                        //status = false;
 
                          SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                          editor.putString("broadcasting","NA");
@@ -199,28 +199,28 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
+                        try {
+                            Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                            if (map.get("visible").toString().equalsIgnoreCase("1")) {
+                                DatabaseReference ref = Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("visible");
+                                ref.setValue("0");
+                                DatabaseReference ref1 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(Global.channel_id).child("visible");
+                                ref1.setValue("0");
+                                holder.visible.setImageResource(R.drawable.invisible);
+                                channellist.get(position).setvisibleimageid(visible_images[1]);
+                            } else {
+                                DatabaseReference ref = Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("visible");
+                                ref.setValue("1");
+                                DatabaseReference ref1 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(Global.channel_id).child("visible");
+                                ref1.setValue("1");
+                                holder.visible.setImageResource(R.drawable.visible);
+                                channellist.get(position).setvisibleimageid(visible_images[0]);
+                            }
 
-                        Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                        if(map.get("visible").toString().equalsIgnoreCase("1"))
-                        {
-                            DatabaseReference ref=Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("visible");
-                            ref.setValue("0");
-                            DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(Global.channel_id).child("visible");
-                            ref1.setValue("0");
-                            holder.visible.setImageResource(R.drawable.invisible);
-                            channellist.get(position).setvisibleimageid(visible_images[1]);
+
+                        } catch (ClassCastException ce) {
+                            //Toast.makeText(MyChannels_RV.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
                         }
-                        else
-                        {
-                            DatabaseReference ref=Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("visible");
-                            ref.setValue("1");
-                            DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(Global.channel_id).child("visible");
-                            ref1.setValue("1");
-                            holder.visible.setImageResource(R.drawable.visible);
-                            channellist.get(position).setvisibleimageid(visible_images[0]);
-                        }
-
-
                     }
 
                     @Override
@@ -269,44 +269,46 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     }*/
 
 
-    private void status_update(final String update,final int position)
-    {
-        Global.channel_id=channellist.get(position).getChannelid().split(":")[1].trim();
-        DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("followers");
-        DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("status");
-        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("status");
-        ref2.setValue(update);
-        //ref1.onDisconnect().setValue("0");
-        ref1.setValue(update);
-        //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
-
-        if(user_ref!=null) {
-
-            user_ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-                        if (child != null) {
-
-                            DatabaseReference ref=Global.firebase_dbreference.child("USERS").child(child.getKey()).child("Subscribers").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("status");
-                            //ref.onDisconnect().setValue("0");
-                            ref.setValue(update);
-
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    //Toast.makeText(Channel_settings.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
-                }
-            });
-        }
-    }
+// --Commented out by Inspection START (14/12/16, 10:14 PM):
+//    private void status_update(final String update,final int position)
+//    {
+//        Global.channel_id=channellist.get(position).getChannelid().split(":")[1].trim();
+//        DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("followers");
+//        DatabaseReference ref1=Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("status");
+//        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("status");
+//        ref2.setValue(update);
+//        //ref1.onDisconnect().setValue("0");
+//        ref1.setValue(update);
+//        //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
+//
+//        if(user_ref!=null) {
+//
+//            user_ref.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+//
+//                        if (child != null) {
+//
+//                            DatabaseReference ref=Global.firebase_dbreference.child("USERS").child(child.getKey()).child("Subscribers").child(channellist.get(position).getChannelid().split(":")[1].trim()).child("status");
+//                            //ref.onDisconnect().setValue("0");
+//                            ref.setValue(update);
+//
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError error) {
+//                    // Failed to read value
+//                    //Toast.makeText(Channel_settings.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+//
+//                }
+//            });
+//        }
+//    }
+// --Commented out by Inspection STOP (14/12/16, 10:14 PM)
 
 
 
@@ -364,15 +366,17 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     }
 
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
+// --Commented out by Inspection START (14/12/16, 10:15 PM):
+//    private boolean isMyServiceRunning(Class<?> serviceClass) {
+//        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//            if (serviceClass.getName().equals(service.service.getClassName())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+// --Commented out by Inspection STOP (14/12/16, 10:15 PM)
 
 
     /*private void Broadcasting_on_Notification() {

@@ -18,13 +18,13 @@ import java.util.List;
  * Created by bhupendramishra on 12/10/16.
  */
 
-public class Subscriber_list_view_adapter extends BaseAdapter {
+class Subscriber_list_view_adapter extends BaseAdapter {
 
     private static ArrayList<Suscriber_results> searchArrayList;
     // --Commented out by Inspection (01/12/16, 10:31 PM):private List<String> originalData = null;
-    private final List<String>filteredData = null;
+    //private final List<String>filteredData = null;
     // --Commented out by Inspection (01/12/16, 10:31 PM):
-    private   Context context;
+    //private   Context context;
     //private final List<SearchResults> stocks;
 
     private final LayoutInflater mInflater;
@@ -43,8 +43,8 @@ public class Subscriber_list_view_adapter extends BaseAdapter {
         return searchArrayList.get(position);
     }
 
-    public  void setContext(Context context){
-        Subscriber_list_view_adapter.this.context =context;}
+    //public  void setContext(Context context){
+      //  Subscriber_list_view_adapter.this.context =context;}
 
     public long getItemId(int position) {
         return position;

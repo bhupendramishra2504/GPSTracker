@@ -25,7 +25,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Broadcast_Receiver extends BroadcastReceiver {
 
-    Context context;
+    private Context context;
 
 
 
@@ -118,14 +118,16 @@ public class Broadcast_Receiver extends BroadcastReceiver {
     }
 
 
-    private void status_update_kill()
-    {
-        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
-        ref2.setValue("0");
-        //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
-    }
+// --Commented out by Inspection START (14/12/16, 10:13 PM):
+//    private void status_update_kill()
+//    {
+//        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+//        ref2.setValue("0");
+//        //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
+//    }
+// --Commented out by Inspection STOP (14/12/16, 10:13 PM)
 
-    public static boolean isNetworkAvailable(Context context) {
+    private static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

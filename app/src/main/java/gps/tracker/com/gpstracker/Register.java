@@ -157,7 +157,7 @@ public class Register extends AppCompatActivity {
     }
 
     private boolean has_permissions(String[] permissions) {
-        boolean all_permission_granted = true;
+       // boolean all_permission_granted = true;
         int android_Version = Build.VERSION.SDK_INT;
         if (android_Version > Build.VERSION_CODES.LOLLIPOP_MR1) {
 

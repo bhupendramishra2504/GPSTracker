@@ -32,8 +32,10 @@ public class MyChannels_RV extends AppCompatActivity {
     private final ArrayList<Channel_list> results = new ArrayList<Channel_list>();
     private Channel_list_view_adapter_mod adapter;
     private String subscriber_invite;
-    //subscriber_name;
-    private final String status="offline";
+// --Commented out by Inspection START (14/12/16, 10:20 PM):
+//    //subscriber_name;
+//    private final String status="offline";
+// --Commented out by Inspection STOP (14/12/16, 10:20 PM)
     private final Integer[] images = { R.drawable.broadcast_icon,R.drawable.red_circle };
     private final Integer[] visible_images={R.drawable.visible,R.drawable.invisible};
     private int position=0;
@@ -166,7 +168,7 @@ public class MyChannels_RV extends AppCompatActivity {
 
     private void getchanneldetails(final DataSnapshot child)
     {
-        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(child.getKey().toString()).child("status");
+        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(child.getKey()).child("status");
         user_ref.keepSynced(true);
         user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

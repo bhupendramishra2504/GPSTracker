@@ -4,7 +4,7 @@ package gps.tracker.com.gpstracker;
  * Created by bhupendramishra on 12/10/16.
  */
 
-public class Follower_results {
+class Follower_results {
     private String name = "";
     private String phone = "";
     private int imageid;

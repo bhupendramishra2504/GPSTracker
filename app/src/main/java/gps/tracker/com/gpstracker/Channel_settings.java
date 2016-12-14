@@ -1008,10 +1008,19 @@ public class Channel_settings extends AppCompatActivity{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        popup.dismiss();
-        popup_travel.dismiss();
-        popup_category.dismiss();
-        popup_refresh.dismiss();
+        if(popup!=null) {
+            popup.dismiss();
+        }
+        if(popup_travel!=null)
+        {
+            popup_travel.dismiss();
+        }
+        if(popup_category!=null) {
+            popup_category.dismiss();
+        }
+        if(popup_refresh!=null) {
+            popup_refresh.dismiss();
+        }
     }
 
 }

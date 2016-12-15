@@ -2,7 +2,7 @@ package gps.tracker.com.gpstracker;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -17,12 +17,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.mapzen.tangram.HttpHandler;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.MapView;
 import com.mapzen.tangram.TouchInput;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +32,10 @@ import java.util.Map;
 //import ibt.ortc.extensibility.OrtcClient;
 
 public class Map_activity extends AppCompatActivity implements MapView.OnMapReadyCallback{
-    private  MapController map;
+    private static MapController  map;
 
     // MapView is the View used to display the map.
-    private MapView mapview;
+    private static MapView mapview;
     private  double latitude; // latitude
     private  double longitude;
     private  double my_latitude; // latitude
@@ -41,6 +43,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private  MapData points;
     private DatabaseReference fetch_loc_ref,channel_status;
     private ValueEventListener fetch_listener,channel_status_listener;
+    private HttpHandler cache_handler;
     // --Commented out by Inspection (01/12/16, 10:08 PM):public static MapData marker;
     // --Commented out by Inspection (01/12/16, 10:08 PM):Map<String,String> desc;
 
@@ -72,6 +75,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         setContentView(R.layout.activity_map_activity);
         //getSupportActionBar().hide();
         mapview=(MapView)findViewById(R.id.map);
+        cache_handler=new HttpHandler();
         //Handler handler = new Handler();
         //activity=this;
         activity = new WeakReference<>(this);
@@ -102,7 +106,11 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         zoomplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if(scale_map>=10f && scale_map<17)
+
+                cache_handler.setCache(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache"),200);
+                Toast.makeText(Map_activity.this,"cache saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/crash.bhu",Toast.LENGTH_LONG).show();
+
+                if(scale_map>=10f && scale_map<17)
                {
                    scale_map++;
                    map.setZoomEased(scale_map, 1, MapController.EaseType.LINEAR);
@@ -418,6 +426,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         // We receive a MapController object in this callback when the map is ready for use.
         map = mapController;
         map.requestRender();
+
         map.useCachedGlState(true);
         map_is_ready=true;
 
@@ -520,6 +529,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                     public void run() {
 
                         map.requestRender();
+                        cache_handler.setCache(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache"),200);
+                        Toast.makeText(Map_activity.this,"cache saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/crash.bhu",Toast.LENGTH_LONG).show();
                         map.useCachedGlState(true);
 
                         goToLandmark_mod();
@@ -985,7 +996,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     @Override
     public void onBackPressed() {
 
-        //mapview.onDestroy();
+        mapview.onDestroy();
+        fetch_loc_ref.removeEventListener(fetch_listener);
+        channel_status.removeEventListener(channel_status_listener);
         Intent intent = new Intent(Map_activity.this, Dashboard.class);
         startActivity(intent);
         finish();

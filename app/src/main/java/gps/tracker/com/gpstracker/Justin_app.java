@@ -1,9 +1,10 @@
 package gps.tracker.com.gpstracker;
 
 
+import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
+//import android.support.multidex.MultiDex;
+//import android.support.multidex.MultiDexApplication;
 
 import com.google.firebase.database.FirebaseDatabase;
 //import com.squareup.leakcanary.LeakCanary;
@@ -13,7 +14,8 @@ import com.google.firebase.database.FirebaseDatabase;
  * Created by bhupendramishra on 18/10/16.
  */
 
-public class Justin_app extends MultiDexApplication {
+public class Justin_app extends Application{
+//extends MultiDexApplication {
 
 
     @Override
@@ -31,13 +33,13 @@ public class Justin_app extends MultiDexApplication {
 
     }
 
-   @Override
+  /* @Override
 
     protected void attachBaseContext(Context base) {
        super.attachBaseContext(base);
 
        MultiDex.install(this);
 
-   }
+   }*/
 
 }

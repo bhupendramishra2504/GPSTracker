@@ -156,7 +156,12 @@ public class Dashboard extends AppCompatActivity {
                         if (block_unblock.equalsIgnoreCase("1")) {
 
 
-
+                            if(user_ref!=null && subscriber_listener!=null) {
+                                user_ref.removeEventListener(subscriber_listener);
+                            }
+                            if(subscriber_detail!=null && subscriber_detail_listener!=null) {
+                                subscriber_detail.removeEventListener(subscriber_detail_listener);
+                            }
                                         Intent i1 = new Intent(Dashboard.this, Map_activity.class);
                                         i1.putExtra("subscriber", subscriber);
                                         i1.putExtra("status", status);

@@ -39,6 +39,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private static double my_latitude; // latitude
     private static double my_longitude;
     private  MapData points;
+    private DatabaseReference fetch_loc_ref,channel_status;
+    private ValueEventListener fetch_listener,channel_status_listener;
     // --Commented out by Inspection (01/12/16, 10:08 PM):public static MapData marker;
     // --Commented out by Inspection (01/12/16, 10:08 PM):Map<String,String> desc;
 
@@ -170,8 +172,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     private void fetch_loc_fb()
     {
-        DatabaseReference ref = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("locations").child("latest_location");
-        ref.addValueEventListener(new ValueEventListener() {
+        fetch_loc_ref = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("locations").child("latest_location");
+        fetch_listener=fetch_loc_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -220,8 +222,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     private void channel_status_check()
     {
-        DatabaseReference ref = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("status");
-        ref.addValueEventListener(new ValueEventListener() {
+        channel_status = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("status");
+        channel_status_listener=channel_status.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -954,6 +956,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     @Override
     public void onDestroy() {
         super.onDestroy();
+        fetch_loc_ref.removeEventListener(fetch_listener);
+        channel_status.removeEventListener(channel_status_listener);
         if(points!=null)
         {
             points.clear();

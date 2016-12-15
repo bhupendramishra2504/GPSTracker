@@ -53,6 +53,10 @@ public class Dashboard extends AppCompatActivity {
     // --Commented out by Inspection (01/12/16, 10:05 PM):private String channel_mobile,channel_name,channel_vnumber,channel_vname,channel_invite,channel_bmp,channel_category,channel_vtype;
     private String subscriber;
     private DatabaseReference user_ref;
+    private ValueEventListener subscriber_listener,subscriber_detail_listener;
+    private DatabaseReference subscriber_detail,authenticate_user_ref;
+    //private Value
+
 
 
     @Override
@@ -265,7 +269,7 @@ public class Dashboard extends AppCompatActivity {
         DatabaseReference firebase_dbreference=firebase_database.getReference("JustIn");
         user_ref = firebase_dbreference.child("USERS").child(Global.username).child("Subscribers");
         user_ref.keepSynced(true);
-        user_ref.addValueEventListener(new ValueEventListener() {
+        subscriber_listener=user_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 results.clear();
@@ -304,9 +308,9 @@ public class Dashboard extends AppCompatActivity {
 
 private void getSubscriberdetails(final DataSnapshot child)
 {
-    DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(child.getKey().toString()).child("status");
-    user_ref.keepSynced(true);
-    user_ref.addValueEventListener(new ValueEventListener() {
+    subscriber_detail = Global.firebase_dbreference.child("CHANNELS").child(child.getKey().toString()).child("status");
+    subscriber_detail.keepSynced(true);
+    subscriber_detail_listener=subscriber_detail.addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             String act;
@@ -604,6 +608,13 @@ private void getSubscriberdetails(final DataSnapshot child)
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(user_ref!=null && subscriber_listener!=null) {
+            user_ref.removeEventListener(subscriber_listener);
+        }
+        if(subscriber_detail!=null && subscriber_detail_listener!=null) {
+            subscriber_detail.removeEventListener(subscriber_detail_listener);
+        }
+
         if(results!=null) {
             results.clear();
         }

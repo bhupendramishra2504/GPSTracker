@@ -627,7 +627,7 @@ private void getSubscriberdetails(final DataSnapshot child)
     }
 
 
-    @Override
+    /*@Override
     public void onBackPressed() {
 
         //user_ref.removeEventListener();
@@ -636,7 +636,7 @@ private void getSubscriberdetails(final DataSnapshot child)
 
           finish();
 
-    }
+    }*/
 
 
     private boolean isNetworkAvailable() {

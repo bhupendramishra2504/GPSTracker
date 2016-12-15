@@ -30,14 +30,14 @@ import java.util.Map;
 //import ibt.ortc.extensibility.OrtcClient;
 
 public class Map_activity extends AppCompatActivity implements MapView.OnMapReadyCallback{
-    private static MapController map;
+    private  MapController map;
 
     // MapView is the View used to display the map.
     private MapView mapview;
-    private static double latitude; // latitude
-    private static double longitude;
-    private static double my_latitude; // latitude
-    private static double my_longitude;
+    private  double latitude; // latitude
+    private  double longitude;
+    private  double my_latitude; // latitude
+    private  double my_longitude;
     private  MapData points;
     private DatabaseReference fetch_loc_ref,channel_status;
     private ValueEventListener fetch_listener,channel_status_listener;
@@ -47,7 +47,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     // --Commented out by Inspection (01/12/16, 10:09 PM):int sel=0;
     //private int first_child=1;
     private TextView map_style;
-    private static float scale_map=10f;
+    private  float scale_map=10f;
 
     private String s_phone;
     // --Commented out by Inspection (01/12/16, 10:09 PM):OrtcFactory factory;

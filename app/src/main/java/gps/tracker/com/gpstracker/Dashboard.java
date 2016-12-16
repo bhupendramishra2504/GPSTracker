@@ -107,7 +107,7 @@ public class Dashboard extends AppCompatActivity {
         ImageView add_channel = (ImageView) findViewById(R.id.add);
 
         spinner=(ProgressBar)findViewById(R.id.progressBar);
-        spinner.setVisibility(View.VISIBLE);
+         spinner.setVisibility(View.GONE);
 
         add_channel.setOnClickListener(new View.OnClickListener() {
 

@@ -65,7 +65,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
 
         client.setGoogleProjectId("joinin-440f7");*/
 
-        //offline_update();
+        offline_update();
         GPSTracker gps = new GPSTracker(context);
         if(gps.canGetLocation()) {
             //Global.gps_ok=true;

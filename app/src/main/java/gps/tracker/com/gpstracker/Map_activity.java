@@ -106,6 +106,12 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         zoomplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache");
+                if (!file.exists()) {
+                    if (!file.mkdirs()) {
+
+                    }
+                }
 
                 cache_handler.setCache(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache"),200);
                 Toast.makeText(Map_activity.this,"cache saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/crash.bhu",Toast.LENGTH_LONG).show();

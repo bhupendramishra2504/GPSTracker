@@ -174,7 +174,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         holder.broadcast.setImageResource(R.drawable.red_circle);
                         channellist.get(position).setImageid(images[1]);
                         Intent intent = new Intent(context, Broadcast_Receiver.class);
-                        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        pendingIntent = PendingIntent.getBroadcast(context,1956, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         manager.cancel(pendingIntent);
                         //pendingIntent.cancel();

@@ -602,7 +602,7 @@ private void getSubscriberdetails(final DataSnapshot child)
     private void grant_all_permission()
     {
         int PERMISSION_ALL = 1;
-        String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WAKE_LOCK};
         if(!has_permissions(PERMISSIONS)){
             ActivityCompat.requestPermissions(Dashboard.this, PERMISSIONS, PERMISSION_ALL);
         }

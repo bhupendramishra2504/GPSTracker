@@ -1,6 +1,5 @@
 package gps.tracker.com.gpstracker;
 
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -23,7 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -52,8 +50,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         this.context=context;
         mInflater = LayoutInflater.from(context);
         //i=new Intent(this.context, TimeServiceGPS.class);
-        //alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
-        alarmIntent = new Intent(this.context, Br_rx.class);
+        alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
+       // alarmIntent = new Intent(this.context, Br_rx.class);
 
     }
 
@@ -175,7 +173,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         holder.broadcast.setImageResource(R.drawable.red_circle);
                         channellist.get(position).setImageid(images[1]);
                         Intent intent = new Intent(context, Broadcast_Receiver.class);
-                        pendingIntent = PendingIntent.getBroadcast(context,1956, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                         //Intent intent = new Intent(context, Br_rx.class);
+                        pendingIntent = PendingIntent.getBroadcast(context,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         manager.cancel(pendingIntent);
                         //pendingIntent.cancel();

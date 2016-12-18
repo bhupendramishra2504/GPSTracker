@@ -1,13 +1,16 @@
 package gps.tracker.com.gpstracker;
 
-import android.content.BroadcastReceiver;
+import android.app.IntentService;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.os.IBinder;
 import android.os.PowerManager;
-import android.support.v4.content.WakefulBroadcastReceiver;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -15,20 +18,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-//import ibt.ortc.api.Ortc;
-//import ibt.ortc.extensibility.OrtcClient;
-//import ibt.ortc.extensibility.OrtcFactory;
-
-import static android.content.Context.MODE_PRIVATE;
-
 /**
- * Created by bhupendramishra on 09/12/16.
+ * Created by bhupendramishra on 18/12/16.
  */
 
-public class Broadcast_Receiver extends WakefulBroadcastReceiver {
+public class Broadcast_service extends Service {
 
-    private Context context;
-    private PowerManager.WakeLock cpuWakeLock;
+
 
 
     private double latitude=0.0,longitude=0.0;
@@ -38,44 +34,23 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
     //OrtcFactory factory;
     //public static OrtcClient client;
     private String channel_id="";
+    public Broadcast_service()
+    {
+        super();
+    }
 
     @Override
-    public void onReceive(Context arg0, Intent arg1) {
-        // For our recurring task, we'll just display a message
-        Toast.makeText(arg0, "I'm running", Toast.LENGTH_SHORT).show();
-        //Intent startServiceIntent = new Intent(arg0, Broadcast_service.class);
-        //startServiceIntent.putExtra("channel_id",channel_id);
-        //arg0.startService(startServiceIntent);
-        PowerManager pm = (PowerManager) arg0.getSystemService(Context.POWER_SERVICE);
-        cpuWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                "gps_service");
-        cpuWakeLock.acquire();
-        //System.out.println("Broadcasted");
-        channel_id=arg1.getStringExtra("channel_id");
-        context=arg0;
-       /* if(client==null) {
+    public void onCreate() {
+        super.onCreate();
 
-            try {
-                Ortc ortc = new Ortc();
-                OrtcFactory factory;
-                factory = ortc.loadOrtcFactory("IbtRealtimeSJ");
-                client = factory.createClient();
-                client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1");
-                client.connect("Cmo9Y1", "testToken");
-                client.setApplicationContext(context);
-            } catch (InstantiationException e) {
-                //e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                //e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                //e.printStackTrace();
-            }
-        }
+    }
 
-        client.setGoogleProjectId("joinin-440f7");*/
-
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        //Log.i("LocalService", "Received start id " + startId + ": " + intent);
+        channel_id=intent.getStringExtra("channel_id");
         offline_update();
-        GPSTracker gps = new GPSTracker(context);
+        GPSTracker gps = new GPSTracker(getApplicationContext());
         if(gps.canGetLocation()) {
             //Global.gps_ok=true;
             latitude=0.0;
@@ -86,35 +61,41 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
         }
         else
         {
-            Toast.makeText(context,"cannot fetch the gps location in gps tracker",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"cannot fetch the gps location in gps tracker",Toast.LENGTH_LONG).show();
             status_update("0");
             //SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
             //editor.putString("broadcasting","NA");
             //editor.commit();
         }
-
-
+        return START_STICKY;
     }
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+
 
     private void add_location_to_server()
     {
-        if(longitude!=0.0 && latitude!=0.0 && !channel_id.equalsIgnoreCase("") && isNetworkAvailable(context)) {
+        if(longitude!=0.0 && latitude!=0.0 && !channel_id.equalsIgnoreCase("") && isNetworkAvailable(getApplicationContext())) {
             update_channel_status();
             DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("locations").child("latest_location");
             //client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
             loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
-            Toast.makeText(context,"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
         }
         else
         {
-            Toast.makeText(context,"cannot fetch the gps location in add location to server func",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"cannot fetch the gps location in add location to server func",Toast.LENGTH_LONG).show();
             status_update("0");
-            SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
             editor.putString("broadcasting","NA");
             editor.apply();
         }
 
-        cpuWakeLock.release();
+        //cpuWakeLock.release();
 
     }
 
@@ -167,18 +148,18 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //results.clear();
-                        if(dataSnapshot!=null)
-                        {
-                            if(dataSnapshot.getValue().toString().equalsIgnoreCase("0"))
-                            {
-                                DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
-                                user_ref.setValue("1");
-
-                            }
-                        }
-
+                if(dataSnapshot!=null)
+                {
+                    if(dataSnapshot.getValue().toString().equalsIgnoreCase("0"))
+                    {
+                        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+                        user_ref.setValue("1");
 
                     }
+                }
+
+
+            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -189,6 +170,7 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
 
 
     }
+
 
 
 

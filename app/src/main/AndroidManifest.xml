@@ -2,12 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="gps.tracker.com.gpstracker">
 
-    <!--
-                <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
-    -->
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -20,37 +14,28 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".Justin_app"
+        android:name="gps.tracker.com.gpstracker.Justin_app"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:enabled="true"
         android:theme="@style/AppTheme">
-        <receiver android:name=".Broadcast_Receiver"
-            android:exported="true"
-            android:process=":Broadcast"
-            >
-           </receiver>
+        <receiver android:name="gps.tracker.com.gpstracker.Broadcast_Receiver"
+            android:enabled="true"
 
-        <!--
-       <service android:name=".MyFirebaseMessagingService">
-           <intent-filter>
-               <action android:name="com.google.firebase.MESSAGING_EVENT" />
-           </intent-filter>
-       </service>
-       <service android:name=".MyFirebaseInstanceIDService">
-           <intent-filter>
-               <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-           </intent-filter>
-       </service>
-        -->
+            />
+
+
+        <service android:name=".GPSTracker" android:enabled="true" android:process=":remote"/>
+
 
         <activity
             android:name=".Map_activity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".Register"
             android:configChanges="keyboardHidden|orientation"
@@ -62,12 +47,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".Dashboard"
+            android:name="gps.tracker.com.gpstracker.Dashboard"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName=".Dashboard"
+            android:parentActivityName="gps.tracker.com.gpstracker.Dashboard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:launchMode="singleInstance">
+           >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -78,7 +63,7 @@
         <!-- Parent activity meta-data to support 4.0 and lower -->
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value=".Dashboard" />
+            android:value="gps.tracker.com.gpstracker.Dashboard" />
 
         <activity
             android:name=".Add_Channel"
@@ -120,7 +105,7 @@
         <activity android:name=".MyChannels_RV"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"/>
     </application>
 
 </manifest>

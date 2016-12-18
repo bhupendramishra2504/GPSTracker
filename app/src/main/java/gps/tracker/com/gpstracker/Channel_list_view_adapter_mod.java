@@ -52,7 +52,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         this.context=context;
         mInflater = LayoutInflater.from(context);
         //i=new Intent(this.context, TimeServiceGPS.class);
-        alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
+        //alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
+        alarmIntent = new Intent(this.context, Br_rx.class);
 
     }
 

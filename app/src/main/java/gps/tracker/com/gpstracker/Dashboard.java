@@ -245,7 +245,7 @@ public class Dashboard extends AppCompatActivity {
             AlertDialog.Builder builder =
                     new AlertDialog.Builder(this);
             builder.setTitle("JustIn");
-            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Jusin-beta-1.6.1"+System.getProperty("line.separator")+"Release Date : 16/12/2016"+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator"));
+            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Jusin-beta-1.6.2"+System.getProperty("line.separator")+"Release Date : 17/12/2016"+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"Improved Broadcast Performance"+System.getProperty("line.separator")+"MAP performance"+System.getProperty("line.separator")+"Other Bugs fixed and improved Performance");
             builder.setPositiveButton("OK", null);
             builder.show();
             return true;

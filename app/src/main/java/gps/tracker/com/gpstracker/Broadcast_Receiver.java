@@ -41,7 +41,7 @@ public class Broadcast_Receiver extends BroadcastReceiver {
     public void onReceive(Context arg0, Intent arg1) {
         // For our recurring task, we'll just display a message
         Toast.makeText(arg0, "I'm running", Toast.LENGTH_SHORT).show();
-
+        //System.out.println("Broadcasted");
         channel_id=arg1.getStringExtra("channel_id");
         context=arg0;
        /* if(client==null) {

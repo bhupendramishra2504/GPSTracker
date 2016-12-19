@@ -782,7 +782,7 @@ sources:
         #url:  //localhost:8080/vector/all/{z}/{x}/{y}.mvt
         # road labels in Tangram JS are broken when overzooming, set max_zoom: 18 to preview fix
         url_params:
-            api_key: vector-tiles-mapzen-cLW8uVm
+            api_key: mapzen-cLW8uVm
         max_zoom: 16
 
 #    # Only enable this for local debug, should not be enabled for prod (app inserts these at runtime)

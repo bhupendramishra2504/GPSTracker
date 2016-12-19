@@ -151,6 +151,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         center.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                map.requestRender();
+                map.applySceneUpdates();
 
                 if(sel_loc==1) {
                     my_location_gps();
@@ -421,6 +423,13 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 Intent intent = new Intent(activity.get(), Dashboard.class);
                 startActivity(intent);
                 finish();
+                return true;
+            case R.id.refresh:
+                // app icon in action bar clicked; go home
+                //mapview.onDestroy();
+                map.requestRender();
+                map.applySceneUpdates();
+                Toast.makeText(activity.get(),"Map Refreshed",Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

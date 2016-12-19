@@ -142,7 +142,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             play_sound();
                             holder.broadcast.setImageResource(R.drawable.broadcast_icon);
                             channellist.get(position).setImageid(images[0]);
-
+                            //alarmIntent.setAction("gps.tracker.com.gpstracker.Broadcast_Receiver");
                             alarmIntent.putExtra("channel_id",channellist.get(position).getChannelid().split(":")[1].trim());
                             pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

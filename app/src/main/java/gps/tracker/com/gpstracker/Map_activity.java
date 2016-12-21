@@ -32,10 +32,10 @@ import java.util.Map;
 //import ibt.ortc.extensibility.OrtcClient;
 
 public class Map_activity extends AppCompatActivity implements MapView.OnMapReadyCallback{
-    private static MapController  map;
+    private  MapController  map;
 
     // MapView is the View used to display the map.
-    private static MapView mapview;
+    private  MapView mapview;
     private  double latitude; // latitude
     private  double longitude;
     private  double my_latitude; // latitude
@@ -43,7 +43,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private  MapData points;
     private DatabaseReference fetch_loc_ref,channel_status;
     private ValueEventListener fetch_listener,channel_status_listener;
-    private HttpHandler cache_handler;
+
     // --Commented out by Inspection (01/12/16, 10:08 PM):public static MapData marker;
     // --Commented out by Inspection (01/12/16, 10:08 PM):Map<String,String> desc;
 
@@ -75,7 +75,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         setContentView(R.layout.activity_map_activity);
         //getSupportActionBar().hide();
         mapview=(MapView)findViewById(R.id.map);
-        cache_handler=new HttpHandler();
+
         //Handler handler = new Handler();
         //activity=this;
         activity = new WeakReference<>(this);
@@ -106,15 +106,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         zoomplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache");
-                if (!file.exists()) {
-                    if (!file.mkdirs()) {
 
-                    }
-                }
 
-                cache_handler.setCache(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache"),200);
-                Toast.makeText(Map_activity.this,"cache saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/crash.bhu",Toast.LENGTH_LONG).show();
 
                 if(scale_map>=10f && scale_map<17)
                {
@@ -151,9 +144,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         center.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                map.requestRender();
-                map.applySceneUpdates();
 
+                map.applySceneUpdates();
+                map.requestRender();
                 if(sel_loc==1) {
                     my_location_gps();
                     sel_loc = 2;
@@ -189,6 +182,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private void fetch_loc_fb()
     {
         fetch_loc_ref = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("locations").child("latest_location");
+        fetch_loc_ref.keepSynced(true);
         fetch_listener=fetch_loc_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -239,6 +233,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private void channel_status_check()
     {
         channel_status = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("status");
+        channel_status.keepSynced(true);
         channel_status_listener=channel_status.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -427,8 +422,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             case R.id.refresh:
                 // app icon in action bar clicked; go home
                 //mapview.onDestroy();
-                map.requestRender();
                 map.applySceneUpdates();
+                map.requestRender();
                 Toast.makeText(activity.get(),"Map Refreshed",Toast.LENGTH_SHORT).show();
                 return true;
             default:
@@ -440,10 +435,27 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     public void onMapReady(MapController mapController) {
         // We receive a MapController object in this callback when the map is ready for use.
         map = mapController;
-        map.requestRender();
+        Toast.makeText(Map_activity.this,"Map is ready and cache will be saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/tile_cache",Toast.LENGTH_LONG).show();
+
+        //map.requestRender();
 
         map.useCachedGlState(true);
+        map.setHttpHandler(getHttpHandler());
+       // map.setRenderMode(1);
         map_is_ready=true;
+
+        map.setViewCompleteListener(new MapController.ViewCompleteListener() {
+            public void onViewComplete() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        map.setHttpHandler(getHttpHandler());
+                       //Toast.makeText(activity.get(),"Map Loaded",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }});
+
+
+
 
       /* if(map!=null) {
            if (status.equalsIgnoreCase("online")) {
@@ -470,10 +482,29 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     }
 
 
+    HttpHandler getHttpHandler() {
+        File cacheDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache");
+        if (!cacheDir.exists()) {
+            if (!cacheDir.mkdirs()) {
+
+            }
+        }
+        HttpHandler handler = new HttpHandler();
+
+        if (cacheDir != null && cacheDir.exists()) {
+            handler.setCache(new File(cacheDir, "tile_cache"), 30 * 1024 * 1024);
+            //Toast.makeText(Map_activity.this,"cache saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/tile_cache",Toast.LENGTH_LONG).show();
+
+        }
+
+        return handler;
+    }
+
+
 
     private void initialize_map()
     {
-        gps = new GPSTracker(getApplicationContext());
+        /*gps = new GPSTracker(getApplicationContext());
         if(gps.canGetLocation()){
             my_latitude = gps.getLatitude();
             my_longitude = gps.getLongitude();
@@ -482,12 +513,12 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         }
         else{
             gps.showSettingsAlert1();
-        }
+        }*/
 
         get_last_location_offline_mod3();
 
 
-        if(my_latitude!=0.0 && my_longitude!=0.0) {
+        /*if(my_latitude!=0.0 && my_longitude!=0.0) {
            // scale_map=13f;
             map.setPositionEased(new LngLat(my_longitude,my_latitude), 1, MapController.EaseType.CUBIC);
             map.setZoomEased(scale_map, 1, MapController.EaseType.QUINT);
@@ -499,7 +530,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         else
         {
             Toast.makeText(activity.get(),"your location could not be determined",Toast.LENGTH_LONG).show();
-        }
+        }*/
 
 
 
@@ -542,10 +573,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
                     @Override
                     public void run() {
-
+                        map.applySceneUpdates();
                         map.requestRender();
-                        cache_handler.setCache(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache"),200);
-                        Toast.makeText(Map_activity.this,"cache saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/crash.bhu",Toast.LENGTH_LONG).show();
                         map.useCachedGlState(true);
 
                         goToLandmark_mod();
@@ -984,11 +1013,6 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         super.onDestroy();
         fetch_loc_ref.removeEventListener(fetch_listener);
         channel_status.removeEventListener(channel_status_listener);
-        if(points!=null)
-        {
-            points.clear();
-
-        }
         if(location_update!=null) {
             location_update.interrupt();
         }

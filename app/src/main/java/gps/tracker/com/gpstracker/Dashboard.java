@@ -136,7 +136,7 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 
-                if (isNetworkAvailable()) {
+                if (isNetworkAvailable()| !isNetworkAvailable() ) {
 
                     if (!Global.username.equalsIgnoreCase("") | !Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
 
@@ -245,7 +245,7 @@ public class Dashboard extends AppCompatActivity {
             AlertDialog.Builder builder =
                     new AlertDialog.Builder(this);
             builder.setTitle("JustIn");
-            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Jusin-beta-1.6.3"+System.getProperty("line.separator")+"Release Date : 20/12/2016"+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"Improved Broadcast Performance"+System.getProperty("line.separator")+"MAP performance"+System.getProperty("line.separator")+"Other Bugs fixed and improved Performance");
+            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-1.6.4"+System.getProperty("line.separator")+"Release Date : 21/12/2016"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"Map Cache Inroduced, and general improvements in Map");
             builder.setPositiveButton("OK", null);
             builder.show();
             return true;

@@ -46,6 +46,8 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
         //Intent startServiceIntent = new Intent(arg0, Broadcast_service.class);
         //startServiceIntent.putExtra("channel_id",channel_id);
         //arg0.startService(startServiceIntent);
+        latitude=0.0;
+        longitude=0.0;
         PowerManager pm = (PowerManager) arg0.getSystemService(Context.POWER_SERVICE);
         cpuWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "gps_service");

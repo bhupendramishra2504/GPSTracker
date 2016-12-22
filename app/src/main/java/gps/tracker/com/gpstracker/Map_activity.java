@@ -23,11 +23,20 @@ import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.MapView;
 import com.mapzen.tangram.TouchInput;
+import com.squareup.okhttp.Cache;
+import com.squareup.okhttp.Interceptor;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static gps.tracker.com.gpstracker.Global.isNetworkAvailable;
 
 //import ibt.ortc.extensibility.OrtcClient;
 
@@ -43,6 +52,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private  MapData points;
     private DatabaseReference fetch_loc_ref,channel_status;
     private ValueEventListener fetch_listener,channel_status_listener;
+   // private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR;
 
     // --Commented out by Inspection (01/12/16, 10:08 PM):public static MapData marker;
     // --Commented out by Inspection (01/12/16, 10:08 PM):Map<String,String> desc;
@@ -68,6 +78,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     Thread location_update;
     private static WeakReference<Map_activity> activity;
     private ActionBar ab;
+    private OkHttpClient okClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +96,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         ImageButton zoomminus = (ImageButton) findViewById(R.id.zoomminus);
         center=(ImageButton)findViewById(R.id.center);
         Intent i = getIntent();
+        okClient = new OkHttpClient();
+        okClient.setConnectTimeout(10, TimeUnit.SECONDS);
+        okClient.setReadTimeout(72, TimeUnit.HOURS);
         s_phone= i.getStringExtra("subscriber");
         //status= i.getStringExtra("status");
         String name=i.getStringExtra("name");
@@ -449,6 +463,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 runOnUiThread(new Runnable() {
                     public void run() {
                         map.setHttpHandler(getHttpHandler());
+                        //setMbTiles_map();
                        //Toast.makeText(activity.get(),"Map Loaded",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -492,7 +507,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         HttpHandler handler = new HttpHandler();
 
         if (cacheDir != null && cacheDir.exists()) {
-            handler.setCache(new File(cacheDir, "tile_cache"), 30 * 1024 * 1024);
+            handler.setCache(new File(cacheDir, "tile_cache"), 100 * 1024 * 1024);
             //Toast.makeText(Map_activity.this,"cache saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/tile_cache",Toast.LENGTH_LONG).show();
 
         }
@@ -625,6 +640,19 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             }
         }).start();
     }*/
+
+    public void setMbTiles_map()
+    {
+        File storageDir = Environment.getExternalStorageDirectory();
+        File mbtilesFile = new File(storageDir, "tangram-geojson-cache.mbtiles");
+        map.queueSceneUpdate("sources.osm.mbtiles",mbtilesFile.toString());
+        map.applySceneUpdates();
+        map.requestRender();
+    }
+
+
+
+
 
     private void update_tf_offline()
     {

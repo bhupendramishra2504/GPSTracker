@@ -92,15 +92,15 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         zoomplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(scale_map>=10f && scale_map<17)
+                if(scale_map>=10f && scale_map<15)
                {
                    scale_map++;
                    map.setZoomEased(scale_map, 1, MapController.EaseType.LINEAR);
 
                }
-                else if(scale_map>=17f)
+                else if(scale_map>=15f)
                {
-                   scale_map=17f;
+                   scale_map=15f;
                    map.setZoomEased(scale_map, 1, MapController.EaseType.LINEAR);
 
                }

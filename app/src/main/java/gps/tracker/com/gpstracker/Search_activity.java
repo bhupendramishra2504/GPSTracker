@@ -46,6 +46,7 @@ public class Search_activity extends AppCompatActivity {
     // --Commented out by Inspection (01/12/16, 10:26 PM):SearchView searchView;
     // --Commented out by Inspection (01/12/16, 10:26 PM):ImageView add_channel;
     private int count=0;
+    private int LIMIT_SEARCH_RESULT=30;
     private String name;
     private String id;
     private String channel_mobile;
@@ -117,6 +118,7 @@ public class Search_activity extends AppCompatActivity {
                 search_string.clearFocus();
                 spinner.setVisibility(View.VISIBLE);
                 search_results.clear();
+                desc.setText("No result found for your search query.... Try Again....");
 
                 search_adapter.notifyDataSetChanged();
                 if(search.getText().toString().equalsIgnoreCase("Search your city"))
@@ -285,15 +287,46 @@ public class Search_activity extends AppCompatActivity {
         user_ref.orderByChild("vehicle_name").startAt(query).endAt(query+"\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                count=0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
-                    if (child != null){
-                        Map<String, Object> map = (Map<String, Object>) child.getValue();
-                        if(map!=null && map.get("owner")!=null && map.get("vehicle_number")!=null && map.get("vehicle_name")!=null && map.get("mobile")!=null && map.get("city")!=null)
-                        {
-                            if (map.get("visible").toString().equalsIgnoreCase("1")) {
-                                if(search==1) {
-                                    if(Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                    if (child != null ) {
+                        if (count <= LIMIT_SEARCH_RESULT) {
+                            Map<String, Object> map = (Map<String, Object>) child.getValue();
+                            if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("vehicle_name") != null && map.get("mobile") != null && map.get("city") != null) {
+                                if (map.get("visible").toString().equalsIgnoreCase("1")) {
+                                    if (search == 1) {
+                                        if (Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                                            Channel_search sr1 = new Channel_search();
+                                            sr1.setName("Name : " + map.get("owner").toString());
+                                            sr1.setChannelid("Channel Id :" + child.getKey());
+                                            sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
+                                            sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
+                                            sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
+                                            sr1.setCity("City : " + map.get("city").toString());
+                                            if (map.get("category") != null) {
+                                                sr1.setvcategory(map.get("category").toString());
+                                            } else {
+                                                sr1.setvcategory(map.get("NA").toString());
+                                            }
+                                            if (map.get("vtype") != null) {
+                                                sr1.setvtype(map.get("vtype").toString());
+                                            } else {
+                                                sr1.setvtype(map.get("NA").toString());
+                                            }
+                                            if (map.get("follower_setting") != null) {
+                                                sr1.setfollower(map.get("follower_setting").toString());
+                                            } else {
+                                                sr1.setfollower("0");
+                                            }
+
+                                            //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
+                                            search_results.add(sr1);
+                                            count++;
+                                            desc.setText("Showing results for your City : " + String.valueOf(count) + " results found");
+
+                                        }
+                                    } else {
                                         Channel_search sr1 = new Channel_search();
                                         sr1.setName("Name : " + map.get("owner").toString());
                                         sr1.setChannelid("Channel Id :" + child.getKey());
@@ -311,58 +344,28 @@ public class Search_activity extends AppCompatActivity {
                                         } else {
                                             sr1.setvtype(map.get("NA").toString());
                                         }
-                                        if(map.get("follower_setting")!=null)
-                                        {
+                                        if (map.get("follower_setting") != null) {
                                             sr1.setfollower(map.get("follower_setting").toString());
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             sr1.setfollower("0");
                                         }
 
                                         //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
                                         search_results.add(sr1);
                                         count++;
-                                        desc.setText("Showing results for your City : "+String.valueOf(count)+" results found");
+                                        desc.setText("Showing all results for your search : " + String.valueOf(count) + " results found");
 
                                     }
-                                }
-                                else
-                                {
-                                    Channel_search sr1 = new Channel_search();
-                                    sr1.setName("Name : " + map.get("owner").toString());
-                                    sr1.setChannelid("Channel Id :" + child.getKey());
-                                    sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
-                                    sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
-                                    sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
-                                    sr1.setCity("City : " + map.get("city").toString());
-                                    if (map.get("category") != null) {
-                                        sr1.setvcategory(map.get("category").toString());
-                                    } else {
-                                        sr1.setvcategory(map.get("NA").toString());
-                                    }
-                                    if (map.get("vtype") != null) {
-                                        sr1.setvtype(map.get("vtype").toString());
-                                    } else {
-                                        sr1.setvtype(map.get("NA").toString());
-                                    }
-                                    if(map.get("follower_setting")!=null)
-                                    {
-                                        sr1.setfollower(map.get("follower_setting").toString());
-                                    }
-                                    else
-                                    {
-                                        sr1.setfollower("0");
-                                    }
-
-                                    //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
-                                    search_results.add(sr1);
-                                    count++;
-                                    desc.setText("Showing all results for your search : "+String.valueOf(count)+" results found");
-
                                 }
                             }
+
+                        } else {
+                            desc.setText("More Results available....Limiting search to 30 results only...Refine your search String");
                         }
+                    }
+                    else if(count==0)
+                    {
+                        desc.setText("No results found for your query... Try Again");
 
                     }
 
@@ -399,17 +402,49 @@ public class Search_activity extends AppCompatActivity {
         user_ref.orderByChild("city").startAt(query).endAt(query+"\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+               count=0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
-                    if (child != null){
+                    if (child != null) {
 
+                        if (count <= LIMIT_SEARCH_RESULT) {
 
+                            Map<String, Object> map = (Map<String, Object>) child.getValue();
+                            if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("vehicle_name") != null && map.get("vehicle_number") != null && map.get("mobile") != null && map.get("city") != null) {
+                                if (map.get("visible").toString().equalsIgnoreCase("1")) {
+                                    if (search == 1) {
+                                        if (Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                                            Channel_search sr1 = new Channel_search();
+                                            sr1.setName("Name : " + map.get("owner").toString());
+                                            sr1.setChannelid("Channel Id :" + child.getKey());
+                                            sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
+                                            sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
+                                            sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
+                                            sr1.setCity("City : " + map.get("city").toString());
+                                            if (map.get("category") != null) {
+                                                sr1.setvcategory(map.get("category").toString());
+                                            } else {
+                                                sr1.setvcategory(map.get("NA").toString());
+                                            }
+                                            if (map.get("vtype") != null) {
+                                                sr1.setvtype(map.get("vtype").toString());
+                                            } else {
+                                                sr1.setvtype(map.get("NA").toString());
+                                            }
+                                            if (map.get("follower_setting") != null) {
+                                                sr1.setfollower(map.get("follower_setting").toString());
+                                            } else {
+                                                sr1.setfollower("0");
+                                            }
 
-                        Map<String, Object> map = (Map<String, Object>) child.getValue();
-                        if(map!=null && map.get("owner")!=null && map.get("vehicle_number")!=null && map.get("vehicle_name")!=null && map.get("vehicle_number")!=null && map.get("mobile")!=null && map.get("city")!=null) {
-                            if (map.get("visible").toString().equalsIgnoreCase("1")) {
-                                if(search==1) {
-                                    if(Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                                            //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
+                                            search_results.add(sr1);
+                                            count++;
+                                            desc.setText("Showing results for your City : " + String.valueOf(count) + " results found");
+
+                                        }
+                                    } else {
                                         Channel_search sr1 = new Channel_search();
                                         sr1.setName("Name : " + map.get("owner").toString());
                                         sr1.setChannelid("Channel Id :" + child.getKey());
@@ -427,57 +462,22 @@ public class Search_activity extends AppCompatActivity {
                                         } else {
                                             sr1.setvtype(map.get("NA").toString());
                                         }
-                                        if(map.get("follower_setting")!=null)
-                                        {
+                                        if (map.get("follower_setting") != null) {
                                             sr1.setfollower(map.get("follower_setting").toString());
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             sr1.setfollower("0");
                                         }
 
                                         //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
                                         search_results.add(sr1);
                                         count++;
-                                        desc.setText("Showing results for your City : "+String.valueOf(count)+" results found");
+                                        desc.setText("Showing all results for your search : " + String.valueOf(count) + " results found");
 
                                     }
-                                }
-                                else
-                                {
-                                    Channel_search sr1 = new Channel_search();
-                                    sr1.setName("Name : " + map.get("owner").toString());
-                                    sr1.setChannelid("Channel Id :" + child.getKey());
-                                    sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
-                                    sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
-                                    sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
-                                    sr1.setCity("City : " + map.get("city").toString());
-                                    if (map.get("category") != null) {
-                                        sr1.setvcategory(map.get("category").toString());
-                                    } else {
-                                        sr1.setvcategory(map.get("NA").toString());
-                                    }
-                                    if (map.get("vtype") != null) {
-                                        sr1.setvtype(map.get("vtype").toString());
-                                    } else {
-                                        sr1.setvtype(map.get("NA").toString());
-                                    }
-                                    if(map.get("follower_setting")!=null)
-                                    {
-                                        sr1.setfollower(map.get("follower_setting").toString());
-                                    }
-                                    else
-                                    {
-                                        sr1.setfollower("0");
-                                    }
-
-                                    //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
-                                    search_results.add(sr1);
-                                    count++;
-                                    desc.setText("Showing all results for your search : "+String.valueOf(count)+" results found");
-
                                 }
                             }
+                        } else {
+                            desc.setText("More Results available....Limiting search to 30 results only...Refine your search String");
                         }
                     }
 
@@ -514,18 +514,49 @@ public class Search_activity extends AppCompatActivity {
         user_ref.orderByChild("mobile").startAt(query).endAt(query+"\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                count=0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
-                    if (child != null){
+                    if (child != null) {
 
+                        if (count <= LIMIT_SEARCH_RESULT) {
 
+                            Map<String, Object> map = (Map<String, Object>) child.getValue();
+                            if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("vehicle_name") != null && map.get("vehicle_number") != null && map.get("mobile") != null && map.get("city") != null) {
+                                if (map.get("visible").toString().equalsIgnoreCase("1")) {
 
-                        Map<String, Object> map = (Map<String, Object>) child.getValue();
-                        if(map!=null && map.get("owner")!=null && map.get("vehicle_number")!=null && map.get("vehicle_name")!=null && map.get("vehicle_number")!=null && map.get("mobile")!=null && map.get("city")!=null) {
-                            if (map.get("visible").toString().equalsIgnoreCase("1")) {
+                                    if (search == 1) {
+                                        if (Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                                            Channel_search sr1 = new Channel_search();
+                                            sr1.setName("Name : " + map.get("owner").toString());
+                                            sr1.setChannelid("Channel Id :" + child.getKey());
+                                            sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
+                                            sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
+                                            sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
+                                            sr1.setCity("City : " + map.get("city").toString());
+                                            if (map.get("category") != null) {
+                                                sr1.setvcategory(map.get("category").toString());
+                                            } else {
+                                                sr1.setvcategory(map.get("NA").toString());
+                                            }
+                                            if (map.get("vtype") != null) {
+                                                sr1.setvtype(map.get("vtype").toString());
+                                            } else {
+                                                sr1.setvtype(map.get("NA").toString());
+                                            }
+                                            if (map.get("follower_setting") != null) {
+                                                sr1.setfollower(map.get("follower_setting").toString());
+                                            } else {
+                                                sr1.setfollower("0");
+                                            }
 
-                                if(search==1) {
-                                    if(Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                                            //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
+                                            search_results.add(sr1);
+                                            count++;
+                                            desc.setText("Showing results for your City : " + String.valueOf(count) + " results found");
+
+                                        }
+                                    } else {
                                         Channel_search sr1 = new Channel_search();
                                         sr1.setName("Name : " + map.get("owner").toString());
                                         sr1.setChannelid("Channel Id :" + child.getKey());
@@ -543,61 +574,27 @@ public class Search_activity extends AppCompatActivity {
                                         } else {
                                             sr1.setvtype(map.get("NA").toString());
                                         }
-                                        if(map.get("follower_setting")!=null)
-                                        {
+                                        if (map.get("follower_setting") != null) {
                                             sr1.setfollower(map.get("follower_setting").toString());
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             sr1.setfollower("0");
                                         }
 
                                         //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
                                         search_results.add(sr1);
                                         count++;
-                                        desc.setText("Showing results for your City : "+String.valueOf(count)+" results found");
+                                        desc.setText("Showing all results for your search : " + String.valueOf(count) + " results found");
 
                                     }
-                                }
-                                else
-                                {
-                                    Channel_search sr1 = new Channel_search();
-                                    sr1.setName("Name : " + map.get("owner").toString());
-                                    sr1.setChannelid("Channel Id :" + child.getKey());
-                                    sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
-                                    sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
-                                    sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
-                                    sr1.setCity("City : " + map.get("city").toString());
-                                    if (map.get("category") != null) {
-                                        sr1.setvcategory(map.get("category").toString());
-                                    } else {
-                                        sr1.setvcategory(map.get("NA").toString());
-                                    }
-                                    if (map.get("vtype") != null) {
-                                        sr1.setvtype(map.get("vtype").toString());
-                                    } else {
-                                        sr1.setvtype(map.get("NA").toString());
-                                    }
-                                    if(map.get("follower_setting")!=null)
-                                    {
-                                        sr1.setfollower(map.get("follower_setting").toString());
-                                    }
-                                    else
-                                    {
-                                        sr1.setfollower("0");
-                                    }
-
-                                    //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
-                                    search_results.add(sr1);
-                                    count++;
-                                    desc.setText("Showing all results for your search : "+String.valueOf(count)+" results found");
-
                                 }
                             }
+
+                        } else {
+                            desc.setText("More Results available....Limiting search to 30 results only...Refine your search String");
+
                         }
 
                     }
-
                 }
 
 
@@ -631,20 +628,51 @@ public class Search_activity extends AppCompatActivity {
         user_ref.orderByChild("owner").startAt(query).endAt(query+"\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                count=0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
-                    if (child != null){
+                    if (child != null) {
 
+                        if (count <= LIMIT_SEARCH_RESULT) {
 
+                            //count++;
 
-                        //count++;
+                            Map<String, Object> map = (Map<String, Object>) child.getValue();
+                            if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("vehicle_name") != null && map.get("vehicle_number") != null && map.get("mobile") != null && map.get("city") != null) {
+                                if (map.get("visible").toString().equalsIgnoreCase("1")) {
 
-                        Map<String, Object> map = (Map<String, Object>) child.getValue();
-                        if(map!=null && map.get("owner")!=null && map.get("vehicle_number")!=null && map.get("vehicle_name")!=null && map.get("vehicle_number")!=null && map.get("mobile")!=null && map.get("city")!=null) {
-                            if (map.get("visible").toString().equalsIgnoreCase("1")) {
+                                    if (search == 1) {
+                                        if (Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                                            Channel_search sr1 = new Channel_search();
+                                            sr1.setName("Name : " + map.get("owner").toString());
+                                            sr1.setChannelid("Channel Id :" + child.getKey());
+                                            sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
+                                            sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
+                                            sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
+                                            sr1.setCity("City : " + map.get("city").toString());
+                                            if (map.get("category") != null) {
+                                                sr1.setvcategory(map.get("category").toString());
+                                            } else {
+                                                sr1.setvcategory(map.get("NA").toString());
+                                            }
+                                            if (map.get("vtype") != null) {
+                                                sr1.setvtype(map.get("vtype").toString());
+                                            } else {
+                                                sr1.setvtype(map.get("NA").toString());
+                                            }
+                                            if (map.get("follower_setting") != null) {
+                                                sr1.setfollower(map.get("follower_setting").toString());
+                                            } else {
+                                                sr1.setfollower("0");
+                                            }
 
-                                if(search==1) {
-                                    if(Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                                            //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
+                                            search_results.add(sr1);
+                                            count++;
+                                            desc.setText("Showing results for your City : " + String.valueOf(count) + " results found");
+
+                                        }
+                                    } else {
                                         Channel_search sr1 = new Channel_search();
                                         sr1.setName("Name : " + map.get("owner").toString());
                                         sr1.setChannelid("Channel Id :" + child.getKey());
@@ -662,61 +690,31 @@ public class Search_activity extends AppCompatActivity {
                                         } else {
                                             sr1.setvtype(map.get("NA").toString());
                                         }
-                                        if(map.get("follower_setting")!=null)
-                                        {
+                                        if (map.get("follower_setting") != null) {
                                             sr1.setfollower(map.get("follower_setting").toString());
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             sr1.setfollower("0");
                                         }
 
                                         //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
                                         search_results.add(sr1);
                                         count++;
-                                        desc.setText("Showing results for your City : "+String.valueOf(count)+" results found");
+                                        desc.setText("Showing all results for your search : " + String.valueOf(count) + " results found");
 
                                     }
-                                }
-                                else
-                                {
-                                    Channel_search sr1 = new Channel_search();
-                                    sr1.setName("Name : " + map.get("owner").toString());
-                                    sr1.setChannelid("Channel Id :" + child.getKey());
-                                    sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
-                                    sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
-                                    sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
-                                    sr1.setCity("City : " + map.get("city").toString());
-                                    if (map.get("category") != null) {
-                                        sr1.setvcategory(map.get("category").toString());
-                                    } else {
-                                        sr1.setvcategory(map.get("NA").toString());
-                                    }
-                                    if (map.get("vtype") != null) {
-                                        sr1.setvtype(map.get("vtype").toString());
-                                    } else {
-                                        sr1.setvtype(map.get("NA").toString());
-                                    }
-                                    if(map.get("follower_setting")!=null)
-                                    {
-                                        sr1.setfollower(map.get("follower_setting").toString());
-                                    }
-                                    else
-                                    {
-                                        sr1.setfollower("0");
-                                    }
-
-                                    //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
-                                    search_results.add(sr1);
-                                    count++;
-                                    desc.setText("Showing all results for your search : "+String.valueOf(count)+" results found");
-
                                 }
                             }
+
+                        } else {
+                            desc.setText("More Results available....Limiting search to 30 results only...Refine your search String");
                         }
 
                     }
+                    else if(count==0)
+                    {
+                        desc.setText("No results found for your query... Try Again");
 
+                    }
                 }
 
 
@@ -754,15 +752,45 @@ public class Search_activity extends AppCompatActivity {
 
                     if (child != null) {
 
+                        if (count <= LIMIT_SEARCH_RESULT) {
+                            //count++;
 
-                        //count++;
+                            Map<String, Object> map = (Map<String, Object>) child.getValue();
+                            if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("vehicle_name") != null && map.get("vehicle_number") != null && map.get("mobile") != null && map.get("city") != null) {
+                                if (map.get("visible").toString().equalsIgnoreCase("1")) {
 
-                        Map<String, Object> map = (Map<String, Object>) child.getValue();
-                        if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("vehicle_name") != null && map.get("vehicle_number") != null && map.get("mobile") != null && map.get("city") != null) {
-                            if (map.get("visible").toString().equalsIgnoreCase("1")) {
+                                    if (search == 1) {
+                                        if (Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                                            Channel_search sr1 = new Channel_search();
+                                            sr1.setName("Name : " + map.get("owner").toString());
+                                            sr1.setChannelid("Channel Id :" + child.getKey());
+                                            sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
+                                            sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
+                                            sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
+                                            sr1.setCity("City : " + map.get("city").toString());
+                                            if (map.get("category") != null) {
+                                                sr1.setvcategory(map.get("category").toString());
+                                            } else {
+                                                sr1.setvcategory(map.get("NA").toString());
+                                            }
+                                            if (map.get("vtype") != null) {
+                                                sr1.setvtype(map.get("vtype").toString());
+                                            } else {
+                                                sr1.setvtype(map.get("NA").toString());
+                                            }
+                                            if (map.get("follower_setting") != null) {
+                                                sr1.setfollower(map.get("follower_setting").toString());
+                                            } else {
+                                                sr1.setfollower("0");
+                                            }
 
-                                if(search==1) {
-                                    if(Global.city.equalsIgnoreCase(map.get("city").toString())) {
+                                            //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
+                                            search_results.add(sr1);
+                                            count++;
+                                            desc.setText("Showing results for your City : " + String.valueOf(count) + " results found");
+
+                                        }
+                                    } else {
                                         Channel_search sr1 = new Channel_search();
                                         sr1.setName("Name : " + map.get("owner").toString());
                                         sr1.setChannelid("Channel Id :" + child.getKey());
@@ -780,59 +808,25 @@ public class Search_activity extends AppCompatActivity {
                                         } else {
                                             sr1.setvtype(map.get("NA").toString());
                                         }
-                                        if(map.get("follower_setting")!=null)
-                                        {
+                                        if (map.get("follower_setting") != null) {
                                             sr1.setfollower(map.get("follower_setting").toString());
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             sr1.setfollower("0");
                                         }
 
                                         //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
                                         search_results.add(sr1);
                                         count++;
-                                        desc.setText("Showing results for your City : "+String.valueOf(count)+" results found");
+                                        desc.setText("Showing all results for your search : " + String.valueOf(count) + " results found");
 
                                     }
-                                }
-                                else
-                                {
-                                    Channel_search sr1 = new Channel_search();
-                                    sr1.setName("Name : " + map.get("owner").toString());
-                                    sr1.setChannelid("Channel Id :" + child.getKey());
-                                    sr1.setPhone("Mobile No. : " + map.get("mobile").toString());
-                                    sr1.setVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
-                                    sr1.setvname("Vehicle Name : " + map.get("vehicle_name").toString());
-                                    sr1.setCity("City : " + map.get("city").toString());
-                                    if (map.get("category") != null) {
-                                        sr1.setvcategory(map.get("category").toString());
-                                    } else {
-                                        sr1.setvcategory(map.get("NA").toString());
-                                    }
-                                    if (map.get("vtype") != null) {
-                                        sr1.setvtype(map.get("vtype").toString());
-                                    } else {
-                                        sr1.setvtype(map.get("NA").toString());
-                                    }
-                                    if(map.get("follower_setting")!=null)
-                                    {
-                                        sr1.setfollower(map.get("follower_setting").toString());
-                                    }
-                                    else
-                                    {
-                                        sr1.setfollower("0");
-                                    }
-
-                                    //Toast.makeText(Search_channel.this,"item added to search list"+String.valueOf(count),Toast.LENGTH_LONG).show();
-                                    search_results.add(sr1);
-                                    count++;
-                                    desc.setText("Showing all results for your search : "+String.valueOf(count)+" results found");
-
                                 }
                             }
-                        }
 
+                        } else {
+                            desc.setText("More Results available....Limiting search to 30 results only...Refine your search String");
+
+                        }
                     }
 
                 }

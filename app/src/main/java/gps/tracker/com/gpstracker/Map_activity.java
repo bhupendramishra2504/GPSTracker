@@ -63,7 +63,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private int sel_loc =1;
     private static WeakReference<Map_activity> activity;
     private ActionBar ab;
-   // private OkHttpClient okClient;
+    private OkHttpClient okClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +76,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         ImageButton zoomminus = (ImageButton) findViewById(R.id.zoomminus);
         center=(ImageButton)findViewById(R.id.center);
         Intent i = getIntent();
-        //okClient = new OkHttpClient();
-        //okClient.setConnectTimeout(10, TimeUnit.HOURS);
-        //okClient.setReadTimeout(72, TimeUnit.HOURS);
+        okClient = new OkHttpClient();
+        okClient.setConnectTimeout(10, TimeUnit.HOURS);
+        okClient.setReadTimeout(72, TimeUnit.HOURS);
         s_phone= i.getStringExtra("subscriber");
         String name=i.getStringExtra("name");
         String vnumber=i.getStringExtra("vnumber");

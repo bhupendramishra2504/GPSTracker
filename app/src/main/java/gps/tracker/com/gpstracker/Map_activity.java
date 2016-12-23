@@ -97,7 +97,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         center=(ImageButton)findViewById(R.id.center);
         Intent i = getIntent();
         okClient = new OkHttpClient();
-        okClient.setConnectTimeout(10, TimeUnit.SECONDS);
+        okClient.setConnectTimeout(10, TimeUnit.HOURS);
         okClient.setReadTimeout(72, TimeUnit.HOURS);
         s_phone= i.getStringExtra("subscriber");
         //status= i.getStringExtra("status");
@@ -113,8 +113,10 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
        // mapview.getMapAsync(this, "scene/scene.yaml");
         //mapview.getMapAsync(this, "cinnabar/cinnabar-style.yaml");
         //mapview.getMapAsync(this, "tron/tron.yaml");
+        ;
          mapview.getMapAsync(this, "bubble-wrap1/bubble-wrap.yaml");
         //mapview.getMapAsync(this, "walkabout/walkabout-style.yaml");
+        //setMbTiles_map();
         scale_map=13f;
 
         zoomplus.setOnClickListener(new View.OnClickListener() {
@@ -450,7 +452,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         // We receive a MapController object in this callback when the map is ready for use.
         map = mapController;
         Toast.makeText(Map_activity.this,"Map is ready and cache will be saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/tile_cache",Toast.LENGTH_LONG).show();
-
+       // setMbTiles_map();
         //map.requestRender();
 
         map.useCachedGlState(true);
@@ -463,7 +465,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 runOnUiThread(new Runnable() {
                     public void run() {
                         map.setHttpHandler(getHttpHandler());
-                        //setMbTiles_map();
+
                        //Toast.makeText(activity.get(),"Map Loaded",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -507,7 +509,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         HttpHandler handler = new HttpHandler();
 
         if (cacheDir != null && cacheDir.exists()) {
-            handler.setCache(new File(cacheDir, "tile_cache"), 100 * 1024 * 1024);
+            handler.setCache(new File(cacheDir, "tile_cache"), 500 * 1024 * 1024);
             //Toast.makeText(Map_activity.this,"cache saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/tile_cache",Toast.LENGTH_LONG).show();
 
         }
@@ -644,8 +646,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     public void setMbTiles_map()
     {
         File storageDir = Environment.getExternalStorageDirectory();
-        File mbtilesFile = new File(storageDir, "tangram-geojson-cache.mbtiles");
-        map.queueSceneUpdate("sources.osm.mbtiles",mbtilesFile.toString());
+        File mbtilesFile = new File(storageDir, "bhopal.mbtiles");
+        map.queueSceneUpdate("sources.osm.mbtiles",storageDir.getAbsolutePath()+"/bhopal.mbtiles");
         map.applySceneUpdates();
         map.requestRender();
     }

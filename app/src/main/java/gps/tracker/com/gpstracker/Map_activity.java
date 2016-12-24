@@ -53,7 +53,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private DatabaseReference fetch_loc_ref,channel_status;
     private ValueEventListener fetch_listener,channel_status_listener;
     private TextView map_style;
-    private  float scale_map=10f;
+    private  float scale_map=13f;
 
     private String s_phone;
     private String time_stamp="NA";
@@ -87,20 +87,20 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         ab.setDisplayHomeAsUpEnabled(true);
         mapview.onCreate(savedInstanceState);
         mapview.getMapAsync(this, "bubble-wrap1/bubble-wrap.yaml");
-        scale_map=10f;
+        scale_map=13f;
 
         zoomplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(scale_map>=10f && scale_map<15)
+                if(scale_map>=10f && scale_map<16)
                {
                    scale_map++;
                    map.setZoomEased(scale_map, 1, MapController.EaseType.LINEAR);
 
                }
-                else if(scale_map>=15f)
+                else if(scale_map>=16f)
                {
-                   scale_map=15f;
+                   scale_map=16f;
                    map.setZoomEased(scale_map, 1, MapController.EaseType.LINEAR);
 
                }
@@ -188,7 +188,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
                 longitude=0.0;
                 latitude=0.0;
-                if (dataSnapshot != null) {
+                if (dataSnapshot != null && dataSnapshot.getValue()!=null) {
                     String data[] = dataSnapshot.getValue().toString().split(";");
                     if (data.length == 3) {
 

@@ -1,7 +1,6 @@
 package gps.tracker.com.gpstracker;
 
-
-import android.Manifest;
+import android.*;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,12 +11,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,37 +37,34 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-
-@SuppressWarnings("ALL")
-public class Dashboard extends BaseClass {
+public class Dashboard_new extends BaseClass {
 
     private ListView lv1;
     private final ArrayList<Suscriber_results> results = new ArrayList<Suscriber_results>();
     private Subscriber_list_view_adapter adapter;
-    private String subscriber_invite,subscriber_name;
-    private String status="offline";
-    private static final Integer[] images = { R.drawable.green_circle,R.drawable.red_circle };
-    private ProgressBar spinner;
-    private String name,id;
+    private String subscriber_invite, subscriber_name;
+    private String status = "offline";
+    private static final Integer[] images = {R.drawable.green_circle, R.drawable.red_circle};
+    //private ProgressBar spinner;
+    private String name, id;
     // --Commented out by Inspection (01/12/16, 10:05 PM):private String channel_mobile,channel_name,channel_vnumber,channel_vname,channel_invite,channel_bmp,channel_category,channel_vtype;
     private String subscriber;
     private DatabaseReference user_ref;
-    private ValueEventListener subscriber_listener,subscriber_detail_listener;
-    private DatabaseReference subscriber_detail,authenticate_user_ref;
+    private ValueEventListener subscriber_listener, subscriber_detail_listener;
+    private DatabaseReference subscriber_detail, authenticate_user_ref;
     //private Value
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_dashboard_new);
 
-        adapter=null;
+        adapter = null;
 
 
         //authenticate();
-        if(!grant_permission()) {
+        if (!grant_permission()) {
             grant_all_permission();
         }
 
@@ -89,54 +85,49 @@ public class Dashboard extends BaseClass {
 
         SharedPreferences prefs = getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
         name = prefs.getString("mobile", "not valid");
-        if(!name.equalsIgnoreCase("") && !name.equalsIgnoreCase(null) && !name.equalsIgnoreCase("not valid"))
-        {
-            Global.username=name;
-            Dashboard.Subscriber_channel_class scc=new Dashboard.Subscriber_channel_class();
+        if (!name.equalsIgnoreCase("") && !name.equalsIgnoreCase(null) && !name.equalsIgnoreCase("not valid")) {
+            Global.username = name;
+            Dashboard_new.Subscriber_channel_class scc = new Dashboard_new.Subscriber_channel_class();
             scc.execute();
 
-        }
-        else
-        {
-            Intent intent = new Intent(Dashboard.this, Register.class);
+        } else {
+            Intent intent = new Intent(Dashboard_new.this, Register.class);
             startActivity(intent);
             finish();
         }
-        lv1=(ListView)findViewById(R.id.subscriber_list);
+        lv1 = (ListView) findViewById(R.id.subscriber_list);
 
-        ImageView add_channel = (ImageView) findViewById(R.id.add);
+        //ImageView add_channel = (ImageView) findViewById(R.id.add);
 
-        spinner=(ProgressBar)findViewById(R.id.progressBar);
-         spinner.setVisibility(View.GONE);
+        //spinner = (ProgressBar) findViewById(R.id.progressBar);
+        //spinner.setVisibility(View.GONE);
 
-        add_channel.setOnClickListener(new View.OnClickListener() {
+        /*add_channel.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
 
-               // searchView.setIconified(false);
-              //  searchView.setFocusable(true);
-             //   add_channel.setVisibility(View.GONE);
-                  //searchView.clearFocus();
-                if(!Global.username.equalsIgnoreCase("") |!Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
+                // searchView.setIconified(false);
+                //  searchView.setFocusable(true);
+                //   add_channel.setVisibility(View.GONE);
+                //searchView.clearFocus();
+                if (!Global.username.equalsIgnoreCase("") | !Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
                     authenticate();
                 }
 
-                    Intent intent = new Intent(Dashboard.this, Search_activity.class);
+                Intent intent = new Intent(Dashboard_new.this, Search_activity.class);
                 startActivity(intent);
                 finish();
 
             }
-        });
-
-
+        });*/
 
 
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 
-                if (isNetworkAvailable()| !isNetworkAvailable() ) {
+                if (isNetworkAvailable() | !isNetworkAvailable()) {
 
                     if (!Global.username.equalsIgnoreCase("") | !Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
 
@@ -156,27 +147,24 @@ public class Dashboard extends BaseClass {
                         if (block_unblock.equalsIgnoreCase("1")) {
 
 
-                            if(user_ref!=null && subscriber_listener!=null) {
+                            if (user_ref != null && subscriber_listener != null) {
                                 user_ref.removeEventListener(subscriber_listener);
                             }
-                            if(subscriber_detail!=null && subscriber_detail_listener!=null) {
+                            if (subscriber_detail != null && subscriber_detail_listener != null) {
                                 subscriber_detail.removeEventListener(subscriber_detail_listener);
                             }
-                                        Intent i1 = new Intent(Dashboard.this, Map_activity.class);
-                                        i1.putExtra("subscriber", subscriber);
-                                        i1.putExtra("status", status);
-                                        i1.putExtra("name", subscriber_name);
-                                        i1.putExtra("vnumber", fullObject.getsVnumber());
-                                        startActivity(i1);
-                                        //System.gc();
-                                        finish();
-
-
-
+                            Intent i1 = new Intent(Dashboard_new.this, Map_activity.class);
+                            i1.putExtra("subscriber", subscriber);
+                            i1.putExtra("status", status);
+                            i1.putExtra("name", subscriber_name);
+                            i1.putExtra("vnumber", fullObject.getsVnumber());
+                            startActivity(i1);
+                            //System.gc();
+                            finish();
 
 
                         } else {
-                            Toast.makeText(Dashboard.this, "This Channel has blocked you, you cannot view its details", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Dashboard_new.this, "This Channel has blocked you, you cannot view its details", Toast.LENGTH_LONG).show();
                         }
                     } else {
                         authenticate();
@@ -184,15 +172,13 @@ public class Dashboard extends BaseClass {
 
 
                 } else {
-                    Toast.makeText(Dashboard.this, "No Active Internet Connection Found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Dashboard_new.this, "No Active Internet Connection Found", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-
-        //handleIntent(getIntent());
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -209,20 +195,20 @@ public class Dashboard extends BaseClass {
 
         if(id==R.id.user_setting) {
             if(grant_permission() && isNetworkAvailable()) {
-                Intent i1 = new Intent(Dashboard.this, User_setting.class);
+                Intent i1 = new Intent(Dashboard_new.this, User_setting.class);
                 startActivity(i1);
                 finish();
             }
             else
             {
-                Toast.makeText(Dashboard.this,"Give full permission to app, without it can not work properly , restart your app to get permission request page, if you are not seeing it then go to settings app permissions then give all permissions",Toast.LENGTH_LONG).show();
+                Toast.makeText(Dashboard_new.this,"Give full permission to app, without it can not work properly , restart your app to get permission request page, if you are not seeing it then go to settings app permissions then give all permissions",Toast.LENGTH_LONG).show();
 
             }
-                return true;
-            }
-            else if (id==R.id.broadcast) {
+            return true;
+        }
+        else if (id==R.id.broadcast) {
             if (grant_permission() && isNetworkAvailable()) {
-                Intent i2 = new Intent(Dashboard.this, MyChannels_RV.class);
+                Intent i2 = new Intent(Dashboard_new.this, MyChannels_RV.class);
                 startActivity(i2);
                 finish();
             }
@@ -234,7 +220,7 @@ public class Dashboard extends BaseClass {
                 authenticate();
             }
 
-            Intent intent = new Intent(Dashboard.this, Search_activity.class);
+            Intent intent = new Intent(Dashboard_new.this, Search_activity.class);
             startActivity(intent);
             finish();
             return true;
@@ -304,105 +290,106 @@ public class Dashboard extends BaseClass {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(Dashboard_new.this, error.toException().toString(), Toast.LENGTH_LONG).show();
 
             }
         });
 
     }
 
-private void getSubscriberdetails(final DataSnapshot child)
-{
-    subscriber_detail = Global.firebase_dbreference.child("CHANNELS").child(child.getKey().toString()).child("status");
-    subscriber_detail.keepSynced(true);
-    subscriber_detail_listener=subscriber_detail.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            String act;
-            if(dataSnapshot!=null) {
-                act = dataSnapshot.getValue().toString();
+    private void getSubscriberdetails(final DataSnapshot child)
+    {
+        subscriber_detail = Global.firebase_dbreference.child("CHANNELS").child(child.getKey().toString()).child("status");
+        subscriber_detail.keepSynced(true);
+        subscriber_detail_listener=subscriber_detail.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String act;
+                results.clear();
+                if(dataSnapshot!=null) {
+                    act = dataSnapshot.getValue().toString();
 
 
-                if (child != null) {
+                    if (child != null) {
 
-                    try {
+                        try {
 
-                        Map<String, Object> map = (Map<String, Object>) child.getValue();
-                        Suscriber_results sr1 = new Suscriber_results();
-                        if (map != null && map.get("name") != null && map.get("vehicle_number") != null && map.get("status") != null && map.get("vname") != null && map.get("mobile") != null) {
-                            sr1.setsName("Name : " + map.get("name").toString());
-                            sr1.setChannelid(child.getKey());
-                            sr1.setsPhone("Mobile No. : " + map.get("mobile").toString());
-                            sr1.setsVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
-                            sr1.setsvname("V-Name : " + map.get("vname").toString());
-                            if (map.get("unblock") != null) {
-                                sr1.setstatus(map.get("unblock").toString());
-                            } else {
-                                sr1.setstatus("1");
+                            Map<String, Object> map = (Map<String, Object>) child.getValue();
+                            Suscriber_results sr1 = new Suscriber_results();
+                            if (map != null && map.get("name") != null && map.get("vehicle_number") != null && map.get("status") != null && map.get("vname") != null && map.get("mobile") != null) {
+                                sr1.setsName("Name : " + map.get("name").toString());
+                                sr1.setChannelid(child.getKey());
+                                sr1.setsPhone("Mobile No. : " + map.get("mobile").toString());
+                                sr1.setsVnumber("Viehicle No. : " + map.get("vehicle_number").toString());
+                                sr1.setsvname("V-Name : " + map.get("vname").toString());
+                                if (map.get("unblock") != null) {
+                                    sr1.setstatus(map.get("unblock").toString());
+                                } else {
+                                    sr1.setstatus("1");
+                                }
+
+                                if (act.equalsIgnoreCase("1")) {
+                                    sr1.setImageid(images[0]);
+                                } else {
+                                    sr1.setImageid(images[1]);
+                                }
+
+                                if (map.get("image") != null) {
+                                    sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
+                                } else {
+                                    sr1.setImage(download_image_to_firebase1("default"));
+                                }
+                                if (map.get("vtype") != null) {
+                                    sr1.setvtype("Type : " + map.get("vtype").toString());
+                                } else {
+                                    sr1.setvtype("Type : " + "NA");
+                                }
+                                if (map.get("category") != null) {
+                                    sr1.setcategory("category : " + map.get("category").toString());
+                                } else {
+                                    sr1.setcategory("category : " + "NA");
+                                }
+
+
+                                results.add(sr1);
+                                map.clear();
+                                sr1 = null;
                             }
 
-                            if (act.equalsIgnoreCase("1")) {
-                                sr1.setImageid(images[0]);
-                            } else {
-                                sr1.setImageid(images[1]);
-                            }
 
-                            if (map.get("image") != null) {
-                                sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
-                            } else {
-                                sr1.setImage(download_image_to_firebase1("default"));
-                            }
-                            if (map.get("vtype") != null) {
-                                sr1.setvtype("Type : " + map.get("vtype").toString());
-                            } else {
-                                sr1.setvtype("Type : " + "NA");
-                            }
-                            if (map.get("category") != null) {
-                                sr1.setcategory("category : " + map.get("category").toString());
-                            } else {
-                                sr1.setcategory("category : " + "NA");
-                            }
-
-
-                            results.add(sr1);
-                            map.clear();
-                            sr1 = null;
                         }
-
-
-                    }
-                    catch (ClassCastException ce) {
-                        Toast.makeText(Dashboard.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                        catch (ClassCastException ce) {
+                            Toast.makeText(Dashboard_new.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
+                else
+                {
+                    Toast.makeText(Dashboard_new.this,"Invalid Subscriber Details",Toast.LENGTH_LONG).show();
+                }
+
+
+
+                adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
+                if(adapter!=null) {
+                    lv1.setAdapter(adapter);
+                    //adapter.setContext(getApplicationContext());
+                }
+                //spinner.setVisibility(View.GONE);
+
+
+
+
             }
-            else
-            {
-                Toast.makeText(Dashboard.this,"Invalid Subscriber Details",Toast.LENGTH_LONG).show();
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Toast.makeText(Dashboard_new.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+
             }
-
-
-
-            adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
-            if(adapter!=null) {
-                lv1.setAdapter(adapter);
-                //adapter.setContext(getApplicationContext());
-            }
-            spinner.setVisibility(View.GONE);
-
-
-
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError error) {
-            // Failed to read value
-            Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
-        }
-    });
-}
+        });
+    }
 
 
 
@@ -503,64 +490,64 @@ private void getSubscriberdetails(final DataSnapshot child)
     {
 
 
-            SharedPreferences prefs = getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
-            name = prefs.getString("mobile", "not valid");
-            id = prefs.getString("id", "not valid");
+        SharedPreferences prefs = getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+        name = prefs.getString("mobile", "not valid");
+        id = prefs.getString("id", "not valid");
 //        Toast.makeText(Splash.this,name+id,Toast.LENGTH_LONG).show();
-            if (!name.equalsIgnoreCase("not valid")) {
-                DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(name);
-                user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // This method is called once with the initial value and again
-                        // whenever data at this location is updated.
-                        if (dataSnapshot.getValue().toString() != null) {
-                            Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-                            if (map.get("id") != null && map.get("name") != null) {
-                                String rx_id = map.get("id").toString();
-                                String user_desc = map.get("name").toString();
+        if (!name.equalsIgnoreCase("not valid")) {
+            DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(name);
+            user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    if (dataSnapshot.getValue().toString() != null) {
+                        Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                        if (map.get("id") != null && map.get("name") != null) {
+                            String rx_id = map.get("id").toString();
+                            String user_desc = map.get("name").toString();
 
 
-                               // Toast.makeText(Dashboard.this, rx_id, Toast.LENGTH_LONG).show();
+                            // Toast.makeText(Dashboard.this, rx_id, Toast.LENGTH_LONG).show();
 
-                                if (id.equals(rx_id)) {
-                                    Global.username = name;
-                                    Global.user_desc_name = user_desc;
-                                    Global.dob = map.get("dob").toString();
-                                    //Global.gender = map.get("gender").toString();
-                                    Global.city = map.get("city").toString();
-                                    //Global.country = map.get("country").toString();
-                                    //Global.read_refresh_rate();
+                            if (id.equals(rx_id)) {
+                                Global.username = name;
+                                Global.user_desc_name = user_desc;
+                                Global.dob = map.get("dob").toString();
+                                //Global.gender = map.get("gender").toString();
+                                Global.city = map.get("city").toString();
+                                //Global.country = map.get("country").toString();
+                                //Global.read_refresh_rate();
 
-                                } else {
-                                    Intent intent = new Intent(Dashboard.this, Register.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                            else
-                            {
-                                Intent intent = new Intent(Dashboard.this, Register.class);
+                            } else {
+                                Intent intent = new Intent(Dashboard_new.this, Register.class);
                                 startActivity(intent);
                                 finish();
                             }
                         }
-
+                        else
+                        {
+                            Intent intent = new Intent(Dashboard_new.this, Register.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
 
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        // Failed to read value
-                        Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                }
 
-                    }
-                });
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Toast.makeText(Dashboard_new.this, error.toException().toString(), Toast.LENGTH_LONG).show();
 
-            } else {
-                Intent intent = new Intent(Dashboard.this, Register.class);
-                startActivity(intent);
-                finish();
-            }
+                }
+            });
+
+        } else {
+            Intent intent = new Intent(Dashboard_new.this, Register.class);
+            startActivity(intent);
+            finish();
+        }
 
 
     }
@@ -578,7 +565,7 @@ private void getSubscriberdetails(final DataSnapshot child)
         int android_Version = Build.VERSION.SDK_INT;
         if (android_Version > Build.VERSION_CODES.LOLLIPOP_MR1) {
 
-            all_permission_granted = !(ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED);
+            all_permission_granted = !(ContextCompat.checkSelfPermission(Dashboard_new.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(Dashboard_new.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(Dashboard_new.this, android.Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(Dashboard_new.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(Dashboard_new.this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED);
         }
         return all_permission_granted;
 
@@ -591,7 +578,7 @@ private void getSubscriberdetails(final DataSnapshot child)
         if (android_Version > Build.VERSION_CODES.LOLLIPOP_MR1) {
 
             for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(Dashboard.this, permission) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(Dashboard_new.this, permission) != PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }
@@ -602,9 +589,9 @@ private void getSubscriberdetails(final DataSnapshot child)
     private void grant_all_permission()
     {
         int PERMISSION_ALL = 1;
-        String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.WAKE_LOCK};
+        String[] PERMISSIONS = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.INTERNET, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.WAKE_LOCK};
         if(!has_permissions(PERMISSIONS)){
-            ActivityCompat.requestPermissions(Dashboard.this, PERMISSIONS, PERMISSION_ALL);
+            ActivityCompat.requestPermissions(Dashboard_new.this, PERMISSIONS, PERMISSION_ALL);
         }
 
     }
@@ -650,6 +637,5 @@ private void getSubscriberdetails(final DataSnapshot child)
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
 
 }

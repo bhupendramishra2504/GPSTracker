@@ -1,6 +1,7 @@
 package gps.tracker.com.gpstracker;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +29,19 @@ class Subscriber_list_view_adapter extends BaseAdapter {
 
     private final LayoutInflater mInflater;
 
+    Typeface robotoLight;
+    Typeface robotoThin;
+    Typeface robotoBold;
+
+
 
     public Subscriber_list_view_adapter(Context context, ArrayList<Suscriber_results> results) {
         searchArrayList = results;
+        robotoThin = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_thin.ttf");
+        robotoLight = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_light.ttf");
+        robotoBold = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_bold.ttf");
         mInflater = LayoutInflater.from(context);
+
     }
 
     public int getCount() {
@@ -54,7 +64,7 @@ class Subscriber_list_view_adapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
        final Subscriber_list_view_adapter.ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.subscriber_list_view, parent, false);
+            convertView = mInflater.inflate(R.layout.dashboard_row, parent, false);
             holder = new ViewHolder();
 
             holder.txtName = (TextView) convertView.findViewById(R.id.sname);
@@ -81,6 +91,14 @@ class Subscriber_list_view_adapter extends BaseAdapter {
         holder.category.setText(searchArrayList.get(position).getcategory());
         holder.icon_pic.setImageBitmap(searchArrayList.get(position).getImage());
         holder.status_channel=searchArrayList.get(position).getstatus();
+
+        holder.txtvname.setTypeface(robotoLight);
+        holder.vtype.setTypeface(robotoLight);
+        holder.txtName.setTypeface(robotoThin);
+        holder.category.setTypeface(robotoThin);
+        holder.txtvnumber.setTypeface(robotoThin);
+        holder.txtPhone.setTypeface(robotoThin);
+
 
         holder.remove .setOnClickListener(new View.OnClickListener() {
 

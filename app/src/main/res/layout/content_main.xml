@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_dashboard_new"
+    tools:context=".Dashboard">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llTabManager"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:elevation="5dp"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btnMobile"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/mobile"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:textAllCaps="false"
+                android:background="@drawable/horizontal_line"/>
+
+            <Button
+                android:id="@+id/btnOwner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/owner"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/dote"
+                android:textAllCaps="false"
+                android:background="@color/white"/>
+
+            <Button
+                android:id="@+id/btnChannel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/channel"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/dote"
+                android:textAllCaps="false"
+                android:background="@color/white"/>
+
+            <Button
+                android:id="@+id/btnNumber"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/number"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/dote"
+                android:textAllCaps="false"
+                android:background="@color/white"/>
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/subscriber_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".8"
+            android:gravity="center_vertical"
+            android:text="@string/channel_name"
+            android:textSize="@dimen/channel_font_size"
+            android:textColor="@color/white"
+            android:paddingLeft="25dp"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".2"
+            android:padding="15dp"
+            android:src="@mipmap/ic_eye"/>
+    </LinearLayout>
+
+</RelativeLayout>

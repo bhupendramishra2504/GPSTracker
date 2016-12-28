@@ -96,7 +96,7 @@ public class MyChannels_RV extends AppCompatActivity {
         }
         else if(id==android.R.id.home) {
             // app icon in action bar clicked; go home
-            Intent intent = new Intent(this, Dashboard.class);
+            Intent intent = new Intent(this, Dashboard_new.class);
             startActivity(intent);
             finish();
             return true;

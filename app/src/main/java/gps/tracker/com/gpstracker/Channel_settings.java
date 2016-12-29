@@ -69,7 +69,7 @@ public class Channel_settings extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_channel_settings);
+        setContentView(R.layout.edit_channel);
         rg = (RadioGroup) findViewById(R.id.rg);
         //RadioButton block = (RadioButton) findViewById(R.id.rblock);
         //RadioButton allow = (RadioButton) findViewById(R.id.rallow);

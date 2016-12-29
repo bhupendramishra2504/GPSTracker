@@ -16,6 +16,7 @@ class Channel_list {
     private int imageid;
     private int visibleimageid;
     private Bitmap image;
+    private Boolean state;
 
 
 
@@ -64,6 +65,9 @@ class Channel_list {
 
     public int getvisibleimageid(){return visibleimageid;}
     public void setvisibleimageid(int visibleimageid){this.visibleimageid=visibleimageid;}
+
+    public boolean getstate(){return state;}
+    public void setstate(boolean state){this.state=state;}
 
     public Bitmap getImage(){return image;}
     public void setImage(Bitmap image){this.image=image;}

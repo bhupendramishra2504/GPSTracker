@@ -189,18 +189,20 @@
             <ImageButton
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@mipmap/ic_broadcast"
+                android:src="@drawable/broadcast_icon"
+                android:background="@null"
                 android:id="@+id/bross"
                 android:layout_marginTop="15dp"
                 android:layout_gravity="center"/>
 
-            <ImageButton
+            <ToggleButton
                 android:layout_width="26dp"
                 android:layout_height="13dp"
-                android:id="@+id/visible"
-                android:src="@mipmap/ic_switch_on"
+                android:textOff=""
+                android:textOn=""
                 android:layout_marginTop="10dp"
-                />
+                android:id="@+id/visible"
+                android:background="@drawable/broadcast_toggle_on_off"/>
 
         </LinearLayout>
 

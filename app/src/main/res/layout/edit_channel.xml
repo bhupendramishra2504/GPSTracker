@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="Edit Channel Page"
+        android:textSize="20dp"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/edit_channel_left_right_padding"
+                android:paddingLeft="@dimen/edit_channel_left_right_padding"
+                android:paddingRight="@dimen/edit_channel_left_right_padding">
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@mipmap/ic_edit_channel"
+                    android:id="@+id/pic"/>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <Button
+                        android:id="@+id/browse"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Browse..."
+                        android:textColor="@color/colorAccent"
+                        android:textAllCaps="false"
+                        android:textSize="18dp"
+                        android:clickable="true"
+                        android:drawableRight="@mipmap/ic_spinner_down_arrow"
+                        android:gravity="center_vertical"
+                        android:background="@null"
+                        android:padding="8dp"
+                        />
+
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/hint_vehicle_number"
+                        android:textSize="@dimen/text_size18"
+                        android:id="@+id/avnumber"
+                        android:textColor="@color/colorAccent"
+                        android:textColorHint="@color/colorAccent"
+                        android:padding="8dp"
+                        android:background="@null"/>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <Button
+                        android:id="@+id/vtype"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="vehicle type"
+                        android:textColor="@color/colorAccent"
+                        android:textAllCaps="false"
+                        android:textSize="18dp"
+                        android:clickable="true"
+                        android:drawableRight="@mipmap/ic_spinner_down_arrow"
+                        android:gravity="center_vertical"
+                        android:background="@null"
+                        android:padding="8dp"
+                        />
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <Button
+                        android:id="@+id/acategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Category"
+                        android:textColor="@color/colorAccent"
+                        android:textAllCaps="false"
+                        android:textSize="18dp"
+                        android:clickable="true"
+                        android:drawableRight="@mipmap/ic_spinner_down_arrow"
+                        android:gravity="center_vertical"
+                        android:background="@null"
+                        android:padding="8dp"
+                        />
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/owner"
+                        android:textSize="@dimen/text_size18"
+                        android:textColor="@color/colorAccent"
+                        android:textColorHint="@color/colorAccent"
+                        android:padding="8dp"
+                        android:id="@+id/aowner"
+                        android:background="@null"/>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="Vehicle Name"
+                        android:textSize="@dimen/text_size18"
+                        android:textColor="@color/colorAccent"
+                        android:textColorHint="@color/colorAccent"
+                        android:padding="8dp"
+                        android:id="@+id/avname"
+                        android:background="@null"/>
+
+                </android.support.v7.widget.CardView>
+
+
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/city_hint"
+                        android:textSize="@dimen/text_size18"
+                        android:textColor="@color/colorAccent"
+                        android:textColorHint="@color/colorAccent"
+                        android:padding="8dp"
+                        android:id="@+id/acity"
+                        android:background="@null"/>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <Button
+                        android:id="@+id/atravel"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Travel type"
+                        android:textColor="@color/colorAccent"
+                        android:textAllCaps="false"
+                        android:textSize="18dp"
+                        android:clickable="true"
+                        android:drawableRight="@mipmap/ic_spinner_down_arrow"
+                        android:gravity="center_vertical"
+                        android:background="@null"
+                        android:padding="8dp"
+                        />
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <Button
+                        android:id="@+id/arefresh"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Refresh Rate"
+                        android:textColor="@color/colorAccent"
+                        android:textAllCaps="false"
+                        android:textSize="18dp"
+                        android:clickable="true"
+                        android:drawableRight="@mipmap/ic_spinner_down_arrow"
+                        android:gravity="center_vertical"
+                        android:background="@null"
+                        android:padding="8dp"
+                        />
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Default follower setting"
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp"/>
+
+                <RadioGroup
+                    android:id="@+id/rg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <RadioButton
+                        android:id="@+id/rblock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Block"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/rallow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Allow" />
+
+                </RadioGroup>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardBackgroundColor="@color/white"
+                    card_view:cardCornerRadius="1dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <Button
+                        android:id="@+id/edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="@string/btn_save"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:clickable="true"
+                        android:onClick="onClick"
+                        android:background="@color/colorPrimary"/>
+
+                </android.support.v7.widget.CardView>
+
+                <ListView
+                    android:id="@+id/list"
+                    android:layout_height="500dp"
+                    android:layout_width="match_parent"
+                    android:paddingLeft="5dp"
+                    android:divider="#ff0000"
+                    android:dividerHeight="1px"
+                    android:background="@drawable/box">
+                </ListView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Settings"
+                    android:gravity="left"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="@drawable/box"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="1dp">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Delete Channel"
+                        android:textSize="20sp"
+                        android:textColor="#ff0000"
+                        android:textStyle="bold"
+                        android:background="@drawable/yellow_box"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/delete"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Channel will be deleted only after all users have been blocked"
+                        android:textSize="12sp"
+                        android:textColor="#ff0000"
+                        android:layout_marginBottom="10dp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="*Change Mobile : "
+                        android:gravity="left"
+                        android:textSize="20sp"
+                        android:textColor="#ff0000"
+                        />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="New Mobile Number"
+                        android:inputType="number"
+                        android:id="@+id/newno"
+                        android:textSize="20sp"
+                        android:textColor="#ff0000"
+                        android:digits="0123456789"
+                        />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="DOB of User to verify"
+                        android:id="@+id/dob"
+                        android:textSize="20sp"
+                        android:textColor="#ffffff"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Change Mobile"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        android:background="@drawable/yellow_box"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginBottom="2dp"
+                        android:id="@+id/change"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*This will transfer Channel to new mobile"
+                        android:textSize="12sp"
+                        android:textColor="#ff0000"
+                        />
+
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

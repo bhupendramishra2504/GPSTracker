@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,7 +95,7 @@ public class MyChannels_RV extends AppCompatActivity {
         }
         else if(id==android.R.id.home) {
             // app icon in action bar clicked; go home
-            Intent intent = new Intent(this, Dashboard_new.class);
+            Intent intent = new Intent(this, Dashboard.class);
             startActivity(intent);
             finish();
             return true;
@@ -189,18 +188,18 @@ public class MyChannels_RV extends AppCompatActivity {
 
                         Channel_list sr1 = new Channel_list();
                         if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("category") != null && map.get("vtype") != null && map.get("visible") != null) {
-                            sr1.setsName("Owner : " + map.get("owner").toString());
-                            sr1.setChannelid("Channel Id :" + child.getKey());
-                            sr1.setscategary("Category : " + map.get("category").toString() + Global.separator + "Refresh Rate: " + map.get("refresh_status").toString());
-                            sr1.setsVnumber("Vehicle No. : " + map.get("vehicle_number").toString());
-                            sr1.setsvtype("Vehicle Type : " + map.get("vtype").toString());
+                            sr1.setsName("O : " + map.get("owner").toString());
+                            sr1.setChannelid("CId :" + child.getKey());
+                            sr1.setscategary("C : " + map.get("category").toString() + Global.separator + "Refresh Rate: " + map.get("refresh_status").toString());
+                            sr1.setsVnumber("VNo. : " + map.get("vehicle_number").toString());
+                            sr1.setsvtype("VT : " + map.get("vtype").toString());
                             String act = map.get("visible").toString();
                             //String status = map.get("status").toString();
                             if (act.equalsIgnoreCase("1")) {
-                                sr1.setvisibleimageid(visible_images[0]);
+                                sr1.setstate(true);
 
                             } else {
-                                sr1.setvisibleimageid(visible_images[1]);
+                                sr1.setstate(false);
 
                             }
 
@@ -235,9 +234,9 @@ public class MyChannels_RV extends AppCompatActivity {
                             }
 
                             if (map.get("vehicle_name") != null) {
-                                sr1.setvname("vehicle name : " + map.get("vehicle_name").toString());
+                                sr1.setvname("VN : " + map.get("vehicle_name").toString());
                             } else {
-                                sr1.setvname("vehicle name : NA");
+                                sr1.setvname("VN : NA");
                             }
 
 

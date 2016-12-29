@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -102,7 +103,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
             holder.txtvtype = (TextView) convertView.findViewById(R.id.ctype);
             holder.txtcategary=(TextView)convertView.findViewById(R.id.ccategary);
             holder.broadcast=(ImageButton)convertView.findViewById(R.id.bross);
-            holder.visible=(ImageButton)convertView.findViewById(R.id.visible);
+            holder.visible=(ToggleButton)convertView.findViewById(R.id.visible);
             holder.channel_pic=(ImageView)convertView.findViewById(R.id.pic);
             holder.vname=(TextView)convertView.findViewById(R.id.cvname);
 
@@ -122,7 +123,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         holder.txtcategary.setText(channellist.get(position).getsvcategary());
         holder.txtactive=channellist.get(position).getsActive();
         holder.broadcast.setImageResource(channellist.get(position).getImageid());
-        holder.visible.setImageResource(channellist.get(position).getvisibleimageid());
+        holder.visible.setChecked(channellist.get(position).getstate());
         holder.channel_pic.setImageBitmap(channellist.get(position).getImage());
 
         holder.broadcast.setOnClickListener(new View.OnClickListener() {
@@ -213,14 +214,14 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                                 ref.setValue("0");
                                 DatabaseReference ref1 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(Global.channel_id).child("visible");
                                 ref1.setValue("0");
-                                holder.visible.setImageResource(R.drawable.invisible);
+                                holder.visible.setChecked(false);
                                 channellist.get(position).setvisibleimageid(visible_images[1]);
                             } else {
                                 DatabaseReference ref = Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("visible");
                                 ref.setValue("1");
                                 DatabaseReference ref1 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(Global.channel_id).child("visible");
                                 ref1.setValue("1");
-                                holder.visible.setImageResource(R.drawable.visible);
+                                holder.visible.setChecked(true);
                                 channellist.get(position).setvisibleimageid(visible_images[0]);
                             }
 
@@ -254,7 +255,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         String txtchannelid;
         String txtactive;
         ImageButton broadcast;
-        ImageButton visible;
+        ToggleButton visible;
         ImageView channel_pic;
 
 

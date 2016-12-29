@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +42,12 @@ public class Add_Channel extends AppCompatActivity {
     private String channel_id;
     private boolean validated1=false,validated2=false,validated3=false,validated4=false;
     private RadioGroup rg;
+    //Spinner spinnerUse, spinnerVehicleType, spinnerTravelType, spinnerBroadcastRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add__channel);
+        setContentView(R.layout.add_channel);
         rg = (RadioGroup) findViewById(R.id.rg);
         add_pic=(ImageView)findViewById(R.id.pic);
         Global.set_action_bar_details(Add_Channel.this,"Add Channel","");
@@ -76,7 +78,7 @@ public class Add_Channel extends AppCompatActivity {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         vtype.setText(item.getTitle());
-                        vtype.setTextColor(Color.WHITE);
+                        //vtype.setTextColor(Color.WHITE);
                         return true;
                     }
                 });
@@ -97,7 +99,7 @@ public class Add_Channel extends AppCompatActivity {
                 popup_travel.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         withincity.setText(item.getTitle());
-                        withincity.setTextColor(Color.WHITE);
+                        //withincity.setTextColor(Color.WHITE);
                         return true;
                     }
                 });
@@ -121,7 +123,7 @@ public class Add_Channel extends AppCompatActivity {
                 popup_refresh.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         refresh_rate.setText(item.getTitle());
-                        refresh_rate.setTextColor(Color.WHITE);
+                        //refresh_rate.setTextColor(Color.WHITE);
                         return true;
                     }
                 });
@@ -142,7 +144,7 @@ public class Add_Channel extends AppCompatActivity {
                 popup_category.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         category.setText(item.getTitle());
-                        category.setTextColor(Color.WHITE);
+                        //category.setTextColor(Color.WHITE);
                         return true;
                     }
                 });

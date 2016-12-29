@@ -10,14 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="98dp"
         android:orientation="horizontal"
-        android:background="@color/white">
+        android:background="@color/colorPrimaryDark">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".25"
-            android:padding="10dp"
-            android:layout_marginBottom="8dp">
+            android:padding="10dp">
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -26,17 +25,9 @@
                     android:id="@+id/pic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/ic_car_icon"
+                    android:src="@mipmap/ic_car_white"
                     android:layout_gravity="center_horizontal|top" />
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/online"
-                    android:id="@+id/iv"
-                    android:padding="3dp"
-                    android:layout_gravity="bottom|right"
-                    android:background="@drawable/half_circle"/>
             </FrameLayout>
 
         </LinearLayout>
@@ -62,33 +53,34 @@
                     android:layout_height="0dp"
                     android:layout_weight=".4"
                     android:paddingLeft="5dp"
+                    android:layout_gravity="center"
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:id="@+id/svname"
+                        android:id="@+id/cvname"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/vehicle_name"
                         android:textStyle="bold"
                         android:textSize="20dp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/white"/>
 
                     <View
                         android:layout_width="5dp"
                         android:layout_height="5dp"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/circle_border"/>
+                        android:background="@drawable/circle_white"/>
 
                     <TextView
-                        android:id="@+id/vtype"
+                        android:id="@+id/ctype"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/type"
                         android:textStyle="bold"
                         android:textSize="20dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:layout_marginLeft="10dp" />
 
                 </LinearLayout>
@@ -105,35 +97,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/sname"
+                            android:id="@+id/cname"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:text="@string/owner"
                             android:textSize="17dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/bottom"
+                            android:textColor="@color/white"
                             android:layout_marginLeft="5dp"/>
 
                         <View
                             android:layout_width="5dp"
                             android:layout_height="1dp"
                             android:layout_marginLeft="5dp"
-                            android:background="@color/dote"/>
+                            android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/category"
+                            android:id="@+id/ccategary"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:text="@string/category"
                             android:textSize="17dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/bottom"
+                            android:textColor="@color/white"
                             android:layout_marginLeft="5dp"/>
 
                     </LinearLayout>
@@ -146,31 +137,29 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/svnumber"
+                            android:id="@+id/cvnumber"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:text="@string/vehicle_no1"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/bottom"
+                            android:textColor="@color/white"
                             android:layout_marginLeft="5dp"/>
 
                         <View
                             android:layout_width="5dp"
                             android:layout_height="5dp"
                             android:layout_marginLeft="5dp"
-                            android:background="@drawable/off_line_user"/>
+                            android:background="@drawable/circle_white"/>
 
                         <TextView
-                            android:id="@+id/smobile"
+                            android:id="@+id/tvMobileNo"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:text="@string/mobile_no1"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/bottom"
+                            android:textColor="@color/white"
                             android:layout_marginLeft="5dp"/>
 
 
@@ -193,26 +182,25 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".19"
+            android:layout_weight=".12"
             android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_message_time"
-                android:textSize="17dp"
-                android:gravity="center"
-                android:layout_marginTop="10dp"/>
+            android:paddingRight="5dp">
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_delete"
-                android:background="@android:color/transparent"
-                android:padding="2dp"
-                android:id="@+id/remove"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/ic_broadcast"
+                android:id="@+id/bross"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"/>
+
+            <ImageButton
+                android:layout_width="26dp"
+                android:layout_height="13dp"
+                android:id="@+id/visible"
+                android:src="@mipmap/ic_switch_on"
+                android:layout_marginTop="10dp"
+                />
 
         </LinearLayout>
 

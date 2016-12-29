@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.view.LayoutInflater;
@@ -43,12 +44,18 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     private static PendingIntent pendingIntent;
     private static Intent alarmIntent;
     private static AlarmManager manager;
+    Typeface robotoLight;
+    Typeface robotoThin;
+    Typeface robotoBold;
 
 
     public Channel_list_view_adapter_mod(Context context, ArrayList<Channel_list> results) {
         channellist = results;
         this.context=context;
-        mInflater = LayoutInflater.from(context);
+        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        robotoThin = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_thin.ttf");
+        robotoLight = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_light.ttf");
+        robotoBold = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_bold.ttf");
         //i=new Intent(this.context, TimeServiceGPS.class);
         alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
        // alarmIntent = new Intent(this.context, Br_rx.class);
@@ -86,7 +93,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Channel_list_view_adapter_mod.ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.channel_list_view, parent, false);
+            convertView = mInflater.inflate(R.layout.broadcast_row, parent, false);
             holder = new ViewHolder();
 
 

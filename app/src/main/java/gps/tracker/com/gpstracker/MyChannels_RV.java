@@ -39,7 +39,7 @@ public class MyChannels_RV extends AppCompatActivity {
     private final Integer[] images = { R.drawable.broadcast_icon,R.drawable.red_circle };
     private final Integer[] visible_images={R.drawable.visible,R.drawable.invisible};
     private int position=0;
-    private ProgressBar spinner;
+    //private ProgressBar spinner;
 
 
 
@@ -47,14 +47,14 @@ public class MyChannels_RV extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_channels);
+        setContentView(R.layout.my_channels);
         adapter=null;
 
         lv1=(ListView)findViewById(R.id.channel_list);
         TextView desc = (TextView) findViewById(R.id.dd);
-        desc.setText("Click red button to start broadcast"+Global.separator+"Click on eye button to make channel visible or invisible");
-        spinner=(ProgressBar)findViewById(R.id.progressBar);
-        spinner.setVisibility(View.VISIBLE);
+        //desc.setText("Click red button to start broadcast"+Global.separator+"Click on eye button to make channel visible or invisible");
+        //spinner=(ProgressBar)findViewById(R.id.progressBar);
+        //spinner.setVisibility(View.VISIBLE);
         Global.set_action_bar_details(MyChannels_RV.this,"My Broadcasts","");
 
 
@@ -148,7 +148,7 @@ public class MyChannels_RV extends AppCompatActivity {
 
 
 
-                spinner.setVisibility(View.GONE);
+                //spinner.setVisibility(View.GONE);
 
             }
 

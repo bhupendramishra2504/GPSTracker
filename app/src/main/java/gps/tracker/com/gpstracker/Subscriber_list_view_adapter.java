@@ -41,6 +41,7 @@ class Subscriber_list_view_adapter extends BaseAdapter {
         robotoLight = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_light.ttf");
         robotoBold = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_bold.ttf");
         mInflater = LayoutInflater.from(context);
+        //mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 

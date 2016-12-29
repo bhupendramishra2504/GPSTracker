@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="ADD CHANNEL"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/channel_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/white"
+        android:descendantFocusability="blocksDescendants"
+        android:dividerHeight="0.02dp"
+        android:background="@color/white"/>
+</LinearLayout>

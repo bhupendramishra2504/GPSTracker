@@ -1,27 +1,40 @@
 package gps.tracker.com.gpstracker;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Dashboard extends BaseClass {
+public class Dashboard extends BaseClass implements View.OnClickListener {
 
     private ListView lv1;
     private final ArrayList<Suscriber_results> results = new ArrayList<Suscriber_results>();
@@ -48,6 +61,23 @@ public class Dashboard extends BaseClass {
     private DatabaseReference user_ref;
     private ValueEventListener subscriber_listener, subscriber_detail_listener;
     private DatabaseReference subscriber_detail, authenticate_user_ref;
+    Toolbar toolbar;
+    FloatingActionButton fab;
+    private MenuItem mSearchAction;
+    private boolean isSearchOpened = false;
+    private EditText edtSearch;
+
+    TabLayout commonTabs;
+    ViewPager commonViewpager;
+    ListView lvJustInList;
+    Button btnMobil, btnOwner, btnChannel, btnNumber;
+    LinearLayout llTabManager;
+    Activity activity;
+
+    Typeface robotoBold;
+    ActionBar actionBar;
+    Constant constant;
+
     //private Value
 
 
@@ -57,16 +87,24 @@ public class Dashboard extends BaseClass {
         setContentView(R.layout.activity_dashboard_new);
 
         adapter = null;
-
+        activity = Dashboard.this;
+        constant = new Constant(activity);
 
         //authenticate();
         if (!grant_permission()) {
             grant_all_permission();
         }
 
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setTitle("JUSTIN");
+        robotoBold = Typeface.createFromAsset(activity.getAssets(), "fonts/roboto_bold.ttf");
+
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        constant.setUpActionBar("JustIn", actionBar, false);
+        //ActionBar ab = getSupportActionBar();
+        //assert ab != null;
+        //ab.setTitle("JUSTIN");
         /*if(Global.channel_broadcasting_name.equalsIgnoreCase("NONE"))
         {
             ab.setSubtitle("");
@@ -76,7 +114,7 @@ public class Dashboard extends BaseClass {
             ab.setSubtitle(Global.channel_broadcasting_name+","+Global.channel_broadcasting_vnumber);
         }*/
 
-        ab.setDisplayHomeAsUpEnabled(false);
+       // ab.setDisplayHomeAsUpEnabled(false);
 
 
         SharedPreferences prefs = getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
@@ -93,6 +131,43 @@ public class Dashboard extends BaseClass {
             finish();
         }
         lv1 = (ListView) findViewById(R.id.subscriber_list);
+
+        btnMobil = (Button)findViewById(R.id.btnMobile);
+        btnOwner = (Button)findViewById(R.id.btnOwner);
+        btnChannel = (Button)findViewById(R.id.btnChannel);
+        btnNumber = (Button)findViewById(R.id.btnNumber);
+
+        llTabManager = (LinearLayout)findViewById(R.id.llTabManager);
+
+        commonTabs = (TabLayout)findViewById(R.id.commonTabs);
+        commonViewpager = (ViewPager)findViewById(R.id.commonViewpager);
+
+        btnMobil.setOnClickListener(this);
+        btnOwner.setOnClickListener(this);
+        btnChannel.setOnClickListener(this);
+        btnNumber.setOnClickListener(this);
+
+        btnMobil.setTypeface(robotoBold);
+        btnOwner.setTypeface(robotoBold);
+        btnChannel.setTypeface(robotoBold);
+        btnNumber.setTypeface(robotoBold);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                try {
+                            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();*/
+                    //handleMenuSearch();
+                }catch (Exception e){
+                    //constant.printError(TAG, "fab.setOnClickListener's onClick()");
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         //ImageView add_channel = (ImageView) findViewById(R.id.add);
 
@@ -176,6 +251,62 @@ public class Dashboard extends BaseClass {
         });
 
     }
+
+
+
+    @Override
+    public void onClick(View v)
+    {
+        switch (v.getId()){
+            case R.id.btnMobile:
+                btnMobil.setBackgroundResource(R.drawable.horizontal_line);
+                btnOwner.setBackgroundColor(getResources().getColor(R.color.white));
+                btnChannel.setBackgroundColor(getResources().getColor(R.color.white));
+                btnNumber.setBackgroundColor(getResources().getColor(R.color.white));
+
+                btnMobil.setTextColor(getResources().getColor(R.color.colorAccent));
+                btnOwner.setTextColor(getResources().getColor(R.color.dote));
+                btnChannel.setTextColor(getResources().getColor(R.color.dote));
+                btnNumber.setTextColor(getResources().getColor(R.color.dote));
+
+                break;
+            case R.id.btnOwner:
+                btnMobil.setBackgroundColor(getResources().getColor(R.color.white));
+                btnOwner.setBackgroundResource(R.drawable.horizontal_line);
+                btnChannel.setBackgroundColor(getResources().getColor(R.color.white));
+                btnNumber.setBackgroundColor(getResources().getColor(R.color.white));
+
+                btnMobil.setTextColor(getResources().getColor(R.color.dote));
+                btnOwner.setTextColor(getResources().getColor(R.color.colorAccent));
+                btnChannel.setTextColor(getResources().getColor(R.color.dote));
+                btnNumber.setTextColor(getResources().getColor(R.color.dote));
+
+                break;
+            case R.id.btnChannel:
+                btnMobil.setBackgroundColor(getResources().getColor(R.color.white));
+                btnOwner.setBackgroundColor(getResources().getColor(R.color.white));
+                btnChannel.setBackgroundResource(R.drawable.horizontal_line);
+                btnNumber.setBackgroundColor(getResources().getColor(R.color.white));
+
+                btnMobil.setTextColor(getResources().getColor(R.color.dote));
+                btnOwner.setTextColor(getResources().getColor(R.color.dote));
+                btnChannel.setTextColor(getResources().getColor(R.color.colorAccent));
+                btnNumber.setTextColor(getResources().getColor(R.color.dote));
+                break;
+            case R.id.btnNumber:
+                btnMobil.setBackgroundColor(getResources().getColor(R.color.white));
+                btnOwner.setBackgroundColor(getResources().getColor(R.color.white));
+                btnChannel.setBackgroundColor(getResources().getColor(R.color.white));
+                btnNumber.setBackgroundResource(R.drawable.horizontal_line);
+
+                btnMobil.setTextColor(getResources().getColor(R.color.dote));
+                btnOwner.setTextColor(getResources().getColor(R.color.dote));
+                btnChannel.setTextColor(getResources().getColor(R.color.dote));
+                btnNumber.setTextColor(getResources().getColor(R.color.colorAccent));
+                break;
+        }
+    }
+
 
 
     @Override
@@ -640,5 +771,76 @@ public class Dashboard extends BaseClass {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+
+    private void handleMenuSearch()
+    {
+        try
+        {
+            if (isSearchOpened)//test if search is open
+            {
+                actionBar.setDisplayShowCustomEnabled(false);//disable a custom view inside actionbar
+                actionBar.setDisplayShowTitleEnabled(true);//show the title in the action bar
+
+                //hide the Keyboard
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(edtSearch.getWindowToken(), 0);
+
+                //add the search icon in the action bar
+                mSearchAction.setIcon(getResources().getDrawable(R.mipmap.ic_open_search));
+                isSearchOpened = false;
+                //this is for tab hidden
+                llTabManager.setVisibility(View.GONE);
+            }
+            else//open the search entry
+            {
+                //this is for tab hidden
+                llTabManager.setVisibility(View.VISIBLE);
+
+                actionBar.setDisplayShowCustomEnabled(true);//enable it to display a custom view in the
+                //action bar
+                actionBar.setCustomView(R.layout.search_bar);//add the custom Search view
+                actionBar.setDisplayShowTitleEnabled(false);
+                edtSearch = (EditText)actionBar.getCustomView().findViewById(R.id.edtSearch);//the text editor
+
+                //this is a listener to do search when the user click on search button
+                edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH)
+                        {
+                            doSearch();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                edtSearch.requestFocus();
+
+                //open the key board focused in the edtSearch
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT);
+
+                //add the close icon
+                mSearchAction.setIcon(getResources().getDrawable(R.mipmap.ic_close_search));
+
+                isSearchOpened = true;
+            }
+        }
+        catch (Exception e)
+        {
+            //constant.printError(TAG, "handleMenuSearch()");
+            e.printStackTrace();
+        }
+    }
+
+    private void doSearch()
+    {
+        //write search code.
+    }
+
+
 
 }

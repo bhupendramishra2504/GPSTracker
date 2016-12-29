@@ -42,7 +42,7 @@ public class Dashboard extends BaseClass {
     private String status = "offline";
     private static final Integer[] images = {R.drawable.green_circle, R.drawable.red_circle};
     //private ProgressBar spinner;
-    private String name, id;
+    private String name, id,username;
     // --Commented out by Inspection (01/12/16, 10:05 PM):private String channel_mobile,channel_name,channel_vnumber,channel_vname,channel_invite,channel_bmp,channel_category,channel_vtype;
     private String subscriber;
     private DatabaseReference user_ref;
@@ -81,6 +81,7 @@ public class Dashboard extends BaseClass {
 
         SharedPreferences prefs = getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
         name = prefs.getString("mobile", "not valid");
+        username=prefs.getString("username", "NA");
         if (!name.equalsIgnoreCase("") && !name.equalsIgnoreCase(null) && !name.equalsIgnoreCase("not valid")) {
             Global.username = name;
             Dashboard.Subscriber_channel_class scc = new Dashboard.Subscriber_channel_class();
@@ -125,7 +126,7 @@ public class Dashboard extends BaseClass {
 
                 if (isNetworkAvailable() | !isNetworkAvailable()) {
 
-                    if (!Global.username.equalsIgnoreCase("") | !Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
+                    if (!Global.username.equalsIgnoreCase("") && !Global.username.equalsIgnoreCase(null) && !Global.username.equalsIgnoreCase("not valid") && !username.equalsIgnoreCase(null) && !username.equalsIgnoreCase("NA")) {
 
 
                         Object o = lv1.getItemAtPosition(position);
@@ -163,6 +164,7 @@ public class Dashboard extends BaseClass {
                             Toast.makeText(Dashboard.this, "This Channel has blocked you, you cannot view its details", Toast.LENGTH_LONG).show();
                         }
                     } else {
+                        Toast.makeText(Dashboard.this,"Authetication failed ....",Toast.LENGTH_SHORT).show();
                         authenticate();
                     }
 
@@ -512,6 +514,11 @@ public class Dashboard extends BaseClass {
                                 Global.dob = map.get("dob").toString();
                                 //Global.gender = map.get("gender").toString();
                                 Global.city = map.get("city").toString();
+
+                                SharedPreferences.Editor editor = getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+                                editor.putString("username",user_desc );
+                                editor.putString("dob", map.get("dob").toString());
+                                editor.apply();
                                 //Global.country = map.get("country").toString();
                                 //Global.read_refresh_rate();
 

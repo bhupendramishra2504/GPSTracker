@@ -40,7 +40,7 @@ public class User_setting extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // app icon in action bar clicked; go home
-                Intent intent = new Intent(this, Dashboard.class);
+                Intent intent = new Intent(this, Settings.class);
                 startActivity(intent);
                 finish();
                 return true;

@@ -22,9 +22,13 @@
                 android:title="About"
                 android:id="@+id/about"
                 dash:showAsAction="never"/>
-            <item android:id="@+id/search"
-                android:title="Search"
-                dash:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/search"
+        android:orderInCategory="200"
+        android:icon="@mipmap/ic_open_search"
+        dash:showAsAction="ifRoom" />
 
 
 

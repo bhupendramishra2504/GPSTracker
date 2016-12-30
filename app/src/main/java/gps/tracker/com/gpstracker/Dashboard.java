@@ -59,7 +59,7 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
     // --Commented out by Inspection (01/12/16, 10:05 PM):private String channel_mobile,channel_name,channel_vnumber,channel_vname,channel_invite,channel_bmp,channel_category,channel_vtype;
     private String subscriber;
     private DatabaseReference user_ref;
-    private ValueEventListener subscriber_listener, subscriber_detail_listener;
+    private ValueEventListener subscriber_listener,subscriber_detail_listener;
     private DatabaseReference subscriber_detail, authenticate_user_ref;
     Toolbar toolbar;
     FloatingActionButton fab;
@@ -160,7 +160,7 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
                 try {
                             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();*/
-                    //handleMenuSearch();
+                    handleMenuSearch();
                 }catch (Exception e){
                     //constant.printError(TAG, "fab.setOnClickListener's onClick()");
                     e.printStackTrace();
@@ -343,7 +343,7 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
             }
         }
 
-        else if(id==R.id.search)
+        else if(id==R.id.action_search)
         {
             if(!Global.username.equalsIgnoreCase("") |!Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
                 authenticate();
@@ -430,11 +430,11 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
     {
         subscriber_detail = Global.firebase_dbreference.child("CHANNELS").child(child.getKey().toString()).child("status");
         subscriber_detail.keepSynced(true);
-        subscriber_detail_listener=subscriber_detail.addValueEventListener(new ValueEventListener() {
+        subscriber_detail_listener= subscriber_detail.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String act;
-                results.clear();
+                //results.clear();
                 if(dataSnapshot!=null) {
                     act = dataSnapshot.getValue().toString();
 

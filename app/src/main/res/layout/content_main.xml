@@ -21,7 +21,7 @@
             android:layout_alignParentTop="true"
             android:background="@color/white"
             android:elevation="5dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <Button
                 android:id="@+id/btnMobile"

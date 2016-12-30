@@ -51,7 +51,10 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
         PowerManager pm = (PowerManager) arg0.getSystemService(Context.POWER_SERVICE);
         cpuWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "gps_service");
-        cpuWakeLock.acquire();
+
+        if (!cpuWakeLock.isHeld()) {
+            cpuWakeLock.acquire();
+        }
         //System.out.println("Broadcasted");
         channel_id=arg1.getStringExtra("channel_id");
         context=arg0;

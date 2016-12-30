@@ -46,7 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Dashboard extends BaseClass implements View.OnClickListener {
+public class Dashboard extends BaseClass  {
 
     private ListView lv1;
     private final ArrayList<Suscriber_results> results = new ArrayList<Suscriber_results>();
@@ -63,15 +63,7 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
     private DatabaseReference subscriber_detail, authenticate_user_ref;
     Toolbar toolbar;
     FloatingActionButton fab;
-    private MenuItem mSearchAction;
-    private boolean isSearchOpened = false;
-    private EditText edtSearch;
 
-    TabLayout commonTabs;
-    ViewPager commonViewpager;
-    ListView lvJustInList;
-    Button btnMobil, btnOwner, btnChannel, btnNumber;
-    LinearLayout llTabManager;
     Activity activity;
 
     Typeface robotoBold;
@@ -132,67 +124,22 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
         }
         lv1 = (ListView) findViewById(R.id.subscriber_list);
 
-        btnMobil = (Button)findViewById(R.id.btnMobile);
-        btnOwner = (Button)findViewById(R.id.btnOwner);
-        btnChannel = (Button)findViewById(R.id.btnChannel);
-        btnNumber = (Button)findViewById(R.id.btnNumber);
 
-        llTabManager = (LinearLayout)findViewById(R.id.llTabManager);
 
-        commonTabs = (TabLayout)findViewById(R.id.commonTabs);
-        commonViewpager = (ViewPager)findViewById(R.id.commonViewpager);
 
-        btnMobil.setOnClickListener(this);
-        btnOwner.setOnClickListener(this);
-        btnChannel.setOnClickListener(this);
-        btnNumber.setOnClickListener(this);
-
-        btnMobil.setTypeface(robotoBold);
-        btnOwner.setTypeface(robotoBold);
-        btnChannel.setTypeface(robotoBold);
-        btnNumber.setTypeface(robotoBold);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                try {
-                            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();*/
-                    handleMenuSearch();
-                }catch (Exception e){
-                    //constant.printError(TAG, "fab.setOnClickListener's onClick()");
-                    e.printStackTrace();
-                }
+                Intent intent = new Intent(Dashboard.this, Search_activity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
 
-        //ImageView add_channel = (ImageView) findViewById(R.id.add);
-
-        //spinner = (ProgressBar) findViewById(R.id.progressBar);
-        //spinner.setVisibility(View.GONE);
-
-        /*add_channel.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-
-
-                // searchView.setIconified(false);
-                //  searchView.setFocusable(true);
-                //   add_channel.setVisibility(View.GONE);
-                //searchView.clearFocus();
-                if (!Global.username.equalsIgnoreCase("") | !Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
-                    authenticate();
-                }
-
-                Intent intent = new Intent(Dashboard.this, Search_activity.class);
-                startActivity(intent);
-                finish();
-
-            }
-        });*/
 
 
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -254,58 +201,6 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
 
 
 
-    @Override
-    public void onClick(View v)
-    {
-        switch (v.getId()){
-            case R.id.btnMobile:
-                btnMobil.setBackgroundResource(R.drawable.horizontal_line);
-                btnOwner.setBackgroundColor(getResources().getColor(R.color.white));
-                btnChannel.setBackgroundColor(getResources().getColor(R.color.white));
-                btnNumber.setBackgroundColor(getResources().getColor(R.color.white));
-
-                btnMobil.setTextColor(getResources().getColor(R.color.colorAccent));
-                btnOwner.setTextColor(getResources().getColor(R.color.dote));
-                btnChannel.setTextColor(getResources().getColor(R.color.dote));
-                btnNumber.setTextColor(getResources().getColor(R.color.dote));
-
-                break;
-            case R.id.btnOwner:
-                btnMobil.setBackgroundColor(getResources().getColor(R.color.white));
-                btnOwner.setBackgroundResource(R.drawable.horizontal_line);
-                btnChannel.setBackgroundColor(getResources().getColor(R.color.white));
-                btnNumber.setBackgroundColor(getResources().getColor(R.color.white));
-
-                btnMobil.setTextColor(getResources().getColor(R.color.dote));
-                btnOwner.setTextColor(getResources().getColor(R.color.colorAccent));
-                btnChannel.setTextColor(getResources().getColor(R.color.dote));
-                btnNumber.setTextColor(getResources().getColor(R.color.dote));
-
-                break;
-            case R.id.btnChannel:
-                btnMobil.setBackgroundColor(getResources().getColor(R.color.white));
-                btnOwner.setBackgroundColor(getResources().getColor(R.color.white));
-                btnChannel.setBackgroundResource(R.drawable.horizontal_line);
-                btnNumber.setBackgroundColor(getResources().getColor(R.color.white));
-
-                btnMobil.setTextColor(getResources().getColor(R.color.dote));
-                btnOwner.setTextColor(getResources().getColor(R.color.dote));
-                btnChannel.setTextColor(getResources().getColor(R.color.colorAccent));
-                btnNumber.setTextColor(getResources().getColor(R.color.dote));
-                break;
-            case R.id.btnNumber:
-                btnMobil.setBackgroundColor(getResources().getColor(R.color.white));
-                btnOwner.setBackgroundColor(getResources().getColor(R.color.white));
-                btnChannel.setBackgroundColor(getResources().getColor(R.color.white));
-                btnNumber.setBackgroundResource(R.drawable.horizontal_line);
-
-                btnMobil.setTextColor(getResources().getColor(R.color.dote));
-                btnOwner.setTextColor(getResources().getColor(R.color.dote));
-                btnChannel.setTextColor(getResources().getColor(R.color.dote));
-                btnNumber.setTextColor(getResources().getColor(R.color.colorAccent));
-                break;
-        }
-    }
 
 
 
@@ -360,7 +255,7 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
             AlertDialog.Builder builder =
                     new AlertDialog.Builder(this);
             builder.setTitle("JustIn");
-            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-1.7"+System.getProperty("line.separator")+"Release Date : 24/12/2016"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"Map Cache Improvement in offline/low networks, bug fixes and perf improvements");
+            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-1.8.0"+System.getProperty("line.separator")+"Release Date : 30/12/2016"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"bug fixes and perf improvements");
             builder.setPositiveButton("OK", null);
             builder.show();
             return true;
@@ -384,7 +279,7 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
     private void GetSubscriberResults_modified_v2(){
         //ArrayList<SearchResults> results = new ArrayList<SearchResults>();
         adapter=null;
-        results.clear();
+        //results.clear();
         FirebaseDatabase firebase_database = FirebaseDatabase.getInstance();
         DatabaseReference firebase_dbreference=firebase_database.getReference("JustIn");
         user_ref = firebase_dbreference.child("USERS").child(Global.username).child("Subscribers");
@@ -398,48 +293,7 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
                     if (child != null){
 
 
-                        getSubscriberdetails(child);
-
-
-
-                    }
-
-                }
-
-                //adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
-                //lv1.setAdapter(adapter);
-                //adapter.setContext(getApplicationContext());
-                //spinner.setVisibility(View.GONE);
-
-
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
-
-    private void getSubscriberdetails(final DataSnapshot child)
-    {
-        subscriber_detail = Global.firebase_dbreference.child("CHANNELS").child(child.getKey().toString()).child("status");
-        subscriber_detail.keepSynced(true);
-        subscriber_detail_listener= subscriber_detail.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String act;
-                //results.clear();
-                if(dataSnapshot!=null) {
-                    act = dataSnapshot.getValue().toString();
-
-
-                    if (child != null) {
+                       // getSubscriberdetails(child);
 
                         try {
 
@@ -457,11 +311,11 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
                                     sr1.setstatus("1");
                                 }
 
-                                if (act.equalsIgnoreCase("1")) {
-                                    sr1.setImageid(images[0]);
-                                } else {
+                               // if (act.equalsIgnoreCase("1")) {
+                                   // sr1.setImageid(images[0]);
+                              /*  } else {
                                     sr1.setImageid(images[1]);
-                                }
+                                }*/
 
                                 if (map.get("image") != null) {
                                     sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
@@ -490,25 +344,26 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
                         catch (ClassCastException ce) {
                             Toast.makeText(Dashboard.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
                         }
+
+
+
                     }
-                }
-                else
-                {
-                    Toast.makeText(Dashboard.this,"Invalid Subscriber Details",Toast.LENGTH_LONG).show();
+
                 }
 
 
+                //adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
+                //lv1.setAdapter(adapter);
+                //adapter.setContext(getApplicationContext());
+                //spinner.setVisibility(View.GONE);
 
                 adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
                 if(adapter!=null) {
                     lv1.setAdapter(adapter);
                     //adapter.setContext(getApplicationContext());
                 }
-                //spinner.setVisibility(View.GONE);
 
-
-
-
+                    getStatus();
             }
 
             @Override
@@ -518,12 +373,60 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
 
             }
         });
+
     }
 
 
 
+    private void getStatus()
+    {
+
+        for (int i = 0; i < lv1.getCount(); i++) {
+            Object o = lv1.getItemAtPosition(i);
+            final Suscriber_results fullObject = (Suscriber_results) o;
+            String Channel_id=fullObject.getChannelid();
+            subscriber_detail = Global.firebase_dbreference.child("CHANNELS").child(Channel_id).child("status");
+            subscriber_detail.keepSynced(true);
+            subscriber_detail_listener= subscriber_detail.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String act;
+                    //results.clear();
+                    if(dataSnapshot!=null) {
+                        act = dataSnapshot.getValue().toString();
+                        if (act.equalsIgnoreCase("1")) {
+                            fullObject.setImageid(images[0]);
+                        } else {
+                            fullObject.setImageid(images[1]);
+                        }
 
 
+
+                        }
+
+                    else
+                    {
+                        Toast.makeText(Dashboard.this,"Invalid Subscriber Details",Toast.LENGTH_LONG).show();
+                    }
+                    if(adapter!=null) {
+                        adapter.notifyDataSetChanged();
+                        lv1.invalidate();
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+
+        }
+
+    }
 
     @Override
     public void onPause()
@@ -753,17 +656,6 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
     }
 
 
-    /*@Override
-    public void onBackPressed() {
-
-        //user_ref.removeEventListener();
-
-        System.gc();
-
-          finish();
-
-    }*/
-
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -771,76 +663,5 @@ public class Dashboard extends BaseClass implements View.OnClickListener {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-
-    private void handleMenuSearch()
-    {
-        try
-        {
-            if (isSearchOpened)//test if search is open
-            {
-                actionBar.setDisplayShowCustomEnabled(false);//disable a custom view inside actionbar
-                actionBar.setDisplayShowTitleEnabled(true);//show the title in the action bar
-
-                //hide the Keyboard
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(edtSearch.getWindowToken(), 0);
-
-                //add the search icon in the action bar
-                mSearchAction.setIcon(getResources().getDrawable(R.mipmap.ic_open_search));
-                isSearchOpened = false;
-                //this is for tab hidden
-                llTabManager.setVisibility(View.GONE);
-            }
-            else//open the search entry
-            {
-                //this is for tab hidden
-                llTabManager.setVisibility(View.VISIBLE);
-
-                actionBar.setDisplayShowCustomEnabled(true);//enable it to display a custom view in the
-                //action bar
-                actionBar.setCustomView(R.layout.search_bar);//add the custom Search view
-                actionBar.setDisplayShowTitleEnabled(false);
-                edtSearch = (EditText)actionBar.getCustomView().findViewById(R.id.edtSearch);//the text editor
-
-                //this is a listener to do search when the user click on search button
-                edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                        if (actionId == EditorInfo.IME_ACTION_SEARCH)
-                        {
-                            doSearch();
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-
-                edtSearch.requestFocus();
-
-                //open the key board focused in the edtSearch
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT);
-
-                //add the close icon
-                mSearchAction.setIcon(getResources().getDrawable(R.mipmap.ic_close_search));
-
-                isSearchOpened = true;
-            }
-        }
-        catch (Exception e)
-        {
-            //constant.printError(TAG, "handleMenuSearch()");
-            e.printStackTrace();
-        }
-    }
-
-    private void doSearch()
-    {
-        //write search code.
-    }
-
-
 
 }

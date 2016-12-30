@@ -444,7 +444,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
         }
         else{
-            gps.showSettingsAlert1();
+            gps.showSettingsAlert();
         }
 
 

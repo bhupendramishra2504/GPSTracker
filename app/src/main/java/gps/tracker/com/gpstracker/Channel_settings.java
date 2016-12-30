@@ -924,49 +924,49 @@ public class Channel_settings extends AppCompatActivity{
         }
 
         DatabaseReference userdata = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("owner");
-        userdata.setValue(owner.getText().toString());
+        userdata.setValue(owner.getText().toString().toLowerCase());
         DatabaseReference userdata1 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("vehicle_name");
-        userdata1.setValue(vname.getText().toString());
+        userdata1.setValue(vname.getText().toString().toLowerCase());
         DatabaseReference userdata2 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("vehicle_number");
-        userdata2.setValue(vnumber.getText().toString());
+        userdata2.setValue(vnumber.getText().toString().toLowerCase());
         DatabaseReference userdata3 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("city");
-        userdata3.setValue(city1.getText().toString());
+        userdata3.setValue(city1.getText().toString().toLowerCase());
         DatabaseReference userdata4 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("visible");
         userdata4.setValue("1");
         DatabaseReference userdata5 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("refresh_status");
-        userdata5.setValue(refresh_rate.getText().toString());
+        userdata5.setValue(refresh_rate.getText().toString().toLowerCase());
         DatabaseReference userdata6 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("intercity");
-        userdata6.setValue(withincity.getText().toString());
+        userdata6.setValue(withincity.getText().toString().toLowerCase());
         DatabaseReference userdata7 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("status");
         userdata7.setValue("0");
         DatabaseReference userdata8 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("vtype");
-        userdata8.setValue(vtype.getText().toString());
+        userdata8.setValue(vtype.getText().toString().toLowerCase());
         DatabaseReference userdata9 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("category");
-        userdata9.setValue(category.getText().toString());
+        userdata9.setValue(category.getText().toString().toLowerCase());
 
 
 
 
         DatabaseReference userdata10 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("owner");
-        userdata10.setValue(owner.getText().toString());
+        userdata10.setValue(owner.getText().toString().toLowerCase());
         DatabaseReference userdata11 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("vehicle_name");
-        userdata11.setValue(vname.getText().toString());
+        userdata11.setValue(vname.getText().toString().toLowerCase());
         DatabaseReference userdata12 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("vehicle_number");
-        userdata12.setValue(vnumber.getText().toString());
+        userdata12.setValue(vnumber.getText().toString().toLowerCase());
         DatabaseReference userdata13 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("city");
-        userdata13.setValue(city1.getText().toString());
+        userdata13.setValue(city1.getText().toString().toLowerCase());
         DatabaseReference userdata14 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("visible");
         userdata14.setValue("1");
         DatabaseReference userdata15 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("refresh_status");
-        userdata15.setValue(refresh_rate.getText().toString());
+        userdata15.setValue(refresh_rate.getText().toString().toLowerCase());
         DatabaseReference userdata16 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("intercity");
-        userdata16.setValue(withincity.getText().toString());
+        userdata16.setValue(withincity.getText().toString().toLowerCase());
         DatabaseReference userdata17 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
         userdata17.setValue("0");
         DatabaseReference userdata18 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("vtype");
-        userdata18.setValue(vtype.getText().toString());
+        userdata18.setValue(vtype.getText().toString().toLowerCase());
         DatabaseReference userdata19 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("category");
-        userdata19.setValue(category.getText().toString());
+        userdata19.setValue(category.getText().toString().toLowerCase());
         DatabaseReference userdata20 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("mobile");
         userdata20.setValue(Global.username);
         upload_image_to_firebase1();

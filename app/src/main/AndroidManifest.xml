@@ -30,11 +30,6 @@
             android:name=".Broadcast_Receiver"
             android:enabled="true" />
 
-        <service
-            android:name=".GPSTracker"
-            android:enabled="true"
-            android:process=":remote" />
-
         <activity
             android:name=".Map_activity"
             android:configChanges="keyboardHidden|orientation"

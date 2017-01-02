@@ -4,8 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.widget.Toast;
@@ -80,7 +84,8 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
         client.setGoogleProjectId("joinin-440f7");*/
 
         offline_update();
-        GPSTracker gps = new GPSTracker(context);
+        //get_location();
+       GPSTracker gps = new GPSTracker(context);
         if(gps.canGetLocation()) {
             //Global.gps_ok=true;
             latitude=0.0;
@@ -88,6 +93,7 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
             add_location_to_server();
+            gps.stopUsingGPS();
         }
         else
         {
@@ -99,6 +105,31 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
         }
 
 
+    }
+
+
+    public void get_location()
+    {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+// Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                add_location_to_server();
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+// Register the listener with the Location Manager to receive location updates
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
     }
 
     private void add_location_to_server()
@@ -120,6 +151,8 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
         }
 
         cpuWakeLock.release();
+
+
 
     }
 

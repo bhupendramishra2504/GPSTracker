@@ -88,6 +88,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         mapview.onCreate(savedInstanceState);
         mapview.getMapAsync(this, "bubble-wrap1/bubble-wrap.yaml");
         scale_map=13f;
+        //fetch_loc_fb();
+
 
         zoomplus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -444,7 +446,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
         }
         else{
-            gps.showSettingsAlert();
+            gps.showSettingsAlert1();
         }
 
 

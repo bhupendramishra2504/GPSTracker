@@ -1,5 +1,6 @@
 package gps.tracker.com.gpstracker;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,8 +46,9 @@ public class Search_activity extends AppCompatActivity {
     // --Commented out by Inspection (01/12/16, 10:26 PM):SearchManager searchManager;
     // --Commented out by Inspection (01/12/16, 10:26 PM):SearchView searchView;
     // --Commented out by Inspection (01/12/16, 10:26 PM):ImageView add_channel;
-    private int count=0;
+    private int count=0,follower_count=0;
     private int LIMIT_SEARCH_RESULT=30;
+    private int MAX_FOLLOWER_COUNT=5;
     private String name;
     private String id;
     private String channel_mobile;
@@ -58,6 +60,7 @@ public class Search_activity extends AppCompatActivity {
     private String channel_category;
     private String channel_vtype;
     private String follower_set;
+    private Activity search_activity;
     // --Commented out by Inspection (01/12/16, 10:26 PM):ActionBar ab;
     // --Commented out by Inspection (01/12/16, 10:26 PM):private int search_filter=1;
 
@@ -73,7 +76,7 @@ public class Search_activity extends AppCompatActivity {
         desc=(TextView)findViewById(R.id.desc);
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
-
+        search_activity=Search_activity.this;
         Global.set_action_bar_details(Search_activity.this,"Search","");
 
 
@@ -219,7 +222,7 @@ public class Search_activity extends AppCompatActivity {
 
                                     if (!Global.username.equalsIgnoreCase("") | !Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
                                         // continue with delete
-                                        add_subscribe_details();
+                                        /*add_subscribe_details();
                                         add_follower_details();
                                         write_bmp_to_firebase();
                                         //write_image_to_firebase(bmp);
@@ -227,7 +230,8 @@ public class Search_activity extends AppCompatActivity {
                                         Toast.makeText(Search_activity.this, "Channel is subscribed successfully ", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(Search_activity.this, Dashboard.class);
                                         startActivity(intent);
-                                        finish();
+                                        finish();*/
+                                        subscribe_channel();
                                     } else {
                                         authenticate();
                                     }
@@ -278,6 +282,50 @@ public class Search_activity extends AppCompatActivity {
         }
     }
 
+
+    private void subscribe_channel()
+    {
+        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_invite.split(":")[1].trim()).child("followers");
+        user_ref.keepSynced(true);
+        user_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                follower_count=0;
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                    if (child != null) {
+                        follower_count++;
+                        }
+
+                    }
+                if(follower_count<=MAX_FOLLOWER_COUNT)
+                {
+                    add_subscribe_details();
+                    add_follower_details();
+                    write_bmp_to_firebase();
+                    //write_image_to_firebase(bmp);
+                    lv2.setVisibility(View.GONE);
+                    Toast.makeText(Search_activity.this, "Channel is subscribed successfully ", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Search_activity.this, Dashboard.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(search_activity,"Cannot follow this channel as it exceeds the maximum number of follwers limit",Toast.LENGTH_LONG).show();
+                }
+
+                }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Toast.makeText(Search_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
 
     private void GetChannelSearchResults(final String query,final int search){
         //ArrayList<SearchResults> results = new ArrayList<SearchResults>();
@@ -916,6 +964,8 @@ public class Search_activity extends AppCompatActivity {
             });
 
         }
+
+
 
 
 

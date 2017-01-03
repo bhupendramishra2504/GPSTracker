@@ -23,6 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 //import ibt.ortc.extensibility.OrtcClient;
 //import ibt.ortc.extensibility.OrtcFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -42,6 +45,7 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
     //OrtcFactory factory;
     //public static OrtcClient client;
     private String channel_id="";
+    String text="";
 
     @Override
     public void onReceive(Context arg0, Intent arg1) {
@@ -55,8 +59,9 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
         PowerManager pm = (PowerManager) arg0.getSystemService(Context.POWER_SERVICE);
         cpuWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "gps_service");
+        cpuWakeLock.setReferenceCounted(false);
 
-        if (!cpuWakeLock.isHeld()) {
+        if ((cpuWakeLock != null) && !cpuWakeLock.isHeld()) {
             cpuWakeLock.acquire();
         }
         //System.out.println("Broadcasted");
@@ -87,13 +92,22 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
         //get_location();
        GPSTracker gps = new GPSTracker(context);
         if(gps.canGetLocation()) {
+            //Location location=gps.getLocation();
             //Global.gps_ok=true;
             latitude=0.0;
             longitude=0.0;
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-            add_location_to_server();
-            gps.stopUsingGPS();
+
+                latitude = gps.getLatitude();
+                longitude = gps.getLongitude();
+                //Date date = new Date(location.getTime());
+               // SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+               // text = sdf.format(date);
+                //Toast.makeText(context,"GPS Time Stamp for location is "+text,Toast.LENGTH_LONG).show();
+
+
+
+            add_location_to_server(gps);
+            //gps.stopUsingGPS();
         }
         else
         {
@@ -108,37 +122,15 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
     }
 
 
-    public void get_location()
-    {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
-// Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                // Called when a new location is found by the network location provider.
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                add_location_to_server();
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-            public void onProviderEnabled(String provider) {}
-
-            public void onProviderDisabled(String provider) {}
-        };
-
-// Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-    }
-
-    private void add_location_to_server()
+    private void add_location_to_server(GPSTracker gps)
     {
         if(longitude!=0.0 && latitude!=0.0 && !channel_id.equalsIgnoreCase("") && isNetworkAvailable(context)) {
             update_channel_status();
+
             DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("locations").child("latest_location");
             //client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
-            loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
+            loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+gps.getTimeStamp()));
             Toast.makeText(context,"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
         }
         else
@@ -150,7 +142,9 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             editor.apply();
         }
 
-        cpuWakeLock.release();
+        if(cpuWakeLock.isHeld()) {
+            cpuWakeLock.release();
+        }
 
 
 

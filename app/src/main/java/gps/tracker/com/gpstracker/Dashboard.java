@@ -1,5 +1,7 @@
 package gps.tracker.com.gpstracker;
 
+import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -626,7 +628,7 @@ public class Dashboard extends BaseClass  {
     private void grant_all_permission()
     {
         int PERMISSION_ALL = 1;
-        String[] PERMISSIONS = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.INTERNET, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.WAKE_LOCK};
+        String[] PERMISSIONS = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_WIFI_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.INTERNET, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.WAKE_LOCK, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS};
         if(!has_permissions(PERMISSIONS)){
             ActivityCompat.requestPermissions(Dashboard.this, PERMISSIONS, PERMISSION_ALL);
         }

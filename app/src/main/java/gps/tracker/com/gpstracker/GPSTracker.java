@@ -31,9 +31,11 @@ public final class GPSTracker extends Service implements LocationListener {
     // flag for GPS status
     private boolean canGetLocation = false;
 
-    private Location location; // location
-    private double latitude; // latitude
-    private double longitude; // longitude
+    private Location location;
+    private Location location_gps,location_network;// location
+    private double latitude,latitude_network,latitude_gps; // latitude
+    private double longitude,longitude_network,longitude_gps; // longitude
+    private long time_stamp_network=0,time_stamp_gps=0;
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
@@ -90,19 +92,20 @@ public final class GPSTracker extends Service implements LocationListener {
             } else {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
-                    location = null;
+                    location_network = null;
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     Log.d("Network", "Network");
                     if (locationManager != null) {
-                        location = locationManager
+                        location_network = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            Date date = new Date(location.getTime());
+                        if (location_network != null) {
+                            latitude_network = location_network.getLatitude();
+                            longitude_network = location_network.getLongitude();
+                            time_stamp_network=location_network.getTime();
+                            Date date = new Date(location_network.getTime());
                             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                             String text = sdf.format(date);
                             Toast.makeText(mContext, "Network Time Stamp for location is " + text, Toast.LENGTH_LONG).show();
@@ -112,8 +115,8 @@ public final class GPSTracker extends Service implements LocationListener {
                 }
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
-                    location = null;
-                    if (location == null) {
+                    location_gps = null;
+                    if (location_gps == null) {
 
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
@@ -121,19 +124,32 @@ public final class GPSTracker extends Service implements LocationListener {
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                         Log.d("GPS Enabled", "GPS Enabled");
                         if (locationManager != null) {
-                            location = locationManager
+                            location_gps = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
+                            if (location_gps != null) {
+                                latitude_gps = location_gps.getLatitude();
+                                longitude_gps = location_gps.getLongitude();
                                 //location.getTime();
-                                Date date = new Date(location.getTime());
+                                time_stamp_gps=location_gps.getTime();
+                                Date date = new Date(location_gps.getTime());
                                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                 String text = sdf.format(date);
                                 Toast.makeText(mContext, "GPS Time Stamp for location is " + text, Toast.LENGTH_LONG).show();
                             }
                         }
                     }
+                }
+                if(time_stamp_network-time_stamp_gps>120000)
+                {
+                    location=location_network;
+                    Toast.makeText(mContext, "selecting network location", Toast.LENGTH_LONG).show();
+
+                }
+                else
+                {
+                    location=location_gps;
+                    Toast.makeText(mContext, "selecting Gps location", Toast.LENGTH_LONG).show();
+
                 }
             }
 

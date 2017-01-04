@@ -1,5 +1,6 @@
 package gps.tracker.com.gpstracker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -38,6 +39,8 @@ public class MyChannels_RV extends AppCompatActivity {
     private final Integer[] images = { R.drawable.broadcast_icon,R.drawable.red_circle };
     private final Integer[] visible_images={R.drawable.visible,R.drawable.invisible};
     private int position=0;
+    private Activity activity;
+
     //private ProgressBar spinner;
 
 
@@ -48,6 +51,7 @@ public class MyChannels_RV extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_channels);
         adapter=null;
+        activity=MyChannels_RV.this;
 
         lv1=(ListView)findViewById(R.id.channel_list);
         TextView desc = (TextView) findViewById(R.id.dd);
@@ -263,18 +267,22 @@ public class MyChannels_RV extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                         if (Global.isNetworkAvailable(MyChannels_RV.this)) {
-                            Object o = lv1.getItemAtPosition(position);
-                            Channel_list fullObject = (Channel_list) o;
-                            Toast.makeText(MyChannels_RV.this, "You have chosen: " + " " + fullObject.getsName() + Global.separator + fullObject.getsPhone(), Toast.LENGTH_LONG).show();
-                            subscriber_invite = fullObject.getChannelid();
-                            String subscriber = subscriber_invite.split(":")[1].trim();
-                            //subscriber_name = fullObject.getsName();
-                            Global.getUserdetails();
-                            Intent i1 = new Intent(MyChannels_RV.this, Channel_settings.class);
-                            i1.putExtra("subscriber", subscriber);
-                            i1.putExtra("status", status);
-                            startActivity(i1);
-                            finish();
+
+                                Object o = lv1.getItemAtPosition(position);
+                                Channel_list fullObject = (Channel_list) o;
+                                Toast.makeText(MyChannels_RV.this, "You have chosen: " + " " + fullObject.getsName() + Global.separator + fullObject.getsPhone(), Toast.LENGTH_LONG).show();
+                                subscriber_invite = fullObject.getChannelid();
+                                String subscriber = subscriber_invite.split(":")[1].trim();
+                                //subscriber_name = fullObject.getsName();
+                                Global.getUserdetails();
+
+                                Intent i1 = new Intent(MyChannels_RV.this, Channel_settings.class);
+                                i1.putExtra("subscriber", subscriber);
+                                i1.putExtra("status", status);
+                                startActivity(i1);
+                                finish();
+
+
                         } else {
                             Toast.makeText(MyChannels_RV.this, "No Internet connection found chekc wifi/mobile networks", Toast.LENGTH_LONG).show();
                         }

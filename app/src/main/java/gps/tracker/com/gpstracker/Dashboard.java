@@ -71,6 +71,7 @@ public class Dashboard extends BaseClass  {
     Typeface robotoBold;
     ActionBar actionBar;
     Constant constant;
+    private int channel_count=0;
 
     //private Value
 
@@ -290,6 +291,7 @@ public class Dashboard extends BaseClass  {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 results.clear();
+                channel_count=0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     if (child != null){
@@ -337,6 +339,7 @@ public class Dashboard extends BaseClass  {
 
 
                                 results.add(sr1);
+                                channel_count++;
                                 map.clear();
                                 sr1 = null;
                             }
@@ -362,6 +365,8 @@ public class Dashboard extends BaseClass  {
                 adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
                 if(adapter!=null) {
                     lv1.setAdapter(adapter);
+                    Global.save_channel_count(activity,channel_count);
+                    Toast.makeText(activity,"Channel Count is"+String.valueOf(Global.get_channel_count(activity)),Toast.LENGTH_LONG).show();
                     //adapter.setContext(getApplicationContext());
                 }
 

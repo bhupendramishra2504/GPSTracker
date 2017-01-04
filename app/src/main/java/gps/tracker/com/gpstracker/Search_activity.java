@@ -61,6 +61,8 @@ public class Search_activity extends AppCompatActivity {
     private String channel_vtype;
     private String follower_set;
     private Activity search_activity;
+    private int MAX_CHANNEL_FOLLOWED_USER=3;
+    private Activity activity;
     // --Commented out by Inspection (01/12/16, 10:26 PM):ActionBar ab;
     // --Commented out by Inspection (01/12/16, 10:26 PM):private int search_filter=1;
 
@@ -78,6 +80,8 @@ public class Search_activity extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
         search_activity=Search_activity.this;
         Global.set_action_bar_details(Search_activity.this,"Search","");
+
+        activity=Search_activity.this;
 
 
         Channel_search sr1 = new Channel_search();
@@ -231,7 +235,16 @@ public class Search_activity extends AppCompatActivity {
                                         Intent intent = new Intent(Search_activity.this, Dashboard.class);
                                         startActivity(intent);
                                         finish();*/
-                                        subscribe_channel();
+
+                                        int channel_count=Global.get_channel_count(activity);
+                                        if(channel_count<=MAX_CHANNEL_FOLLOWED_USER-1) {
+                                            Global.save_channel_count(activity, channel_count+1);
+                                            subscribe_channel();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(activity,"You have reached maximum followers limits either switch to premium plan or delete some channel to add new",Toast.LENGTH_LONG).show();
+                                        }
                                     } else {
                                         authenticate();
                                     }

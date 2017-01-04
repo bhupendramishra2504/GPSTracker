@@ -1,6 +1,7 @@
 package gps.tracker.com.gpstracker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBar;
@@ -15,6 +16,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by bhupendramishra on 08/10/16.
@@ -176,6 +179,28 @@ class Global {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static void save_channel_count(Context context,int follower_channel_count)
+    {
+
+        SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+        editor.putString("follower_channel_count",String.valueOf(follower_channel_count) );
+        editor.apply();
+
+    }
+
+    public static int get_channel_count(Context context)
+    {
+        int i=0;
+        SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+        String count_string = prefs.getString("follower_channel_count", "NA");
+        if(!count_string.equalsIgnoreCase("NA"))
+        {
+            i=Integer.parseInt(count_string);
+        }
+        return i;
+
     }
 
 

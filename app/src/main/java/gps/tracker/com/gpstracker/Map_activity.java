@@ -392,7 +392,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             gps=null;
         }
 
-        mapview.onDestroy();
+       // mapview.onDestroy();
 
     }
 
@@ -405,9 +405,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     @Override
     public void onBackPressed() {
 
-        mapview.onDestroy();
-        fetch_loc_ref.removeEventListener(fetch_listener);
-        channel_status.removeEventListener(channel_status_listener);
+       // mapview.onDestroy();
+       // fetch_loc_ref.removeEventListener(fetch_listener);
+       // channel_status.removeEventListener(channel_status_listener);
         Intent intent = new Intent(Map_activity.this, Dashboard.class);
         startActivity(intent);
         finish();

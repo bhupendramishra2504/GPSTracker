@@ -257,7 +257,7 @@ public class Dashboard extends BaseClass  {
             AlertDialog.Builder builder =
                     new AlertDialog.Builder(this);
             builder.setTitle("JustIn");
-            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-1.8.0"+System.getProperty("line.separator")+"Release Date : 30/12/2016"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"bug fixes and perf improvements");
+            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-1.8.1"+System.getProperty("line.separator")+"Release Date : 03/01/2017"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"bug fixes and perf improvements"+System.getProperty("line.separator")+"Broadcasting performance enhanced"+System.getProperty("line.separator")+"old gps on map issue solved"+System.getProperty("line.separator")+"real time from location is fed into the server in place of current time");
             builder.setPositiveButton("OK", null);
             builder.show();
             return true;

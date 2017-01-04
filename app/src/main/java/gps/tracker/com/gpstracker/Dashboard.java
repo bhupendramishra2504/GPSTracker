@@ -395,16 +395,17 @@ public class Dashboard extends BaseClass  {
                     String act;
                     //results.clear();
                     if(dataSnapshot!=null) {
-                        act = dataSnapshot.getValue().toString();
-                        if (act.equalsIgnoreCase("1")) {
-                            fullObject.setImageid(images[0]);
-                        } else {
-                            fullObject.setImageid(images[1]);
+                        if (dataSnapshot.getValue() != null) {
+                            act = dataSnapshot.getValue().toString();
+                            if (act.equalsIgnoreCase("1")) {
+                                fullObject.setImageid(images[0]);
+                            } else {
+                                fullObject.setImageid(images[1]);
+                            }
+
+
                         }
-
-
-
-                        }
+                    }
 
                     else
                     {

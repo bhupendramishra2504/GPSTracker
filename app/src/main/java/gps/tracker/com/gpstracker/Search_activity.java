@@ -61,7 +61,7 @@ public class Search_activity extends AppCompatActivity {
     private String channel_vtype;
     private String follower_set;
     private Activity search_activity;
-    private int MAX_CHANNEL_FOLLOWED_USER=3;
+    private int MAX_CHANNEL_FOLLOWED_USER=4;
     private Activity activity;
     // --Commented out by Inspection (01/12/16, 10:26 PM):ActionBar ab;
     // --Commented out by Inspection (01/12/16, 10:26 PM):private int search_filter=1;

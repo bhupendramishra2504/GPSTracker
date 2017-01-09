@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -96,6 +97,7 @@ public class OTP extends AppCompatActivity {
 
                             Toast.makeText(OTP.this, "User Created Successfully" + imei, Toast.LENGTH_LONG).show();
                             save_user_profile(mobile);
+                            default_channel_dashboard(mobile);
                             spinner.setVisibility(View.GONE);
                             Intent intent = new Intent(OTP.this, Dashboard.class);
                             startActivity(intent);
@@ -106,6 +108,7 @@ public class OTP extends AppCompatActivity {
                             save_user_profile(new_number);
                             write_channel_data();
                             change_user_data();
+                            default_channel_dashboard(new_number);
                             Intent intent = new Intent(OTP.this, Dashboard.class);
                             startActivity(intent);
                             finish();
@@ -208,11 +211,112 @@ public class OTP extends AppCompatActivity {
     private void save_user_profile(String number)
     {
 
-            SharedPreferences.Editor editor = getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
-            editor.putString("mobile",number );
-            editor.putString("id", imei);
-            editor.apply();
+           try {
+
+               SharedPreferences.Editor editor = getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+               editor.putString("mobile", number);
+               editor.putString("id", imei);
+               editor.apply();
+           }catch(Exception e)
+           {
+               Toast.makeText(OTP.this,"Fatal Error while saving user profile"+e.getMessage(),Toast.LENGTH_LONG).show();
+
+           }
 
     }
+
+    private void default_channel_dashboard(String mobile)
+    {
+        try {
+
+
+            String channel_id = Global.generate_channel_id();
+
+
+            DatabaseReference userdatafd = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("follower_setting");
+            userdatafd.setValue("1");
+
+            DatabaseReference userdata = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("owner");
+            userdata.setValue(name);
+            DatabaseReference userdata1 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("vehicle_name");
+            userdata1.setValue(name);
+            DatabaseReference userdata2 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("vehicle_number");
+            userdata2.setValue("Default");
+            DatabaseReference userdata3 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("city");
+            userdata3.setValue(city);
+            DatabaseReference userdata4 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("visible");
+            userdata4.setValue("1");
+            DatabaseReference userdata5 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("refresh_status");
+            userdata5.setValue("1min");
+            DatabaseReference userdata6 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("intercity");
+            userdata6.setValue("WithinCity");
+            DatabaseReference userdata7 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("status");
+            userdata7.setValue("0");
+            DatabaseReference userdata8 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("vtype");
+            userdata8.setValue("Sedan");
+            DatabaseReference userdata9 = Global.firebase_dbreference.child("USERS").child(Global.username).child("channels").child(channel_id).child("category");
+            userdata9.setValue("a");
+
+
+            DatabaseReference userdata10 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("owner");
+            userdata10.setValue(name);
+            DatabaseReference userdata11 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("vehicle_name");
+            userdata11.setValue(name);
+            DatabaseReference userdata12 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("vehicle_number");
+            userdata12.setValue("Default");
+            DatabaseReference userdata13 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("city");
+            userdata13.setValue(city);
+            DatabaseReference userdata14 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("visible");
+            userdata14.setValue("1");
+            DatabaseReference userdata15 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("refresh_status");
+            userdata15.setValue("1min");
+            DatabaseReference userdata16 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("intercity");
+            userdata16.setValue("WithinCity");
+            DatabaseReference userdata17 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+            userdata17.setValue("0");
+            DatabaseReference userdata18 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("vtype");
+            userdata18.setValue("Sedan");
+            DatabaseReference userdata19 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("category");
+            userdata19.setValue("a");
+            DatabaseReference userdata20 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("mobile");
+            userdata20.setValue(Global.username);
+
+            DatabaseReference userdata000 = Global.firebase_dbreference.child("USERS").child(mobile).child("Subscribers").child(channel_id).child("name");
+            userdata000.setValue(name);
+            DatabaseReference userdata111 = Global.firebase_dbreference.child("USERS").child(mobile).child("Subscribers").child(channel_id).child("vehicle_number");
+            userdata111.setValue("Default");
+            DatabaseReference userdata333 = Global.firebase_dbreference.child("USERS").child(mobile).child("Subscribers").child(channel_id).child("vname");
+            userdata333.setValue(name);
+            DatabaseReference userdata444 = Global.firebase_dbreference.child("USERS").child(mobile).child("Subscribers").child(channel_id).child("active");
+            userdata444.setValue("1");
+            DatabaseReference userdata555 = Global.firebase_dbreference.child("USERS").child(mobile).child("Subscribers").child(channel_id).child("status");
+            userdata555.setValue("0");
+            DatabaseReference userdata666 = Global.firebase_dbreference.child("USERS").child(mobile).child("Subscribers").child(channel_id).child("mobile");
+            userdata666.setValue(Global.username);
+            DatabaseReference userdata777 = Global.firebase_dbreference.child("USERS").child(mobile).child("Subscribers").child(channel_id).child("vtype");
+            userdata777.setValue("Sedan");
+            DatabaseReference userdata888 = Global.firebase_dbreference.child("USERS").child(mobile).child("Subscribers").child(channel_id).child("category");
+            userdata888.setValue("a");
+            DatabaseReference userdata999 = Global.firebase_dbreference.child("USERS").child(mobile).child("Subscribers").child(channel_id).child("unblock");
+            userdata999.setValue("1");
+
+            DatabaseReference userdata0000 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("followers").child(mobile).child("name");
+            userdata0000.setValue(name);
+            DatabaseReference userdata2222 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("followers").child(mobile).child("unblock");
+            userdata2222.setValue("1");
+            DatabaseReference userdata1111 = Global.firebase_dbreference.child("USERS").child(channel_id).child("followers").child(mobile).child("unblock");
+            userdata1111.setValue("1");
+        }catch(Exception e)
+        {
+            Toast.makeText(OTP.this,"Fatal Error while creating default channel in dashboard"+e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        //upload_image_to_firebase1();
+
+    }
+
+
+
+
+
 
 }

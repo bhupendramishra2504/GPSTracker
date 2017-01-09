@@ -33,7 +33,7 @@ public class Search_activity extends AppCompatActivity {
     private TextView desc;
 
     private Button search_type;
-    private Button search;
+    private Button search_button;
     private EditText search_string;
     //ListView lv1;
     private ListView lv2;
@@ -74,7 +74,7 @@ public class Search_activity extends AppCompatActivity {
         lv2=(ListView)findViewById(R.id.search_list);
         search_type=(Button)findViewById(R.id.stype);
         search_string=(EditText) findViewById(R.id.search_string);
-        search=(Button)findViewById(R.id.search);
+        search_button=(Button)findViewById(R.id.search);
         desc=(TextView)findViewById(R.id.desc);
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
@@ -117,18 +117,19 @@ public class Search_activity extends AppCompatActivity {
 
 
 
-        search.setOnClickListener(new View.OnClickListener() {
+        search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 count=0;
-                search.requestFocus();
+                search_button.requestFocus();
                 search_string.clearFocus();
                 spinner.setVisibility(View.VISIBLE);
                 search_results.clear();
+                search_button.setEnabled(false);
                 desc.setText("No result found for your search query.... Try Again....");
 
                 search_adapter.notifyDataSetChanged();
-                if(search.getText().toString().equalsIgnoreCase("Search your city"))
+                if(search_button.getText().toString().equalsIgnoreCase("Search your city"))
                 {
 
                     if(search_type.getText().toString().equalsIgnoreCase("By Vehicle Name"))
@@ -157,7 +158,7 @@ public class Search_activity extends AppCompatActivity {
                         spinner.setVisibility(View.GONE);
                         Toast.makeText(Search_activity.this,"No Search Result Found",Toast.LENGTH_LONG).show();
                     }
-                    search.setText("Search All");
+                    search_button.setText("Search All");
                     //search_filter=2;
                 }
                 else
@@ -188,7 +189,7 @@ public class Search_activity extends AppCompatActivity {
                         spinner.setVisibility(View.GONE);
                         Toast.makeText(Search_activity.this,"No Search Result Found",Toast.LENGTH_LONG).show();
                     }
-                    search.setText("Search your city");
+                    search_button.setText("Search your city");
                     desc.setText("Showing all results for your search : "+String.valueOf(count)+" results found");
                     //search_filter=1;
                 }
@@ -261,7 +262,7 @@ public class Search_activity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(Search_activity.this,"No Active Network Connection Found",Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity,"No Active Network Connection Found",Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -298,45 +299,46 @@ public class Search_activity extends AppCompatActivity {
 
     private void subscribe_channel()
     {
-        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_invite.split(":")[1].trim()).child("followers");
-        user_ref.keepSynced(true);
-        user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                follower_count=0;
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
+        try {
+            DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_invite.split(":")[1].trim()).child("followers");
+            user_ref.keepSynced(true);
+            user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    follower_count = 0;
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
 
-                    if (child != null) {
-                        follower_count++;
+                        if (child != null) {
+                            follower_count++;
                         }
 
                     }
-                if(follower_count<=MAX_FOLLOWER_COUNT)
-                {
-                    add_subscribe_details();
-                    add_follower_details();
-                    write_bmp_to_firebase();
-                    //write_image_to_firebase(bmp);
-                    lv2.setVisibility(View.GONE);
-                    Toast.makeText(Search_activity.this, "Channel is subscribed successfully ", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(Search_activity.this, Dashboard.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else
-                {
-                    Toast.makeText(search_activity,"Cannot follow this channel as it exceeds the maximum number of follwers limit",Toast.LENGTH_LONG).show();
-                }
+                    if (follower_count <= MAX_FOLLOWER_COUNT) {
+                        add_subscribe_details();
+                        add_follower_details();
+                        write_bmp_to_firebase();
+                        //write_image_to_firebase(bmp);
+                        lv2.setVisibility(View.GONE);
+                        Toast.makeText(Search_activity.this, "Channel is subscribed successfully ", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Search_activity.this, Dashboard.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(activity, "Cannot follow this channel as it exceeds the maximum number of follwers limit", Toast.LENGTH_LONG).show();
+                    }
 
                 }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(Search_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Toast.makeText(activity, error.toException().toString(), Toast.LENGTH_LONG).show();
 
-            }
-        });
+                }
+            });
+        }catch(Exception e){
+        Toast.makeText(activity,"Fatal Error while Subscribing a channel",Toast.LENGTH_LONG).show();
+    }
 
     }
 
@@ -439,8 +441,7 @@ public class Search_activity extends AppCompatActivity {
                 lv2.setAdapter(search_adapter);
                 //search_adapter.setContext(Search_channel.this);
                 spinner.setVisibility(View.GONE);
-
-
+                search_button.setEnabled(true);
 
 
 
@@ -450,7 +451,7 @@ public class Search_activity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Toast.makeText(Search_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
+                search_button.setEnabled(true);
             }
         });
 
@@ -551,7 +552,7 @@ public class Search_activity extends AppCompatActivity {
                 lv2.setAdapter(search_adapter);
                 // search_adapter.setContext(Search_channel.this);
                 spinner.setVisibility(View.GONE);
-
+                search_button.setEnabled(true);
 
 
 
@@ -561,7 +562,7 @@ public class Search_activity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Toast.makeText(Search_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
+                search_button.setEnabled(true);
             }
         });
 
@@ -665,7 +666,7 @@ public class Search_activity extends AppCompatActivity {
                 lv2.setAdapter(search_adapter);
                 // search_adapter.setContext(Search_channel.this);
                 spinner.setVisibility(View.GONE);
-
+                search_button.setEnabled(true);
 
 
 
@@ -675,7 +676,7 @@ public class Search_activity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Toast.makeText(Search_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
+                search_button.setEnabled(true);
             }
         });
 
@@ -785,7 +786,7 @@ public class Search_activity extends AppCompatActivity {
                 lv2.setAdapter(search_adapter);
                 // search_adapter.setContext(Search_channel.this);
                 spinner.setVisibility(View.GONE);
-
+                search_button.setEnabled(true);
 
 
 
@@ -795,7 +796,7 @@ public class Search_activity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Toast.makeText(Search_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
+                search_button.setEnabled(true);
             }
         });
 
@@ -897,7 +898,7 @@ public class Search_activity extends AppCompatActivity {
                 lv2.setAdapter(search_adapter);
                 // search_adapter.setContext(Search_channel.this);
                 spinner.setVisibility(View.GONE);
-
+                search_button.setEnabled(true);
 
             }
 
@@ -905,7 +906,7 @@ public class Search_activity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Toast.makeText(Search_activity.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
+                search_button.setEnabled(true);
             }
         });
     }

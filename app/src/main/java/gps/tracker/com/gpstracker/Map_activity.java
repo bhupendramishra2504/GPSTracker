@@ -86,10 +86,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             ab = getSupportActionBar();
             ab.setTitle(name+ " " + vnumber);
             ab.setDisplayHomeAsUpEnabled(true);
-        }catch(Exception e)
-        {
-            Toast.makeText(activity.get(),"Fatal error in fetching channel details",Toast.LENGTH_LONG).show();
-        }
+
         mapview.onCreate(savedInstanceState);
         mapview.getMapAsync(this, "bubble-wrap1/bubble-wrap.yaml");
         scale_map=13f;
@@ -180,6 +177,10 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
 
         channel_status_check();
+        }catch(Exception e)
+        {
+            Toast.makeText(activity.get(),"Fatal error in fetching channel details",Toast.LENGTH_LONG).show();
+        }
 
 
     }

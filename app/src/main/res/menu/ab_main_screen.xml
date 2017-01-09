@@ -9,15 +9,11 @@
             <item android:id="@+id/user_setting"
                 android:title="User Settings"
                 dash:showAsAction="never"/>
-           <item
-               android:title="Generate Dummy Channel"
-                 dash:showAsAction="never"/>
+
             <item
                 android:title="Contact Us"
                 dash:showAsAction="never"/>
-            <item
-                android:title="Notifications"
-                dash:showAsAction="never"/>
+
             <item
                 android:title="About"
                 android:id="@+id/about"

@@ -80,26 +80,26 @@ public class Dashboard extends BaseClass  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_new);
+        try {
+            adapter = null;
+            activity = Dashboard.this;
+            constant = new Constant(activity);
 
-        adapter = null;
-        activity = Dashboard.this;
-        constant = new Constant(activity);
+            //authenticate();
+            if (!grant_permission()) {
+                grant_all_permission();
+            }
 
-        //authenticate();
-        if (!grant_permission()) {
-            grant_all_permission();
-        }
-
-        robotoBold = Typeface.createFromAsset(activity.getAssets(), "fonts/roboto_bold.ttf");
+            robotoBold = Typeface.createFromAsset(activity.getAssets(), "fonts/roboto_bold.ttf");
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
-        constant.setUpActionBar("JustIn", actionBar, false);
-        //ActionBar ab = getSupportActionBar();
-        //assert ab != null;
-        //ab.setTitle("JUSTIN");
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            actionBar = getSupportActionBar();
+            constant.setUpActionBar("JustIn", actionBar, false);
+            //ActionBar ab = getSupportActionBar();
+            //assert ab != null;
+            //ab.setTitle("JUSTIN");
         /*if(Global.channel_broadcasting_name.equalsIgnoreCase("NONE"))
         {
             ab.setSubtitle("");
@@ -109,96 +109,94 @@ public class Dashboard extends BaseClass  {
             ab.setSubtitle(Global.channel_broadcasting_name+","+Global.channel_broadcasting_vnumber);
         }*/
 
-       // ab.setDisplayHomeAsUpEnabled(false);
+            // ab.setDisplayHomeAsUpEnabled(false);
 
 
-        SharedPreferences prefs = getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
-        name = prefs.getString("mobile", "not valid");
-        username=prefs.getString("username", "NA");
-        if (!name.equalsIgnoreCase("") && !name.equalsIgnoreCase(null) && !name.equalsIgnoreCase("not valid")) {
-            Global.username = name;
-            Dashboard.Subscriber_channel_class scc = new Dashboard.Subscriber_channel_class();
-            scc.execute();
+            SharedPreferences prefs = getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+            name = prefs.getString("mobile", "not valid");
+            username = prefs.getString("username", "NA");
+            if (!name.equalsIgnoreCase("") && !name.equalsIgnoreCase(null) && !name.equalsIgnoreCase("not valid")) {
+                Global.username = name;
+                Dashboard.Subscriber_channel_class scc = new Dashboard.Subscriber_channel_class();
+                scc.execute();
 
-        } else {
-            Intent intent = new Intent(Dashboard.this, Register.class);
-            startActivity(intent);
-            finish();
-        }
-        lv1 = (ListView) findViewById(R.id.subscriber_list);
-
-
-
-
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(Dashboard.this, Search_activity.class);
+            } else {
+                Intent intent = new Intent(Dashboard.this, Register.class);
                 startActivity(intent);
                 finish();
             }
-        });
+            lv1 = (ListView) findViewById(R.id.subscriber_list);
 
 
-
-
-        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-
-                if (isNetworkAvailable() | !isNetworkAvailable()) {
-
-                    if (!Global.username.equalsIgnoreCase("") && !Global.username.equalsIgnoreCase(null) && !Global.username.equalsIgnoreCase("not valid") && !username.equalsIgnoreCase(null) && !username.equalsIgnoreCase("NA")) {
-
-
-                        Object o = lv1.getItemAtPosition(position);
-                        final Suscriber_results fullObject = (Suscriber_results) o;
-                        // Toast.makeText(Dashboard.this, "You have chosen: " + " " + fullObject.getsName()+Global.separator+fullObject.getsPhone(), Toast.LENGTH_LONG).show();
-                        subscriber_invite = fullObject.getChannelid();
-                        subscriber = subscriber_invite;
-                        String block_unblock = fullObject.getstatus();
-                        subscriber_name = fullObject.getsName();
-                        if (fullObject.getImageid() == images[0]) {
-                            status = "online";
-                        } else {
-                            status = "offline";
-                        }
-                        if (block_unblock.equalsIgnoreCase("1")) {
-
-
-                            if (user_ref != null && subscriber_listener != null) {
-                                user_ref.removeEventListener(subscriber_listener);
-                            }
-                            if (subscriber_detail != null && subscriber_detail_listener != null) {
-                                subscriber_detail.removeEventListener(subscriber_detail_listener);
-                            }
-                            Intent i1 = new Intent(Dashboard.this, Map_activity.class);
-                            i1.putExtra("subscriber", subscriber);
-                            i1.putExtra("status", status);
-                            i1.putExtra("name", subscriber_name);
-                            i1.putExtra("vnumber", fullObject.getsVnumber());
-                            startActivity(i1);
-                            //System.gc();
-                            finish();
-
-
-                        } else {
-                            Toast.makeText(Dashboard.this, "This Channel has blocked you, you cannot view its details", Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(Dashboard.this,"Authetication failed ....",Toast.LENGTH_SHORT).show();
-                        authenticate();
-                    }
-
-
-                } else {
-                    Toast.makeText(Dashboard.this, "No Active Internet Connection Found", Toast.LENGTH_LONG).show();
+            fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Dashboard.this, Search_activity.class);
+                    startActivity(intent);
+                    finish();
                 }
-            }
-        });
+            });
+
+
+            lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+
+                    if (isNetworkAvailable() | !isNetworkAvailable()) {
+
+                        if (!Global.username.equalsIgnoreCase("") && !Global.username.equalsIgnoreCase(null) && !Global.username.equalsIgnoreCase("not valid") && !username.equalsIgnoreCase(null) && !username.equalsIgnoreCase("NA")) {
+
+
+                            Object o = lv1.getItemAtPosition(position);
+                            final Suscriber_results fullObject = (Suscriber_results) o;
+                            // Toast.makeText(Dashboard.this, "You have chosen: " + " " + fullObject.getsName()+Global.separator+fullObject.getsPhone(), Toast.LENGTH_LONG).show();
+                            subscriber_invite = fullObject.getChannelid();
+                            subscriber = subscriber_invite;
+                            String block_unblock = fullObject.getstatus();
+                            subscriber_name = fullObject.getsName();
+                            if (fullObject.getImageid() == images[0]) {
+                                status = "online";
+                            } else {
+                                status = "offline";
+                            }
+                            if (block_unblock.equalsIgnoreCase("1")) {
+
+
+                                if (user_ref != null && subscriber_listener != null) {
+                                    user_ref.removeEventListener(subscriber_listener);
+                                }
+                                if (subscriber_detail != null && subscriber_detail_listener != null) {
+                                    subscriber_detail.removeEventListener(subscriber_detail_listener);
+                                }
+                                Intent i1 = new Intent(Dashboard.this, Map_activity.class);
+                                i1.putExtra("subscriber", subscriber);
+                                i1.putExtra("status", status);
+                                i1.putExtra("name", subscriber_name);
+                                i1.putExtra("vnumber", fullObject.getsVnumber());
+                                startActivity(i1);
+                                //System.gc();
+                                finish();
+
+
+                            } else {
+                                Toast.makeText(Dashboard.this, "This Channel has blocked you, you cannot view its details", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(Dashboard.this, "Authetication failed ....", Toast.LENGTH_SHORT).show();
+                            authenticate();
+                        }
+
+
+                    } else {
+                        Toast.makeText(Dashboard.this, "No Active Internet Connection Found", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }catch(Exception e)
+        {
+            Toast.makeText(Dashboard.this, "Fatal error on fetching channel details", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -479,7 +477,7 @@ public class Dashboard extends BaseClass  {
                 if(adapter!=null) {
                     lv1.setAdapter(adapter);
                     Global.save_channel_count(activity,channel_count);
-                    Toast.makeText(activity,"Channel Count is"+String.valueOf(Global.get_channel_count(activity)),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity,"Channel Count is"+String.valueOf(Global.get_channel_count(activity)),Toast.LENGTH_LONG).show();
                     //adapter.setContext(getApplicationContext());
                 }
 

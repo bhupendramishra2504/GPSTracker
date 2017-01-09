@@ -48,273 +48,276 @@ public class Add_Channel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_channel);
-        rg = (RadioGroup) findViewById(R.id.rg);
-        add_pic=(ImageView)findViewById(R.id.pic);
-        Global.set_action_bar_details(Add_Channel.this,"Add Channel","");
-        TextView logged_user = (TextView) findViewById(R.id.logged_user);
-        logged_user.setText("Logged in as :"+Global.username);
-        vtype=(Button)findViewById(R.id.vtype);
-        withincity=(Button)findViewById(R.id.atravel);
-        category=(Button)findViewById(R.id.acategory);
-        refresh_rate=(Button)findViewById(R.id.arefresh);
-        Button add_channel = (Button) findViewById(R.id.rregister);
-        Button browse = (Button) findViewById(R.id.browse);
-        owner=(EditText)findViewById(R.id.aowner);
-        vname=(EditText)findViewById(R.id.avname);
-        vnumber=(EditText)findViewById(R.id.avnumber);
-        city1=(EditText)findViewById(R.id.acity);
+        try {
+            rg = (RadioGroup) findViewById(R.id.rg);
+            add_pic = (ImageView) findViewById(R.id.pic);
+
+            Global.set_action_bar_details(Add_Channel.this, "Add Channel", "");
+            TextView logged_user = (TextView) findViewById(R.id.logged_user);
+            logged_user.setText("Logged in as :" + Global.username);
+
+            vtype = (Button) findViewById(R.id.vtype);
+            withincity = (Button) findViewById(R.id.atravel);
+            category = (Button) findViewById(R.id.acategory);
+            refresh_rate = (Button) findViewById(R.id.arefresh);
+            Button add_channel = (Button) findViewById(R.id.rregister);
+            Button browse = (Button) findViewById(R.id.browse);
+            owner = (EditText) findViewById(R.id.aowner);
+            vname = (EditText) findViewById(R.id.avname);
+            vnumber = (EditText) findViewById(R.id.avnumber);
+            city1 = (EditText) findViewById(R.id.acity);
 
 
-        vtype.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            vtype.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                popup=new PopupMenu(Add_Channel.this,vtype);
-                popup.getMenu().add("Small");
-                popup.getMenu().add("Hatchback");
-                popup.getMenu().add("Sedan");
-                popup.getMenu().add("LMV");
-                popup.getMenu().add("HMV");
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        vtype.setText(item.getTitle());
-                        //vtype.setTextColor(Color.WHITE);
-                        return true;
+                    popup = new PopupMenu(Add_Channel.this, vtype);
+                    popup.getMenu().add("Small");
+                    popup.getMenu().add("Hatchback");
+                    popup.getMenu().add("Sedan");
+                    popup.getMenu().add("LMV");
+                    popup.getMenu().add("HMV");
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            vtype.setText(item.getTitle());
+                            //vtype.setTextColor(Color.WHITE);
+                            return true;
+                        }
+                    });
+
+                    popup.show();
+
+                }
+            });
+
+            withincity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    popup_travel = new PopupMenu(Add_Channel.this, withincity);
+                    popup_travel.getMenu().add("Within City");
+                    popup_travel.getMenu().add("Outside City");
+
+                    popup_travel.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            withincity.setText(item.getTitle());
+                            //withincity.setTextColor(Color.WHITE);
+                            return true;
+                        }
+                    });
+
+                    popup_travel.show();
+
+                }
+            });
+
+            refresh_rate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    popup_refresh = new PopupMenu(Add_Channel.this, refresh_rate);
+                    popup_refresh.getMenu().add("10 secs");
+                    popup_refresh.getMenu().add("30 secs");
+                    popup_refresh.getMenu().add("1 min");
+                    popup_refresh.getMenu().add("15 mins");
+                    popup_refresh.getMenu().add("30 mins");
+
+                    popup_refresh.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            refresh_rate.setText(item.getTitle());
+                            //refresh_rate.setTextColor(Color.WHITE);
+                            return true;
+                        }
+                    });
+
+                    popup_refresh.show();
+
+                }
+            });
+
+            category.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    popup_category = new PopupMenu(Add_Channel.this, category);
+                    popup_category.getMenu().add("a");
+                    popup_category.getMenu().add("b");
+
+                    popup_category.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            category.setText(item.getTitle());
+                            //category.setTextColor(Color.WHITE);
+                            return true;
+                        }
+                    });
+
+                    popup_category.show();
+
+                }
+            });
+
+            add_channel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Global.isNetworkAvailable(Add_Channel.this)) {
+                        if (validated1 && validated2 && validated3 && validated4 && !vtype.getText().toString().equalsIgnoreCase("VEHICLE TYPE") && !category.getText().toString().equalsIgnoreCase("CATEGORY") && !withincity.getText().toString().equalsIgnoreCase("TRAVEL TYPE") && !refresh_rate.getText().toString().equalsIgnoreCase("REFRESH RATE")) {
+                            Add_Channel.Add_channel_class acc = new Add_Channel.Add_channel_class();
+                            acc.execute();
+                        } else {
+                            Toast.makeText(Add_Channel.this, "Fill all details correctly", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(Add_Channel.this, "No Active Internet Connection found", Toast.LENGTH_LONG).show();
                     }
-                });
 
-                popup.show();
+                }
+            });
 
-            }
-        });
 
-        withincity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            browse.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
 
-                popup_travel=new PopupMenu(Add_Channel.this,withincity);
-                popup_travel.getMenu().add("Within City");
-                popup_travel.getMenu().add("Outside City");
+                    openImageChooser();
+                }
+            });
 
-                popup_travel.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        withincity.setText(item.getTitle());
-                        //withincity.setTextColor(Color.WHITE);
-                        return true;
+
+            owner.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count,
+                                              int after) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length() > 3 && s.toString().length() < 20) {
+                        // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
+                        owner.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
+                        validated1 = true;
+                        //owner.setError(" ", myIcon);
+
+                    } else {
+
+                        //Drawable myIcon = getResources().getDrawable(R.drawable.error);
+                        owner.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.error, 0);
+                        validated1 = false;
+                        //owner.setError(" ", myIcon);
+
                     }
-                });
+                }
+            });
 
-                popup_travel.show();
 
-            }
-        });
+            vname.addTextChangedListener(new TextWatcher() {
 
-       refresh_rate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
 
-                popup_refresh=new PopupMenu(Add_Channel.this,refresh_rate);
-                popup_refresh.getMenu().add("10 secs");
-                popup_refresh.getMenu().add("30 secs");
-                popup_refresh.getMenu().add("1 min");
-                popup_refresh.getMenu().add("15 mins");
-                popup_refresh.getMenu().add("30 mins");
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count,
+                                              int after) {
+                    // TODO Auto-generated method stub
 
-                popup_refresh.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        refresh_rate.setText(item.getTitle());
-                        //refresh_rate.setTextColor(Color.WHITE);
-                        return true;
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length() > 3 && s.toString().length() < 20) {
+                        // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
+                        vname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
+                        validated2 = true;
+                        //owner.setError(" ", myIcon);
+
+                    } else {
+
+                        //Drawable myIcon = getResources().getDrawable(R.drawable.error);
+                        vname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.error, 0);
+                        validated2 = false;
+                        //owner.setError(" ", myIcon);
+
                     }
-                });
+                }
+            });
 
-                popup_refresh.show();
 
-            }
-        });
+            vnumber.addTextChangedListener(new TextWatcher() {
 
-        category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
 
-                popup_category=new PopupMenu(Add_Channel.this,category);
-                popup_category.getMenu().add("a");
-                popup_category.getMenu().add("b");
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count,
+                                              int after) {
+                    // TODO Auto-generated method stub
 
-                popup_category.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        category.setText(item.getTitle());
-                        //category.setTextColor(Color.WHITE);
-                        return true;
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length() > 6 && s.toString().length() < 15) {
+                        // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
+                        vnumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
+                        validated3 = true;
+                        //owner.setError(" ", myIcon);
+
+                    } else {
+
+                        //Drawable myIcon = getResources().getDrawable(R.drawable.error);
+                        vnumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.error, 0);
+                        validated3 = false;
+                        //owner.setError(" ", myIcon);
+
                     }
-                });
-
-                popup_category.show();
-
-            }
-        });
-
-        add_channel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            if(Global.isNetworkAvailable(Add_Channel.this)) {
-                if (validated1 && validated2 && validated3 && validated4 && !vtype.getText().toString().equalsIgnoreCase("VEHICLE TYPE") && !category.getText().toString().equalsIgnoreCase("CATEGORY") && !withincity.getText().toString().equalsIgnoreCase("TRAVEL TYPE") && !refresh_rate.getText().toString().equalsIgnoreCase("REFRESH RATE")) {
-                    Add_Channel.Add_channel_class acc = new Add_Channel.Add_channel_class();
-                    acc.execute();
-                } else {
-                    Toast.makeText(Add_Channel.this, "Fill all details correctly", Toast.LENGTH_LONG).show();
                 }
-            }
-                else
-            {
-                Toast.makeText(Add_Channel.this,"No Active Internet Connection found",Toast.LENGTH_LONG).show();
-            }
+            });
 
-            }
-        });
+            city1.addTextChangedListener(new TextWatcher() {
 
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
 
-        browse.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-               openImageChooser();
-            }
-        });
-
-
-        owner.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>3 && s.toString().length()<20){
-                    // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
-                    owner.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
-                    validated1=true;
-                    //owner.setError(" ", myIcon);
-
-                }else{
-
-                    //Drawable myIcon = getResources().getDrawable(R.drawable.error);
-                    owner.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.error, 0);
-                    validated1=false;
-                    //owner.setError(" ", myIcon);
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count,
+                                              int after) {
+                    // TODO Auto-generated method stub
 
                 }
-            }
-        });
 
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length() > 3 && s.toString().length() < 20) {
+                        // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
+                        city1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
+                        validated4 = true;
+                        //owner.setError(" ", myIcon);
 
-        vname.addTextChangedListener(new TextWatcher() {
+                    } else {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+                        //Drawable myIcon = getResources().getDrawable(R.drawable.error);
+                        city1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.error, 0);
+                        validated4 = false;
+                        //owner.setError(" ", myIcon);
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>3 && s.toString().length()<20){
-                    // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
-                    vname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
-                    validated2=true;
-                    //owner.setError(" ", myIcon);
-
-                }else{
-
-                    //Drawable myIcon = getResources().getDrawable(R.drawable.error);
-                    vname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.error, 0);
-                    validated2=false;
-                    //owner.setError(" ", myIcon);
-
+                    }
                 }
-            }
-        });
+            });
 
 
-
-        vnumber.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>6 && s.toString().length()<15){
-                    // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
-                    vnumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
-                    validated3=true;
-                    //owner.setError(" ", myIcon);
-
-                }else{
-
-                    //Drawable myIcon = getResources().getDrawable(R.drawable.error);
-                    vnumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.error, 0);
-                    validated3=false;
-                    //owner.setError(" ", myIcon);
-
-                }
-            }
-        });
-
-        city1.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>3 && s.toString().length()<20){
-                    // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
-                    city1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
-                    validated4=true;
-                    //owner.setError(" ", myIcon);
-
-                }else{
-
-                    //Drawable myIcon = getResources().getDrawable(R.drawable.error);
-                    city1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.error, 0);
-                    validated4=false;
-                    //owner.setError(" ", myIcon);
-
-                }
-            }
-        });
-
-
-
+        }catch(Exception e)
+        {
+            Toast.makeText(Add_Channel.this,"Fatal Error on Adding Channel",Toast.LENGTH_LONG).show();
+        }
 
 
 

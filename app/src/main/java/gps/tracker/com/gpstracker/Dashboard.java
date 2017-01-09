@@ -3,6 +3,8 @@ package gps.tracker.com.gpstracker;
 import android.*;
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -72,6 +74,10 @@ public class Dashboard extends BaseClass  {
     ActionBar actionBar;
     Constant constant;
     private int channel_count=0;
+
+    private static PendingIntent pendingIntent;
+    private static Intent alarmIntent;
+    private static AlarmManager manager;
 
     //private Value
 
@@ -688,6 +694,7 @@ public class Dashboard extends BaseClass  {
             if(!Global.username.equalsIgnoreCase("") |!Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
 
                 GetSubscriberResults_modified_v3();
+                start_broadcast(activity);
             }
             return resp;
         }
@@ -871,6 +878,49 @@ public class Dashboard extends BaseClass  {
         }
 
 
+    }
+
+    private void start_broadcast(final Context context)
+    {
+        try {
+            SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+            final String broadcast_cmd = prefs.getString("broadcasting_cmd", "NA");
+            if (!broadcast_cmd.equalsIgnoreCase("NA")) {
+                DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(broadcast_cmd).child("status");
+                user_ref.keepSynced(true);
+                user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //results.clear();
+                        if (dataSnapshot != null) {
+                            if (dataSnapshot.getValue().toString().equalsIgnoreCase("0")) {
+                                alarmIntent = new Intent(context, Broadcast_Receiver.class);
+                                alarmIntent.putExtra("channel_id", broadcast_cmd);
+                                pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                                manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                                int interval = 40000;
+
+                                manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+                                Toast.makeText(context, "Alarm service activated", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        }catch(Exception e)
+        {
+            Toast.makeText(activity,"Fatal Error on Resuming Broadcast"+e.getMessage(),Toast.LENGTH_LONG).show();
+        }
     }
 
 

@@ -148,6 +148,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             //status = true;
                             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                             editor.putString("broadcasting",channellist.get(position).getChannelid().split(":")[1].trim());
+                            editor.putString("broadcasting_cmd",channellist.get(position).getChannelid().split(":")[1].trim());
                             editor.apply();
                              status_update_mod("1", channellist.get(position).getChannelid().split(":")[1].trim());
                             play_sound();
@@ -158,7 +159,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                             manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                            int interval = 20000;
+                            int interval = 40000;
 
                             manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
                             Toast.makeText(context,"Alarm service activated",Toast.LENGTH_LONG).show();
@@ -178,7 +179,9 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
 
                          SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                          editor.putString("broadcasting","NA");
-                         editor.apply();
+                         editor.putString("broadcasting_cmd","NA");
+
+                    editor.apply();
                         play_sound_bstop();
                          status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
                         holder.broadcast.setImageResource(R.drawable.red_circle);

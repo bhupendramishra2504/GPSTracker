@@ -49,24 +49,25 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context arg0, Intent arg1) {
-        // For our recurring task, we'll just display a message
-        Toast.makeText(arg0, "I'm running", Toast.LENGTH_SHORT).show();
-        //Intent startServiceIntent = new Intent(arg0, Broadcast_service.class);
-        //startServiceIntent.putExtra("channel_id",channel_id);
-        //arg0.startService(startServiceIntent);
-        latitude=0.0;
-        longitude=0.0;
-        PowerManager pm = (PowerManager) arg0.getSystemService(Context.POWER_SERVICE);
-        cpuWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                "gps_service");
-        cpuWakeLock.setReferenceCounted(false);
+        try {
+            // For our recurring task, we'll just display a message
+            Toast.makeText(arg0, "I'm running", Toast.LENGTH_SHORT).show();
+            //Intent startServiceIntent = new Intent(arg0, Broadcast_service.class);
+            //startServiceIntent.putExtra("channel_id",channel_id);
+            //arg0.startService(startServiceIntent);
+            latitude = 0.0;
+            longitude = 0.0;
+            PowerManager pm = (PowerManager) arg0.getSystemService(Context.POWER_SERVICE);
+            cpuWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                    "gps_service");
+            cpuWakeLock.setReferenceCounted(false);
 
-        if ((cpuWakeLock != null) && !cpuWakeLock.isHeld()) {
-            cpuWakeLock.acquire();
-        }
-        //System.out.println("Broadcasted");
-        channel_id=arg1.getStringExtra("channel_id");
-        context=arg0;
+            if (!cpuWakeLock.isHeld()) {
+                cpuWakeLock.acquire();
+            }
+            //System.out.println("Broadcasted");
+            channel_id = arg1.getStringExtra("channel_id");
+            context = arg0;
        /* if(client==null) {
 
             try {
@@ -88,34 +89,35 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
 
         client.setGoogleProjectId("joinin-440f7");*/
 
-        offline_update();
-        //get_location();
-       GPSTracker gps = new GPSTracker(context);
-        if(gps.canGetLocation()) {
-            //Location location=gps.getLocation();
-            //Global.gps_ok=true;
-            latitude=0.0;
-            longitude=0.0;
+            offline_update();
+            //get_location();
+            GPSTracker gps = new GPSTracker(context);
+            if (gps.canGetLocation()) {
+                //Location location=gps.getLocation();
+                //Global.gps_ok=true;
+                latitude = 0.0;
+                longitude = 0.0;
 
                 latitude = gps.getLatitude();
                 longitude = gps.getLongitude();
                 //Date date = new Date(location.getTime());
-               // SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-               // text = sdf.format(date);
+                // SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                // text = sdf.format(date);
                 //Toast.makeText(context,"GPS Time Stamp for location is "+text,Toast.LENGTH_LONG).show();
 
 
-
-            add_location_to_server(gps);
-            //gps.stopUsingGPS();
-        }
-        else
+                add_location_to_server(gps);
+                //gps.stopUsingGPS();
+            } else {
+                Toast.makeText(context, "cannot fetch the gps location in gps tracker", Toast.LENGTH_LONG).show();
+                status_update("0");
+                //SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+                //editor.putString("broadcasting","NA");
+                //editor.commit();
+            }
+        }catch(Exception e)
         {
-            Toast.makeText(context,"cannot fetch the gps location in gps tracker",Toast.LENGTH_LONG).show();
-            status_update("0");
-            //SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
-            //editor.putString("broadcasting","NA");
-            //editor.commit();
+            Toast.makeText(context,"Fatal error at Alarm Manager : "+e.getMessage(),Toast.LENGTH_LONG).show();
         }
 
 

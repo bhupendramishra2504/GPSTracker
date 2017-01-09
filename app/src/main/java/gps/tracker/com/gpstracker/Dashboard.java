@@ -377,7 +377,7 @@ public class Dashboard extends BaseClass  {
                 if(adapter!=null) {
                     lv1.setAdapter(adapter);
                     Global.save_channel_count(activity,channel_count);
-                    Toast.makeText(activity,"Channel Count is"+String.valueOf(Global.get_channel_count(activity)),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity,"Channel Count is"+String.valueOf(Global.get_channel_count(activity)),Toast.LENGTH_LONG).show();
                     //adapter.setContext(getApplicationContext());
                 }
 

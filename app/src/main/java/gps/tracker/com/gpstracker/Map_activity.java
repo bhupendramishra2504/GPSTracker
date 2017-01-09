@@ -79,12 +79,17 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         okClient = new OkHttpClient();
         okClient.setConnectTimeout(10, TimeUnit.HOURS);
         okClient.setReadTimeout(72, TimeUnit.HOURS);
-        s_phone= i.getStringExtra("subscriber");
-        String name=i.getStringExtra("name");
-        String vnumber=i.getStringExtra("vnumber");
-        ab = getSupportActionBar();
-        ab.setTitle(name.split(":")[1].trim()+" "+vnumber.split(":")[1].trim());
-        ab.setDisplayHomeAsUpEnabled(true);
+        try {
+            s_phone = i.getStringExtra("subscriber");
+            String name = i.getStringExtra("name");
+            String vnumber = i.getStringExtra("vnumber");
+            ab = getSupportActionBar();
+            ab.setTitle(name+ " " + vnumber);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }catch(Exception e)
+        {
+            Toast.makeText(activity.get(),"Fatal error in fetching channel details",Toast.LENGTH_LONG).show();
+        }
         mapview.onCreate(savedInstanceState);
         mapview.getMapAsync(this, "bubble-wrap1/bubble-wrap.yaml");
         scale_map=13f;
@@ -182,106 +187,103 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     private void fetch_loc_fb()
     {
-        fetch_loc_ref = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("locations").child("latest_location");
-        fetch_loc_ref.keepSynced(true);
-        fetch_listener=fetch_loc_ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        try {
+            fetch_loc_ref = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("locations").child("latest_location");
+            fetch_loc_ref.keepSynced(true);
+            fetch_listener = fetch_loc_ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                longitude=0.0;
-                latitude=0.0;
-                if (dataSnapshot != null && dataSnapshot.getValue()!=null) {
-                    String data[] = dataSnapshot.getValue().toString().split(";");
-                    if (data.length == 3) {
+                    longitude = 0.0;
+                    latitude = 0.0;
+                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                        String data[] = dataSnapshot.getValue().toString().split(";");
+                        if (data.length == 3) {
 
-                        longitude = Double.parseDouble(data[0]);
-                        latitude = Double.parseDouble(data[1]);
-                        time_stamp = data[2];
-                        if (longitude != 0.0 && latitude != 0.0) {
-                            if (map == null) {
-                                Toast.makeText(activity.get(),"Map is still not initialized :)",Toast.LENGTH_LONG).show();
+                            longitude = Double.parseDouble(data[0]);
+                            latitude = Double.parseDouble(data[1]);
+                            time_stamp = data[2];
+                            if (longitude != 0.0 && latitude != 0.0) {
+                                if (map == null) {
+                                    Toast.makeText(activity.get(), "Map is still not initialized :)", Toast.LENGTH_LONG).show();
 
-                                return;
+                                    return;
+                                }
+
+                                int duration = 100;
+                                if (points != null) {
+                                    points.clear();
+                                }
+                                map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
+                                map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
+                                points = map.addDataLayer("mz_default_point");
+                                props.put("type", "point");
+                                props.put("color", "#000000");
+                                points.addPoint(new LngLat(longitude, latitude), props);
+
+                                //goToLandmark_mod();
+
+                                map_style.setText(time_stamp + Global.separator);
+                            } else {
+                                map_style.setText("Waiting for data...");
                             }
+                        } else {
+                            map_style.setText("Channel not active or map not initialized");
 
-                            int duration = 100;
-                            if (points != null) {
-                                points.clear();
-                            }
-                            map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
-                            map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
-                            points = map.addDataLayer("mz_default_point");
-                            props.put("type", "point");
-                            props.put("color", "#000000");
-                            points.addPoint(new LngLat(longitude, latitude), props);
-
-                            //goToLandmark_mod();
-
-                            map_style.setText( time_stamp + Global.separator);
                         }
-                        else
-                        {
-                            map_style.setText("Waiting for data...");
-                        }
-                    } else {
-                       map_style.setText("Channel not active or map not initialized");
-
+                        //Toast.makeText(Channel_settings.this,"message recieved "+message,Toast.LENGTH_LONG ).show();
                     }
-                    //Toast.makeText(Channel_settings.this,"message recieved "+message,Toast.LENGTH_LONG ).show();
                 }
-            }
 
 
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
 
-
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
+                }
+            });
+        }catch(Exception e)
+        {
+            Toast.makeText(activity.get(),"FATAL ERROR AT MAP ACTIVITY",Toast.LENGTH_LONG).show();
+        }
     }
 
 
     private void channel_status_check()
     {
-        channel_status = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("status");
-        channel_status.keepSynced(true);
-        channel_status_listener=channel_status.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        try {
+            channel_status = Global.firebase_dbreference.child("CHANNELS").child(s_phone).child("status");
+            channel_status.keepSynced(true);
+            channel_status_listener = channel_status.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                if (dataSnapshot != null) {
-                    if(dataSnapshot.getValue().toString().equalsIgnoreCase("1"))
-                    {
-                        ab.setSubtitle("ONLINE");
+                    if (dataSnapshot != null) {
+                        if (dataSnapshot.getValue().toString().equalsIgnoreCase("1")) {
+                            ab.setSubtitle("ONLINE");
+                        } else if (dataSnapshot.getValue().toString().equalsIgnoreCase("0")) {
+                            ab.setSubtitle("OFFLINE");
+                        } else {
+                            ab.setSubtitle("STATUS UNKNOWN");
+                        }
+
                     }
-                    else if(dataSnapshot.getValue().toString().equalsIgnoreCase("0"))
-                    {
-                        ab.setSubtitle("OFFLINE");
-                    }
-                    else
-                    {
-                        ab.setSubtitle("STATUS UNKNOWN");
-                    }
+                }
+
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
 
                 }
-            }
-
-
-
-
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(activity.get(), error.toException().toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
+            });
+        }catch(Exception e)
+        {
+            Toast.makeText(activity.get(),"Fatal Error on loading Channel Details",Toast.LENGTH_LONG).show();
+        }
     }
 
 

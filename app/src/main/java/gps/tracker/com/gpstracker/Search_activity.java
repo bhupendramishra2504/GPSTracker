@@ -237,13 +237,13 @@ public class Search_activity extends AppCompatActivity {
                                         finish();*/
 
                                         int channel_count=Global.get_channel_count(activity);
-                                        if(channel_count<=MAX_CHANNEL_FOLLOWED_USER-1) {
+                                        if(channel_count<MAX_CHANNEL_FOLLOWED_USER) {
                                             Global.save_channel_count(activity, channel_count+1);
                                             subscribe_channel();
                                         }
                                         else
                                         {
-                                            Toast.makeText(activity,"You have reached maximum followers limits either switch to premium plan or delete some channel to add new",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(activity,"You have reached maximum subscribers limits either switch to premium plan or delete some channel to add new",Toast.LENGTH_LONG).show();
                                         }
                                     } else {
                                         authenticate();

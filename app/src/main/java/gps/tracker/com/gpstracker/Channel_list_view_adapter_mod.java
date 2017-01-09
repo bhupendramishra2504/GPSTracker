@@ -23,8 +23,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+
 import java.util.ArrayList;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -104,7 +107,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
             holder.txtcategary=(TextView)convertView.findViewById(R.id.ccategary);
             holder.broadcast=(ImageButton)convertView.findViewById(R.id.bross);
             holder.visible=(ToggleButton)convertView.findViewById(R.id.visible);
-            holder.channel_pic=(ImageView)convertView.findViewById(R.id.pic);
+            holder.channel_pic=(CircleImageView)convertView.findViewById(R.id.pic);
             holder.vname=(TextView)convertView.findViewById(R.id.cvname);
 
             convertView.setTag(holder);
@@ -256,7 +259,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         String txtactive;
         ImageButton broadcast;
         ToggleButton visible;
-        ImageView channel_pic;
+        CircleImageView channel_pic;
 
 
     }

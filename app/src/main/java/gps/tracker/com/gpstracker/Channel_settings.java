@@ -282,7 +282,7 @@ public class Channel_settings extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>0 && s.toString().length()<20){
+                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>3 && s.toString().length()<20){
                     // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
                     owner.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
                     validated1=true;
@@ -315,7 +315,7 @@ public class Channel_settings extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>0 && s.toString().length()<12){
+                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>3 && s.toString().length()<12){
                     // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
                     vname.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
                     validated2=true;
@@ -349,7 +349,7 @@ public class Channel_settings extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>0 && s.toString().length()<12){
+                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>6 && s.toString().length()<12){
                     // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
                     vnumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
                     validated3=true;
@@ -381,7 +381,7 @@ public class Channel_settings extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>0 && s.toString().length()<20){
+                if(!s.toString().equalsIgnoreCase("") && !s.toString().equalsIgnoreCase(null) && s.toString().length()>3 && s.toString().length()<20){
                     // Drawable myIcon = getResources().getDrawable(R.drawable.tick);
                     city1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
                     validated4=true;

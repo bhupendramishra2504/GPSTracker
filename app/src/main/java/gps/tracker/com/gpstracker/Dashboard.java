@@ -235,6 +235,20 @@ public class Dashboard extends BaseClass  {
         }
         else if (id==R.id.broadcast) {
             if (grant_permission() && isNetworkAvailable()) {
+                if(user_ref!=null && subscriber_listener!=null) {
+                    user_ref.removeEventListener(subscriber_listener);
+                }
+                if(subscriber_detail!=null && subscriber_detail_listener!=null) {
+                    subscriber_detail.removeEventListener(subscriber_detail_listener);
+                }
+
+                if(results!=null) {
+                    results.clear();
+                }
+                if(adapter!=null)
+                {
+                    adapter=null;
+                }
                 Intent i2 = new Intent(Dashboard.this, MyChannels_RV.class);
                 startActivity(i2);
                 finish();
@@ -295,9 +309,6 @@ public class Dashboard extends BaseClass  {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     if (child != null){
-
-
-                       // getSubscriberdetails(child);
 
                         try {
 
@@ -382,6 +393,207 @@ public class Dashboard extends BaseClass  {
         });
 
     }
+
+
+    private void GetSubscriberResults_modified_v3(){
+        //ArrayList<SearchResults> results = new ArrayList<SearchResults>();
+        adapter=null;
+        //results.clear();
+        FirebaseDatabase firebase_database = FirebaseDatabase.getInstance();
+        DatabaseReference firebase_dbreference=firebase_database.getReference("JustIn");
+        user_ref = firebase_dbreference.child("USERS").child(Global.username).child("Subscribers");
+        user_ref.keepSynced(true);
+        subscriber_listener=user_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                results.clear();
+                channel_count=0;
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                    if (child != null){
+
+                        try {
+
+                            Map<String, Object> map = (Map<String, Object>) child.getValue();
+                            Suscriber_results sr1 = new Suscriber_results();
+                            //if (map != null && map.get("name") != null && map.get("vehicle_number") != null && map.get("status") != null && map.get("vname") != null && map.get("mobile") != null) {
+                                //sr1.setsName("N: " + map.get("name").toString());
+                                sr1.setChannelid(child.getKey());
+                                //sr1.setsPhone("M: " + map.get("mobile").toString());
+                                //sr1.setsVnumber("VNo: " + map.get("vehicle_number").toString());
+                                //sr1.setsvname("VN: " + map.get("vname").toString());
+                                if (map.get("unblock") != null) {
+                                    sr1.setstatus(map.get("unblock").toString());
+                                } else {
+                                    sr1.setstatus("1");
+                                }
+
+                                // if (act.equalsIgnoreCase("1")) {
+                                // sr1.setImageid(images[0]);
+                              /*  } else {
+                                    sr1.setImageid(images[1]);
+                                }*/
+
+                                /*if (map.get("image") != null) {
+                                    sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
+                                } else {
+                                    sr1.setImage(download_image_to_firebase1("default"));
+                                }
+                                if (map.get("vtype") != null) {
+                                    sr1.setvtype("T: " + map.get("vtype").toString());
+                                } else {
+                                    sr1.setvtype("T: " + "NA");
+                                }
+                                if (map.get("category") != null) {
+                                    sr1.setcategory("c: " + map.get("category").toString());
+                                } else {
+                                    sr1.setcategory("c: " + "NA");
+                                }*/
+
+
+                                results.add(sr1);
+                                channel_count++;
+                                map.clear();
+                                sr1 = null;
+                           // }
+
+
+                        }
+                        catch (ClassCastException ce) {
+                            Toast.makeText(Dashboard.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                        }
+
+
+
+                    }
+
+                }
+
+
+                //adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
+                //lv1.setAdapter(adapter);
+                //adapter.setContext(getApplicationContext());
+                //spinner.setVisibility(View.GONE);
+
+                adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
+                if(adapter!=null) {
+                    lv1.setAdapter(adapter);
+                    Global.save_channel_count(activity,channel_count);
+                    Toast.makeText(activity,"Channel Count is"+String.valueOf(Global.get_channel_count(activity)),Toast.LENGTH_LONG).show();
+                    //adapter.setContext(getApplicationContext());
+                }
+
+                update_data();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
+
+
+
+    private void update_data()
+    {
+
+        for (int i = 0; i < lv1.getCount(); i++) {
+            Object o = lv1.getItemAtPosition(i);
+            final Suscriber_results fullObject = (Suscriber_results) o;
+            String Channel_id=fullObject.getChannelid();
+            //Toast.makeText(activity,"channel_id"+Channel_id,Toast.LENGTH_LONG).show();
+            subscriber_detail = Global.firebase_dbreference.child("CHANNELS").child(Channel_id);
+            subscriber_detail.keepSynced(true);
+            subscriber_detail_listener= subscriber_detail.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    try {
+                        if (dataSnapshot != null) {
+                            if (dataSnapshot.getValue() != null) {
+                                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                                //Suscriber_results sr1 = new Suscriber_results();
+                                if (map.get("status").toString().equalsIgnoreCase("1")) {
+                                    fullObject.setImageid(images[0]);
+                                } else {
+                                    fullObject.setImageid(images[1]);
+                                }
+                                if(map.get("owner")!=null) {
+                                    fullObject.setsName(map.get("owner").toString());
+                                }
+                                else
+                                {
+                                    fullObject.setsName("NA");
+                                }
+                                if(map.get("mobile")!=null) {
+                                    fullObject.setsPhone(map.get("mobile").toString());
+                                }
+                                else
+                                {
+                                    fullObject.setsPhone("NA");
+                                }
+                                if(map.get("vehicle_number")!=null) {
+                                    fullObject.setsVnumber(map.get("vehicle_number").toString());
+                                }
+                                else
+                                {
+                                    fullObject.setsVnumber("NA");
+                                }
+                                if(map.get("vehicle_name")!=null) {
+                                    fullObject.setsvname(map.get("vehicle_name").toString());
+                                }
+                                else
+                                {
+                                    fullObject.setsvname("NA");
+                                }
+                                if (map.get("image") != null) {
+                                    fullObject.setImage(download_image_to_firebase1(map.get("image").toString()));
+                                } else {
+                                    fullObject.setImage(download_image_to_firebase1("default"));
+                                }
+                                if (map.get("vtype") != null) {
+                                    fullObject.setvtype(map.get("vtype").toString());
+                                } else {
+                                    fullObject.setvtype("NA");
+                                }
+                                if (map.get("category") != null) {
+                                    fullObject.setcategory(map.get("category").toString());
+                                } else {
+                                    fullObject.setcategory("NA");
+                                }
+
+
+                            }
+                        } else {
+                            Toast.makeText(Dashboard.this, "Invalid Subscriber Details", Toast.LENGTH_LONG).show();
+                        }
+                        if (adapter != null) {
+                            adapter.notifyDataSetChanged();
+                            lv1.invalidate();
+                        }
+                    }catch(Exception e){
+                        Toast.makeText(activity,"Error on loading subscribers"+e.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+
+        }
+
+    }
+
 
 
 
@@ -477,7 +689,7 @@ public class Dashboard extends BaseClass  {
         protected String doInBackground(String... params) {
             if(!Global.username.equalsIgnoreCase("") |!Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
 
-                GetSubscriberResults_modified_v2();
+                GetSubscriberResults_modified_v3();
             }
             return resp;
         }

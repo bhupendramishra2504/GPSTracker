@@ -300,7 +300,7 @@ public class Search_activity extends AppCompatActivity {
     {
         DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_invite.split(":")[1].trim()).child("followers");
         user_ref.keepSynced(true);
-        user_ref.addValueEventListener(new ValueEventListener() {
+        user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 follower_count=0;

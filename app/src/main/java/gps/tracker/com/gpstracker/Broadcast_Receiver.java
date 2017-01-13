@@ -45,7 +45,8 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
     //OrtcFactory factory;
     //public static OrtcClient client;
     private String channel_id="";
-    String text="";
+    private String gps_time="";
+
 
     @Override
     public void onReceive(Context arg0, Intent arg1) {
@@ -62,9 +63,9 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
                     "gps_service");
             cpuWakeLock.setReferenceCounted(false);
 
-            if (!cpuWakeLock.isHeld()) {
+            //if (!cpuWakeLock.isHeld()) {
                 cpuWakeLock.acquire();
-            }
+           // }
             //System.out.println("Broadcasted");
             channel_id = arg1.getStringExtra("channel_id");
             context = arg0;
@@ -100,13 +101,15 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
 
                 latitude = gps.getLatitude();
                 longitude = gps.getLongitude();
+                gps_time=gps.getTimeStamp();
+
                 //Date date = new Date(location.getTime());
                 // SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 // text = sdf.format(date);
                 //Toast.makeText(context,"GPS Time Stamp for location is "+text,Toast.LENGTH_LONG).show();
 
 
-                add_location_to_server(gps);
+                add_location_to_server();
                 //gps.stopUsingGPS();
             } else {
                 Toast.makeText(context, "cannot fetch the gps location in gps tracker", Toast.LENGTH_LONG).show();
@@ -125,14 +128,14 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
 
 
 
-    private void add_location_to_server(GPSTracker gps)
+    private void add_location_to_server()
     {
         if(longitude!=0.0 && latitude!=0.0 && !channel_id.equalsIgnoreCase("") && isNetworkAvailable(context)) {
             update_channel_status();
 
             DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("locations").child("latest_location");
             //client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
-            loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+gps.getTimeStamp()));
+            loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+gps_time));
             Toast.makeText(context,"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
         }
         else
@@ -144,9 +147,9 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             editor.apply();
         }
 
-        if(cpuWakeLock.isHeld()) {
+        //if(cpuWakeLock.isHeld()) {
             cpuWakeLock.release();
-        }
+       // }
 
 
 

@@ -1,7 +1,9 @@
 package gps.tracker.com.gpstracker;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -64,13 +66,16 @@ public class Channel_settings extends AppCompatActivity{
     private DatePickerDialog.OnDateSetListener date;
     private boolean validated1=false,validated2=false,validated3=false,validated4=false;
     private RadioGroup rg;
+    private Activity activity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_channel);
+
         try {
+            activity =Channel_settings.this;
             rg = (RadioGroup) findViewById(R.id.rg);
             //RadioButton block = (RadioButton) findViewById(R.id.rblock);
             //RadioButton allow = (RadioButton) findViewById(R.id.rallow);
@@ -694,6 +699,14 @@ public class Channel_settings extends AppCompatActivity{
         {
             delete_firebase_channel();
             Toast.makeText(Channel_settings.this,"Channel deleted successfully",Toast.LENGTH_LONG).show();
+            SharedPreferences prefs = activity.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+            String channel_broadcasting = prefs.getString("broadcasting", "NA");
+            if(channel_broadcasting.equalsIgnoreCase(channel_id))
+            {
+                SharedPreferences.Editor editor = activity.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+                editor.putString("broadcasting","NA");
+                editor.apply();
+            }
 
         }
         else

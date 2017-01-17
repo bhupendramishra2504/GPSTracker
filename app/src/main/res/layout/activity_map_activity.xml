@@ -1,7 +1,11 @@
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:fillViewport="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout"
+    >
 
     <com.mapzen.tangram.MapView
         android:id="@+id/map"
@@ -78,4 +82,4 @@
 </RelativeLayout>
 
 
-</merge>
+</android.support.design.widget.CoordinatorLayout>

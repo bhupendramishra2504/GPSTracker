@@ -17,7 +17,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -68,6 +70,7 @@ public class Dashboard extends BaseClass  {
     private DatabaseReference subscriber_detail, authenticate_user_ref;
     Toolbar toolbar;
     FloatingActionButton fab;
+    private CoordinatorLayout coordinatorLayout;
 
     Activity activity;
 
@@ -91,6 +94,8 @@ public class Dashboard extends BaseClass  {
             adapter = null;
             activity = Dashboard.this;
             constant = new Constant(activity);
+            coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                    .coordinatorLayout);
 
             //authenticate();
             if (!grant_permission()) {
@@ -150,7 +155,7 @@ public class Dashboard extends BaseClass  {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 
-                    if (isNetworkAvailable() | !isNetworkAvailable()) {
+                    if (isNetworkAvailable() ) {
 
                         if (!Global.username.equalsIgnoreCase("") && !Global.username.equalsIgnoreCase(null) && !Global.username.equalsIgnoreCase("not valid") && !username.equalsIgnoreCase(null) && !username.equalsIgnoreCase("NA")) {
 
@@ -187,7 +192,11 @@ public class Dashboard extends BaseClass  {
 
 
                             } else {
-                                Toast.makeText(Dashboard.this, "This Channel has blocked you, you cannot view its details", Toast.LENGTH_LONG).show();
+                               // Toast.makeText(Dashboard.this, "This Channel has blocked you, you cannot view its details", Toast.LENGTH_LONG).show();
+                                Snackbar snackbar = Snackbar
+                                        .make(coordinatorLayout, "This Channel has blocked you, you cannot view its details", Snackbar.LENGTH_LONG);
+
+                                snackbar.show();
                             }
                         } else {
                             Toast.makeText(Dashboard.this, "Authetication failed ....", Toast.LENGTH_SHORT).show();
@@ -196,7 +205,12 @@ public class Dashboard extends BaseClass  {
 
 
                     } else {
-                        Toast.makeText(Dashboard.this, "No Active Internet Connection Found", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(Dashboard.this, "No Active Internet Connection Found", Toast.LENGTH_LONG).show();
+
+                        Snackbar snackbar = Snackbar
+                                .make(coordinatorLayout, "No Active Internet Connection Found", Snackbar.LENGTH_LONG);
+
+                        snackbar.show();
                     }
                 }
             });
@@ -258,6 +272,12 @@ public class Dashboard extends BaseClass  {
                 startActivity(i2);
                 finish();
             }
+            else {
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "No Active Internet Connection Found", Snackbar.LENGTH_LONG);
+
+                snackbar.show();
+            }
         }
 
         else if(id==R.id.action_search)
@@ -266,10 +286,20 @@ public class Dashboard extends BaseClass  {
                 authenticate();
             }
 
-            Intent intent = new Intent(Dashboard.this, Search_activity.class);
-            startActivity(intent);
-            finish();
-            return true;
+             if (grant_permission() && isNetworkAvailable()) {
+
+                 Intent intent = new Intent(Dashboard.this, Search_activity.class);
+                 startActivity(intent);
+                 finish();
+                 return true;
+             }
+            else
+             {
+                 Snackbar snackbar = Snackbar
+                         .make(coordinatorLayout, "No Active Internet Connection Found", Snackbar.LENGTH_LONG);
+
+                 snackbar.show();
+             }
 
         }
         else if(id==R.id.about)

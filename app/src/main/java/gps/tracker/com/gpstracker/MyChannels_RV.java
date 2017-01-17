@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.Menu;
@@ -40,6 +42,7 @@ public class MyChannels_RV extends AppCompatActivity {
     private final Integer[] visible_images={R.drawable.visible,R.drawable.invisible};
     private int position=0;
     private Activity activity;
+    private CoordinatorLayout coordinatorLayout;
 
     //private ProgressBar spinner;
 
@@ -52,6 +55,8 @@ public class MyChannels_RV extends AppCompatActivity {
         setContentView(R.layout.my_channels);
         adapter=null;
         activity=MyChannels_RV.this;
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                .coordinatorLayout);
 
         lv1=(ListView)findViewById(R.id.channel_list);
         TextView desc = (TextView) findViewById(R.id.dd);
@@ -93,7 +98,11 @@ public class MyChannels_RV extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(MyChannels_RV.this,"No Active Internet Connection Found",Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "No Active Internet Connection Found", Snackbar.LENGTH_LONG);
+
+                snackbar.show();
+                //Toast.makeText(MyChannels_RV.this,"No Active Internet Connection Found",Toast.LENGTH_LONG).show();
             }
             return true;
         }
@@ -158,7 +167,12 @@ public class MyChannels_RV extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(MyChannels_RV.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(MyChannels_RV.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, error.toException().toString(), Snackbar.LENGTH_LONG);
+
+                snackbar.show();
 
             }
         });
@@ -251,6 +265,10 @@ public class MyChannels_RV extends AppCompatActivity {
 
                     } catch (ClassCastException ce) {
                         Toast.makeText(MyChannels_RV.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar
+                                .make(coordinatorLayout, "Filtered few invalid Channels", Snackbar.LENGTH_LONG);
+
+                        snackbar.show();
                     }
 
                 }
@@ -285,6 +303,10 @@ public class MyChannels_RV extends AppCompatActivity {
 
                         } else {
                             Toast.makeText(MyChannels_RV.this, "No Internet connection found chekc wifi/mobile networks", Toast.LENGTH_LONG).show();
+                            Snackbar snackbar = Snackbar
+                                    .make(coordinatorLayout, "No Internet connection found chekc wifi/mobile networks", Snackbar.LENGTH_LONG);
+
+                            snackbar.show();
                         }
 
 
@@ -307,7 +329,11 @@ public class MyChannels_RV extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(MyChannels_RV.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(MyChannels_RV.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, error.toException().toString(), Snackbar.LENGTH_LONG);
+
+                snackbar.show();
 
             }
         });

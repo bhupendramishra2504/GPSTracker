@@ -5,7 +5,9 @@
 
         <item android:id="@+id/broadcast"
             android:title="My Broadcast"
-            dash:showAsAction="never"/>
+            android:icon="@mipmap/ic_broadcast"
+            dash:showAsAction="ifRoom"
+           />
             <item android:id="@+id/user_setting"
                 android:title="User Settings"
                 dash:showAsAction="never"/>
@@ -23,7 +25,7 @@
         android:id="@+id/action_search"
         android:title="@string/search"
         android:orderInCategory="200"
-        android:icon="@mipmap/ic_open_search"
+        android:icon="@mipmap/ic_search"
         dash:showAsAction="ifRoom" />
 
 

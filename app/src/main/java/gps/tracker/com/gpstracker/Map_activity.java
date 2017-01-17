@@ -3,6 +3,8 @@ package gps.tracker.com.gpstracker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -64,6 +66,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private static WeakReference<Map_activity> activity;
     private ActionBar ab;
     private OkHttpClient okClient;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         ImageButton zoomplus = (ImageButton) findViewById(R.id.zoomplus);
         ImageButton zoomminus = (ImageButton) findViewById(R.id.zoomminus);
         center=(ImageButton)findViewById(R.id.center);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                .coordinatorLayout);
+
         Intent i = getIntent();
         okClient = new OkHttpClient();
         okClient.setConnectTimeout(10, TimeUnit.HOURS);
@@ -145,6 +151,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                         //goToLandmark();
                         if (map == null) {
                             Toast.makeText(activity.get(),"Map is still not initialized :)",Toast.LENGTH_LONG).show();
+
+
 
                             return;
                         }
@@ -225,6 +233,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 //goToLandmark_mod();
 
                                 map_style.setText(time_stamp + Global.separator);
+                                Snackbar snackbar = Snackbar.make(coordinatorLayout, time_stamp, Snackbar.LENGTH_INDEFINITE);
+                                snackbar.show();
                             } else {
                                 map_style.setText("Waiting for data...");
                             }
@@ -448,6 +458,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 props.put("color", "#ff0000");
                 points.addPoint(new LngLat(my_longitude, my_latitude), props);
                 map_style.setText("Showing my location");
+
             }
             else
             {

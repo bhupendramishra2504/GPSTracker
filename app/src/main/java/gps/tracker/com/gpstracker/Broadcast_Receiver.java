@@ -167,7 +167,7 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
     public static void show_notification(Context context,String title,String message)
     {
         NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_launcher) // notification icon
+                .setSmallIcon(R.drawable.ic_broadcast) // notification icon
                 .setContentTitle(title) // title for notification
                 .setContentText(message)// message for notification
                 .setAutoCancel(true); // clear notification after click

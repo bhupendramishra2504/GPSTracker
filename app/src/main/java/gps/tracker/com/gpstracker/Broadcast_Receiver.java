@@ -1,5 +1,7 @@
 package gps.tracker.com.gpstracker;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.widget.Toast;
 
@@ -113,6 +116,8 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
                 //gps.stopUsingGPS();
             } else {
                 Toast.makeText(context, "cannot fetch the gps location in gps tracker", Toast.LENGTH_LONG).show();
+                show_notification(context,"JUSTIN BROADCAST","BROADCAST_STOPPED : "+Global.date_time());
+
                 status_update("0");
                 //SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                 //editor.putString("broadcasting","NA");
@@ -137,10 +142,13 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             //client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
             loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+gps_time));
             Toast.makeText(context,"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
+            show_notification(context,"JUSTIN BROADCAST","New Location Acquired : "+gps_time);
         }
         else
         {
             Toast.makeText(context,"cannot fetch the gps location in add location to server func",Toast.LENGTH_LONG).show();
+            show_notification(context,"JUSTIN BROADCAST","BROADCAST_STOPPED : "+Global.date_time());
+
             status_update("0");
             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
             editor.putString("broadcasting","NA");
@@ -156,7 +164,21 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
     }
 
 
+    public static void show_notification(Context context,String title,String message)
+    {
+        NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_launcher) // notification icon
+                .setContentTitle(title) // title for notification
+                .setContentText(message)// message for notification
+                .setAutoCancel(true); // clear notification after click
 
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification note = mBuilder.build();
+        note.defaults |= Notification.DEFAULT_VIBRATE;
+        note.defaults |= Notification.DEFAULT_SOUND;
+        mNotificationManager.notify(0, note);
+    }
 
     private void status_update(final String update)
     {

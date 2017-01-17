@@ -262,12 +262,20 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
 
                     if (dataSnapshot != null) {
-                        if (dataSnapshot.getValue().toString().equalsIgnoreCase("1")) {
-                            ab.setSubtitle("ONLINE");
-                        } else if (dataSnapshot.getValue().toString().equalsIgnoreCase("0")) {
-                            ab.setSubtitle("OFFLINE");
-                        } else {
-                            ab.setSubtitle("STATUS UNKNOWN");
+                        if(dataSnapshot.getValue()!=null) {
+                            if (dataSnapshot.getValue().toString().equalsIgnoreCase("1")) {
+                                ab.setSubtitle("ONLINE");
+                            } else if (dataSnapshot.getValue().toString().equalsIgnoreCase("0")) {
+                                ab.setSubtitle("OFFLINE");
+                            } else {
+                                ab.setSubtitle("STATUS UNKNOWN");
+                            }
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(activity.get(), Dashboard.class);
+                            startActivity(intent);
+                            finish();
                         }
 
                     }

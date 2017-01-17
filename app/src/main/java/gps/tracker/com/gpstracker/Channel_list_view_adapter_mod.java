@@ -1,6 +1,7 @@
 package gps.tracker.com.gpstracker;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -47,7 +48,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     //private final Intent i;
     private static PendingIntent pendingIntent;
     private static Intent alarmIntent;
-    private static AlarmManager manager;
+    private static AlarmManager manager,manager2;
     Typeface robotoLight;
     Typeface robotoThin;
     Typeface robotoBold;
@@ -162,7 +163,19 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             int interval = 40000;
 
                             manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+
+                            //edit in v9.2
+
+                            pendingIntent = PendingIntent.getBroadcast(context, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                            manager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                            int interval2 = 50000;
+
+                            manager2.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval2, pendingIntent);
+
+
                             Toast.makeText(context,"Alarm service activated",Toast.LENGTH_LONG).show();
+                            Global.show_notification_dead(context,"CHANNEL BROADCASTING","CHANNEL : "+channellist.get(position).getvname()+Global.separator+"Broadcast Started at"+Global.date_time());
                             // Broadcasting_on_Notification();
                         }
                         else
@@ -191,8 +204,16 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         pendingIntent = PendingIntent.getBroadcast(context,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         manager.cancel(pendingIntent);
+
+                    //edit in v9.2
+
+                    pendingIntent = PendingIntent.getBroadcast(context,1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    manager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    manager2.cancel(pendingIntent);
                         //pendingIntent.cancel();
                         Toast.makeText(context,"Alarm service stopped",Toast.LENGTH_LONG).show();
+                    NotificationManager nMgr = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                    nMgr.cancelAll();
                     }
 
                 else if(!channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid().split(":")[1].trim()))

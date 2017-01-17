@@ -1,11 +1,14 @@
 package gps.tracker.com.gpstracker;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -203,6 +206,34 @@ class Global {
 
     }
 
+    public static void show_notification(Context context,String title,String message)
+    {
+        NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_launcher) // notification icon
+                .setContentTitle(title) // title for notification
+                .setContentText(message) // message for notification
+                .setAutoCancel(true); // clear notification after click
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(0, mBuilder.build());
+    }
+
+
+
+    public static void show_notification_dead(Context context,String title,String message)
+    {
+        NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_launcher) // notification icon
+                .setContentTitle(title) // title for notification
+                .setContentText(message) // message for notification
+                .setAutoCancel(false)
+                .setOngoing(true);// clear notification after click
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(100, mBuilder.build());
+    }
 
 
 

@@ -42,6 +42,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     // --Commented out by Inspection (14/12/16, 10:13 PM):private final List<String>filteredData = null;
     private  Context context;
     private final Integer[] images = { R.drawable.broadcast_icon,R.drawable.red_circle };
+    private final Integer[] aimages = { R.drawable.broadcast_auto,R.drawable.broadcast_auto_off };
     private final Integer[] visible_images={R.drawable.visible,R.drawable.invisible};
 
     private final LayoutInflater mInflater;
@@ -98,7 +99,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Channel_list_view_adapter_mod.ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.broadcast_row, parent, false);
+            convertView = mInflater.inflate(R.layout.broadcast_row_new, parent, false);
             holder = new ViewHolder();
 
 
@@ -107,6 +108,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
             holder.txtvtype = (TextView) convertView.findViewById(R.id.ctype);
             holder.txtcategary=(TextView)convertView.findViewById(R.id.ccategary);
             holder.broadcast=(ImageButton)convertView.findViewById(R.id.bross);
+            holder.broadcast_auto=(ImageButton)convertView.findViewById(R.id.bross_auto);
             holder.visible=(ToggleButton)convertView.findViewById(R.id.visible);
             holder.channel_pic=(CircleImageView)convertView.findViewById(R.id.pic);
             holder.vname=(TextView)convertView.findViewById(R.id.cvname);
@@ -127,6 +129,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         holder.txtcategary.setText(channellist.get(position).getsvcategary());
         holder.txtactive=channellist.get(position).getsActive();
         holder.broadcast.setImageResource(channellist.get(position).getImageid());
+        holder.broadcast_auto.setImageResource(channellist.get(position).agetImageid());
         holder.visible.setChecked(channellist.get(position).getstate());
         holder.channel_pic.setImageBitmap(channellist.get(position).getImage());
 
@@ -153,7 +156,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             editor.apply();
                              status_update_mod("1", channellist.get(position).getChannelid().split(":")[1].trim());
                             play_sound();
-                            holder.broadcast.setImageResource(R.drawable.broadcast_icon);
+                            holder.broadcast.setImageResource(R.drawable.broadcast);
                             channellist.get(position).setImageid(images[0]);
                             //alarmIntent.setAction("gps.tracker.com.gpstracker.Broadcast_Receiver");
                             alarmIntent.putExtra("channel_id",channellist.get(position).getChannelid().split(":")[1].trim());
@@ -197,7 +200,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                     editor.apply();
                         play_sound_bstop();
                          status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
-                        holder.broadcast.setImageResource(R.drawable.red_circle);
+                        holder.broadcast.setImageResource(R.drawable.broadcast_off);
                         channellist.get(position).setImageid(images[1]);
                         Intent intent = new Intent(context, Broadcast_Receiver.class);
                          //Intent intent = new Intent(context, Br_rx.class);
@@ -224,6 +227,103 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                 //holder.notifyAll();
             }
         });
+
+
+        holder.broadcast_auto.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+                String channel_broadcasting = prefs.getString("broadcasting", "NA");
+
+                Global.channel_id=channellist.get(position).getChannelid().split(":")[1].trim();
+                if(channel_broadcasting.equalsIgnoreCase("NA")) {
+
+                    LocationManager locationManager = (LocationManager) context
+                            .getSystemService(Context.LOCATION_SERVICE);
+                    boolean isGPSEnabled = locationManager
+                            .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                    if(isGPSEnabled) {
+
+                        //status = true;
+                        SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+                        editor.putString("broadcasting",channellist.get(position).getChannelid().split(":")[1].trim());
+                        editor.putString("broadcasting_cmd",channellist.get(position).getChannelid().split(":")[1].trim());
+                        editor.apply();
+                        status_update_mod("1", channellist.get(position).getChannelid().split(":")[1].trim());
+                        play_sound();
+                        holder.broadcast_auto.setImageResource(R.drawable.broadcast_auto);
+                        channellist.get(position).asetImageid(aimages[0]);
+                        //alarmIntent.setAction("gps.tracker.com.gpstracker.Broadcast_Receiver");
+                        alarmIntent.putExtra("channel_id",channellist.get(position).getChannelid().split(":")[1].trim());
+                        pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        int interval = 40000;
+
+                        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+
+                        //edit in v9.2
+
+                        pendingIntent = PendingIntent.getBroadcast(context, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        manager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        int interval2 = 50000;
+
+                        manager2.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval2, pendingIntent);
+
+
+                        Toast.makeText(context,"Alarm service activated",Toast.LENGTH_LONG).show();
+                        Global.show_notification_dead(context,"CHANNEL BROADCASTING","CHANNEL : "+channellist.get(position).getvname()+Global.separator+"Broadcast Started at"+Global.date_time());
+                        // Broadcasting_on_Notification();
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Location services off,Enable location service from settings",Toast.LENGTH_LONG).show();
+                    }
+                    //subscribe();
+
+
+                }
+                else if(channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid().split(":")[1].trim())){
+                    //context.stopService(i);
+                    //status = false;
+
+                    SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+                    editor.putString("broadcasting","NA");
+                    editor.putString("broadcasting_cmd","NA");
+
+                    editor.apply();
+                    play_sound_bstop();
+                    status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
+                    holder.broadcast_auto.setImageResource(R.drawable.broadcast_auto_off);
+                    channellist.get(position).asetImageid(images[1]);
+                    Intent intent = new Intent(context, Broadcast_Receiver.class);
+                    //Intent intent = new Intent(context, Br_rx.class);
+                    pendingIntent = PendingIntent.getBroadcast(context,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    manager.cancel(pendingIntent);
+
+                    //edit in v9.2
+
+                    pendingIntent = PendingIntent.getBroadcast(context,1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    manager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    manager2.cancel(pendingIntent);
+                    //pendingIntent.cancel();
+                    Toast.makeText(context,"Alarm service stopped",Toast.LENGTH_LONG).show();
+                    NotificationManager nMgr = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                    nMgr.cancelAll();
+                }
+
+                else if(!channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid().split(":")[1].trim()))
+                {
+                    Toast.makeText(context,"Other Channel is Broadcasting",Toast.LENGTH_LONG).show();
+                }
+
+                //holder.notifyAll();
+            }
+        });
+
 
         holder.visible.setOnClickListener(new View.OnClickListener() {
 
@@ -282,6 +382,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         String txtchannelid;
         String txtactive;
         ImageButton broadcast;
+        ImageButton broadcast_auto;
         ToggleButton visible;
         CircleImageView channel_pic;
 

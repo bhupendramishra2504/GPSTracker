@@ -38,7 +38,9 @@ public class MyChannels_RV extends AppCompatActivity {
 //    //subscriber_name;
 //    private final String status="offline";
 // --Commented out by Inspection STOP (14/12/16, 10:20 PM)
-    private final Integer[] images = { R.drawable.broadcast_icon,R.drawable.red_circle };
+    private final Integer[] images = { R.drawable.broadcast,R.drawable.broadcast_off };
+    private final Integer[] aimages = { R.drawable.broadcast_auto,R.drawable.broadcast_auto_off };
+
     private final Integer[] visible_images={R.drawable.visible,R.drawable.invisible};
     private int position=0;
     private Activity activity;
@@ -233,12 +235,14 @@ public class MyChannels_RV extends AppCompatActivity {
                                 }
                                 status_update("0", child.getKey());
                                 sr1.setImageid(images[1]);
+                                sr1.asetImageid(aimages[1]);
 
 
                             } else {
 
                                     status_update("1", child.getKey());
                                     sr1.setImageid(images[0]);
+                                    sr1.asetImageid(aimages[0]);
                                     SharedPreferences.Editor editor = getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                                     editor.putString("broadcasting",child.getKey());
                                     editor.apply();

@@ -14,6 +14,7 @@ class Channel_list {
     private String channel_id="";
     private String vname="";
     private int imageid;
+    private int aimageid;
     private int visibleimageid;
     private Bitmap image;
     private Boolean state;
@@ -62,6 +63,8 @@ class Channel_list {
     public int getImageid(){return imageid;}
     public void setImageid(int imageid){this.imageid=imageid;}
 
+    public int agetImageid(){return aimageid;}
+    public void asetImageid(int aimageid){this.aimageid=aimageid;}
 
     public int getvisibleimageid(){return visibleimageid;}
     public void setvisibleimageid(int visibleimageid){this.visibleimageid=visibleimageid;}

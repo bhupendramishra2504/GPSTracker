@@ -48,7 +48,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     private final LayoutInflater mInflater;
     //private final Intent i;
     private static PendingIntent pendingIntent;
-    private static Intent alarmIntent;
+    private static Intent alarmIntent,alarmIntent1;
     private static AlarmManager manager,manager2;
     Typeface robotoLight;
     Typeface robotoThin;
@@ -64,6 +64,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         robotoBold = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_bold.ttf");
         //i=new Intent(this.context, TimeServiceGPS.class);
         alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
+        alarmIntent1 = new Intent(this.context, Auto_Broadcast_Reciever.class);
        // alarmIntent = new Intent(this.context, Br_rx.class);
 
     }
@@ -255,8 +256,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         holder.broadcast_auto.setImageResource(R.drawable.broadcast_auto);
                         channellist.get(position).asetImageid(aimages[0]);
                         //alarmIntent.setAction("gps.tracker.com.gpstracker.Broadcast_Receiver");
-                        alarmIntent.putExtra("channel_id",channellist.get(position).getChannelid().split(":")[1].trim());
-                        pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        alarmIntent1.putExtra("channel_id",channellist.get(position).getChannelid().split(":")[1].trim());
+                        pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
                         manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                         int interval = 40000;
@@ -264,13 +265,6 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
 
                         //edit in v9.2
-
-                        pendingIntent = PendingIntent.getBroadcast(context, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                        manager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                        int interval2 = 50000;
-
-                        manager2.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval2, pendingIntent);
 
 
                         Toast.makeText(context,"Alarm service activated",Toast.LENGTH_LONG).show();
@@ -298,17 +292,13 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                     status_update_mod("0", channellist.get(position).getChannelid().split(":")[1].trim());
                     holder.broadcast_auto.setImageResource(R.drawable.broadcast_auto_off);
                     channellist.get(position).asetImageid(images[1]);
-                    Intent intent = new Intent(context, Broadcast_Receiver.class);
+                    Intent intent = new Intent(context, Auto_Broadcast_Reciever.class);
                     //Intent intent = new Intent(context, Br_rx.class);
                     pendingIntent = PendingIntent.getBroadcast(context,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                     manager.cancel(pendingIntent);
 
                     //edit in v9.2
-
-                    pendingIntent = PendingIntent.getBroadcast(context,1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    manager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                    manager2.cancel(pendingIntent);
                     //pendingIntent.cancel();
                     Toast.makeText(context,"Alarm service stopped",Toast.LENGTH_LONG).show();
                     NotificationManager nMgr = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);

@@ -49,6 +49,7 @@ public class Register extends AppCompatActivity {
         city=(EditText)findViewById(R.id.rcity);
         country=(EditText)findViewById(R.id.rcountry);
         ProgressBar spinner = (ProgressBar) findViewById(R.id.progressBar);
+        assert spinner != null;
         spinner.setVisibility(View.GONE);
         grant_all_permission();
 
@@ -103,7 +104,7 @@ public class Register extends AppCompatActivity {
         });
 
 
-
+        assert otp != null;
         otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

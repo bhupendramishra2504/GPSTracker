@@ -77,6 +77,7 @@ public class Search_activity extends AppCompatActivity {
         search_button=(Button)findViewById(R.id.search);
         desc=(TextView)findViewById(R.id.desc);
         spinner=(ProgressBar)findViewById(R.id.progressBar);
+        assert spinner != null;
         spinner.setVisibility(View.GONE);
         search_activity=Search_activity.this;
         Global.set_action_bar_details(Search_activity.this,"Search","");

@@ -59,8 +59,10 @@ public class OTP extends AppCompatActivity {
             new_number = i.getStringExtra("new_number");
         }
         spinner=(ProgressBar)findViewById(R.id.progressBar);
+        assert spinner != null;
         spinner.setVisibility(View.GONE);
 
+        assert register != null;
         register.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("HardwareIds")
             @Override

@@ -110,6 +110,7 @@ public class Channel_settings extends AppCompatActivity{
             bcc.execute();
             GetfollowerResults();
             Global.set_action_bar_details(Channel_settings.this, "Edit Channel", "");
+            assert change != null;
             change.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
@@ -117,6 +118,7 @@ public class Channel_settings extends AppCompatActivity{
                 }
             });
 
+            assert delete != null;
             delete.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
@@ -127,6 +129,7 @@ public class Channel_settings extends AppCompatActivity{
                 }
             });
 
+            assert edit != null;
             edit.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
@@ -262,6 +265,7 @@ public class Channel_settings extends AppCompatActivity{
                 }
             });
 
+            assert browse != null;
             browse.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
@@ -921,6 +925,7 @@ public class Channel_settings extends AppCompatActivity{
 
         int selectedId = rg.getCheckedRadioButtonId();
         RadioButton radiobutton =(RadioButton)findViewById(selectedId);
+        assert radiobutton != null;
         if(radiobutton.getText().toString().equalsIgnoreCase("Block"))
         {
             DatabaseReference userdatafd = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("follower_setting");

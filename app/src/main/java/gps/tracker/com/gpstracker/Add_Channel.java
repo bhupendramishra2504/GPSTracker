@@ -54,7 +54,8 @@ public class Add_Channel extends AppCompatActivity {
 
             Global.set_action_bar_details(Add_Channel.this, "Add Channel", "");
             TextView logged_user = (TextView) findViewById(R.id.logged_user);
-            logged_user.setText("Logged in as :" + Global.username);
+            assert logged_user != null;
+            logged_user.setText("");
 
             vtype = (Button) findViewById(R.id.vtype);
             withincity = (Button) findViewById(R.id.atravel);
@@ -157,6 +158,7 @@ public class Add_Channel extends AppCompatActivity {
                 }
             });
 
+            assert add_channel != null;
             add_channel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -175,6 +177,7 @@ public class Add_Channel extends AppCompatActivity {
             });
 
 
+            assert browse != null;
             browse.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 

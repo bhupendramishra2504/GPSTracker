@@ -3,9 +3,19 @@
     xmlns:dash="http://schemas.android.com/apk/res-auto">
 
 
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/search"
+        android:orderInCategory="200"
+        android:icon="@mipmap/ic_search"
+        dash:showAsAction="ifRoom" />
+
+
         <item android:id="@+id/broadcast"
             android:title="My Broadcast"
-            android:icon="@mipmap/ic_broadcast"
+            android:icon="@drawable/broadcast"
+            android:tint="#ffffff"
+            android:orderInCategory="400"
             dash:showAsAction="ifRoom"
            />
             <item android:id="@+id/user_setting"
@@ -21,12 +31,7 @@
                 android:id="@+id/about"
                 dash:showAsAction="never"/>
 
-    <item
-        android:id="@+id/action_search"
-        android:title="@string/search"
-        android:orderInCategory="200"
-        android:icon="@mipmap/ic_search"
-        dash:showAsAction="ifRoom" />
+
 
 
 

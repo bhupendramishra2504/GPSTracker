@@ -55,7 +55,7 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
     public void onReceive(Context arg0, Intent arg1) {
         try {
             // For our recurring task, we'll just display a message
-            Toast.makeText(arg0, "I'm running", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(arg0, "I'm running", Toast.LENGTH_SHORT).show();
             //Intent startServiceIntent = new Intent(arg0, Broadcast_service.class);
             //startServiceIntent.putExtra("channel_id",channel_id);
             //arg0.startService(startServiceIntent);
@@ -116,7 +116,7 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
                 //gps.stopUsingGPS();
             } else {
                 Toast.makeText(context, "cannot fetch the gps location in gps tracker", Toast.LENGTH_LONG).show();
-                show_notification(context,"JUSTIN BROADCAST","BROADCAST_STOPPED : "+Global.date_time());
+                //show_notification(context,"JUSTIN BROADCAST","BROADCAST_STOPPED : "+Global.date_time());
 
                 status_update("0");
                 //SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
@@ -142,12 +142,12 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             //client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
             loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+gps_time));
             Toast.makeText(context,"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
-            show_notification(context,"JUSTIN BROADCAST","New Location Acquired : "+gps_time);
+            //show_notification(context,"JUSTIN BROADCAST","New Location Acquired : "+gps_time);
         }
         else
         {
             Toast.makeText(context,"cannot fetch the gps location in add location to server func",Toast.LENGTH_LONG).show();
-            show_notification(context,"JUSTIN BROADCAST","BROADCAST_STOPPED : "+Global.date_time());
+            //show_notification(context,"JUSTIN BROADCAST","BROADCAST_STOPPED : "+Global.date_time());
 
             status_update("0");
             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();

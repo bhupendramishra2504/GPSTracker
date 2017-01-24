@@ -108,7 +108,7 @@ public final class GPSTracker extends Service implements LocationListener {
                             Date date = new Date(location_network.getTime());
                             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                             String text = sdf.format(date);
-                            Toast.makeText(mContext, "Network Time Stamp for location is " + text, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(mContext, "Network Time Stamp for location is " + text, Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -134,7 +134,7 @@ public final class GPSTracker extends Service implements LocationListener {
                                 Date date = new Date(location_gps.getTime());
                                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                 String text = sdf.format(date);
-                                Toast.makeText(mContext, "GPS Time Stamp for location is " + text, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(mContext, "GPS Time Stamp for location is " + text, Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -142,13 +142,13 @@ public final class GPSTracker extends Service implements LocationListener {
                 if(time_stamp_network-time_stamp_gps>120000)
                 {
                     location=location_network;
-                    Toast.makeText(mContext, "selecting network location", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(mContext, "selecting network location", Toast.LENGTH_LONG).show();
 
                 }
                 else
                 {
                     location=location_gps;
-                    Toast.makeText(mContext, "selecting Gps location", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(mContext, "selecting Gps location", Toast.LENGTH_LONG).show();
 
                 }
             }

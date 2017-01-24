@@ -208,11 +208,11 @@ public class MyChannels_RV extends AppCompatActivity {
 
                         Channel_list sr1 = new Channel_list();
                         if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("category") != null && map.get("vtype") != null && map.get("visible") != null) {
-                            sr1.setsName("O : " + map.get("owner").toString());
-                            sr1.setChannelid("CId :" + child.getKey());
+                            sr1.setsName(capitalize_string(map.get("owner").toString()));
+                            sr1.setChannelid(child.getKey());
                             sr1.setscategary("C : " + map.get("category").toString() + Global.separator + "Refresh Rate: " + map.get("refresh_status").toString());
-                            sr1.setsVnumber("VNo. : " + map.get("vehicle_number").toString());
-                            sr1.setsvtype("VT : " + map.get("vtype").toString());
+                            sr1.setsVnumber(capitalize_string(map.get("vehicle_number").toString()));
+                            sr1.setsvtype(capitalize_string(map.get("vtype").toString()));
                             String act = map.get("visible").toString();
                             //String status = map.get("status").toString();
                             if (act.equalsIgnoreCase("1")) {
@@ -256,7 +256,7 @@ public class MyChannels_RV extends AppCompatActivity {
                             }
 
                             if (map.get("vehicle_name") != null) {
-                                sr1.setvname("VN : " + map.get("vehicle_name").toString());
+                                sr1.setvname(capitalize_string(map.get("vehicle_name").toString()));
                             } else {
                                 sr1.setvname("VN : NA");
                             }
@@ -294,7 +294,7 @@ public class MyChannels_RV extends AppCompatActivity {
                                 Channel_list fullObject = (Channel_list) o;
                                 Toast.makeText(MyChannels_RV.this, "You have chosen: " + " " + fullObject.getsName() + Global.separator + fullObject.getsPhone(), Toast.LENGTH_LONG).show();
                                 subscriber_invite = fullObject.getChannelid();
-                                String subscriber = subscriber_invite.split(":")[1].trim();
+                                String subscriber = subscriber_invite;
                                 //subscriber_name = fullObject.getsName();
                                 Global.getUserdetails();
 
@@ -410,6 +410,19 @@ public class MyChannels_RV extends AppCompatActivity {
         }
 
         return bitmap;
+    }
+
+    private String capitalize_string(String data)
+    {
+
+        String data1="";
+        try {
+            data1 = data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();
+        }catch(Exception e)
+        {
+
+        }
+        return data1;
     }
 
 

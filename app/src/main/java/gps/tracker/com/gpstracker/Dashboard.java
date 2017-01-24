@@ -140,16 +140,6 @@ public class Dashboard extends BaseClass  {
             lv1 = (ListView) findViewById(R.id.subscriber_list);
 
 
-            fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Dashboard.this, Search_activity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-
 
             lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -307,7 +297,7 @@ public class Dashboard extends BaseClass  {
             AlertDialog.Builder builder =
                     new AlertDialog.Builder(this);
             builder.setTitle("JustIn");
-            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-1.9.1"+System.getProperty("line.separator")+"Release Date : 13/01/2017"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"bug fixes and perf improvements"+System.getProperty("line.separator")+"Broadcasting performance enhanced"+System.getProperty("line.separator")+"old gps on map issue solved"+System.getProperty("line.separator")+"real time from location is fed into the server in place of current time");
+            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-2.0.1"+System.getProperty("line.separator")+"Release Date : 21/01/2017"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"bug fixes and perf improvements"+System.getProperty("line.separator")+"Broadcasting performance enhanced"+System.getProperty("line.separator")+"old gps on map issue solved"+System.getProperty("line.separator")+"locations stored on local storage in sqlite");
             builder.setPositiveButton("OK", null);
             builder.show();
             return true;
@@ -558,28 +548,28 @@ public class Dashboard extends BaseClass  {
                                     fullObject.setImageid(images[1]);
                                 }
                                 if(map.get("owner")!=null) {
-                                    fullObject.setsName(map.get("owner").toString());
+                                    fullObject.setsName(capitalize_string(map.get("owner").toString()));
                                 }
                                 else
                                 {
                                     fullObject.setsName("NA");
                                 }
                                 if(map.get("mobile")!=null) {
-                                    fullObject.setsPhone(map.get("mobile").toString());
+                                    fullObject.setsPhone(capitalize_string(map.get("mobile").toString()));
                                 }
                                 else
                                 {
                                     fullObject.setsPhone("NA");
                                 }
                                 if(map.get("vehicle_number")!=null) {
-                                    fullObject.setsVnumber(map.get("vehicle_number").toString());
+                                    fullObject.setsVnumber(capitalize_string(map.get("vehicle_number").toString()));
                                 }
                                 else
                                 {
                                     fullObject.setsVnumber("NA");
                                 }
                                 if(map.get("vehicle_name")!=null) {
-                                    fullObject.setsvname(map.get("vehicle_name").toString());
+                                    fullObject.setsvname(capitalize_string(map.get("vehicle_name").toString()));
                                 }
                                 else
                                 {
@@ -591,12 +581,12 @@ public class Dashboard extends BaseClass  {
                                     fullObject.setImage(download_image_to_firebase1("default"));
                                 }
                                 if (map.get("vtype") != null) {
-                                    fullObject.setvtype(map.get("vtype").toString());
+                                    fullObject.setvtype(capitalize_string(map.get("vtype").toString()));
                                 } else {
                                     fullObject.setvtype("NA");
                                 }
                                 if (map.get("category") != null) {
-                                    fullObject.setcategory(map.get("category").toString());
+                                    fullObject.setcategory(capitalize_string(map.get("category").toString()));
                                 } else {
                                     fullObject.setcategory("NA");
                                 }
@@ -919,6 +909,19 @@ public class Dashboard extends BaseClass  {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private String capitalize_string(String data)
+    {
+
+        String data1="";
+        try {
+            data1 = data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();
+        }catch(Exception e)
+        {
+
+        }
+        return data1;
     }
 
 }

@@ -218,8 +218,9 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_delete"
+                android:src="@drawable/remove"
                 android:background="@android:color/transparent"
+                android:tint="@color/gray"
                 android:padding="2dp"
                 android:id="@+id/remove"
                 android:layout_marginTop="10dp"/>

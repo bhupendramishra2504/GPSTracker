@@ -18,6 +18,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/ma"
     android:layout_gravity="right">
 
 
@@ -25,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:padding="10dp"
             android:layout_marginBottom="3dp"
             android:layout_marginTop="1dp"
            >
@@ -34,7 +36,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/plus"
+                android:src="@drawable/plus1"
                 android:id="@+id/zoomplus"
                 android:color="#20FF0000"
                 android:background="@null"
@@ -45,7 +47,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/my_loc"
+                android:src="@drawable/my_loc1"
                 android:id="@+id/center"
                 android:color="#20FF0000"
                 android:background="@null"
@@ -55,7 +57,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/minus"
+                android:src="@drawable/minus1"
                 android:id="@+id/zoomminus"
                 android:color="#20FF0000"
                 android:background="@null"
@@ -64,6 +66,18 @@
 
 
         </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        android:textColor="#ffffff"
+        android:layout_marginTop="5dp"
+        android:padding="10dp"
+        android:id="@+id/maps"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
 

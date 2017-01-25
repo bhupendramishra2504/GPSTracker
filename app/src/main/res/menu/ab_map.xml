@@ -5,7 +5,8 @@
 
     <item android:id="@+id/refresh"
         android:title="REFRESH"
-        dash:showAsAction="always"/>
+        android:icon="@drawable/refresh_icon"
+        dash:showAsAction="ifRoom"/>
 
 
 </menu>

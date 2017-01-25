@@ -11,7 +11,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +56,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private  MapData points;
     private DatabaseReference fetch_loc_ref,channel_status;
     private ValueEventListener fetch_listener,channel_status_listener;
-   // private TextView map_style;
+    private TextView map_style;
     private  float scale_map=13f;
 
     private String s_phone;
@@ -67,6 +69,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private ActionBar ab;
     private OkHttpClient okClient;
     private CoordinatorLayout coordinatorLayout;
+    private RelativeLayout ma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +77,14 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         setContentView(R.layout.activity_map_activity);
         mapview=(MapView)findViewById(R.id.map);
         activity = new WeakReference<>(this);
-        //map_style=(TextView)findViewById(R.id.maps);
+        map_style=(TextView)findViewById(R.id.maps);
         ImageButton zoomplus = (ImageButton) findViewById(R.id.zoomplus);
         ImageButton zoomminus = (ImageButton) findViewById(R.id.zoomminus);
         center=(ImageButton)findViewById(R.id.center);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
                 .coordinatorLayout);
+        ma = (RelativeLayout) findViewById(R.id
+                .ma);
 
         Intent i = getIntent();
         okClient = new OkHttpClient();
@@ -146,7 +151,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 if(sel_loc==1) {
                     my_location_gps();
                     sel_loc = 2;
-                    center.setImageResource(R.drawable.my_loc);
+                    center.setImageResource(R.drawable.my_loc1);
                 }
                 else if(sel_loc==2)
                 {
@@ -171,9 +176,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                         props.put("color", "#000000");
                         props.put("text","hiii");
                         points.addPoint(new LngLat(longitude,latitude),props);
-                        //map_style.setText("Last updated on :"+ time_stamp + Global.separator);
-                        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Last updated on :"+ time_stamp, Snackbar.LENGTH_INDEFINITE);
-                        snackbar.show();
+                        map_style.setText("Last updated on :"+ time_stamp + Global.separator);
+                        //Snackbar snackbar = Snackbar.make(ma, "Last updated on :"+ time_stamp, Snackbar.LENGTH_INDEFINITE);
+                        //snackbar.show();
                     }
                     else
                     {
@@ -181,7 +186,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                     }
 
                     sel_loc=1;
-                    center.setImageResource(R.drawable.cha_loc);
+                    center.setImageResource(R.drawable.cha_loc1);
                 }
 
             }
@@ -236,18 +241,18 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
                                 //goToLandmark_mod();
 
-                               // map_style.setText(time_stamp + Global.separator);
-                                Snackbar snackbar = Snackbar.make(coordinatorLayout, time_stamp, Snackbar.LENGTH_INDEFINITE);
-                                snackbar.show();
+                                map_style.setText(time_stamp + Global.separator);
+                                //Snackbar snackbar = Snackbar.make(coordinatorLayout, time_stamp, Snackbar.LENGTH_INDEFINITE);
+                                //snackbar.show();
                             } else {
-                                //map_style.setText("Waiting for data...");
-                                Snackbar snackbar = Snackbar.make(coordinatorLayout, "Waiting for data...", Snackbar.LENGTH_INDEFINITE);
-                                snackbar.show();
+                                map_style.setText("Waiting for data...");
+                                //Snackbar snackbar = Snackbar.make(coordinatorLayout, "Waiting for data...", Snackbar.LENGTH_INDEFINITE);
+                                //snackbar.show();
                             }
                         } else {
-                            //map_style.setText("Channel not active or map not initialized");
-                            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Channel not active or map not initialized", Snackbar.LENGTH_INDEFINITE);
-                            snackbar.show();
+                            map_style.setText("Channel not active or map not initialized");
+                            //Snackbar snackbar = Snackbar.make(coordinatorLayout, "Channel not active or map not initialized", Snackbar.LENGTH_INDEFINITE);
+                           // snackbar.show();
 
                         }
                         //Toast.makeText(Channel_settings.this,"message recieved "+message,Toast.LENGTH_LONG ).show();
@@ -465,17 +470,17 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 props.put("type", "point");
                 props.put("color", "#ff0000");
                 points.addPoint(new LngLat(my_longitude, my_latitude), props);
-                //map_style.setText("Showing my location");
-                Snackbar snackbar = Snackbar.make(coordinatorLayout, "Showing my location", Snackbar.LENGTH_INDEFINITE);
-                snackbar.show();
+                map_style.setText("Showing my location");
+                //Snackbar snackbar = Snackbar.make(coordinatorLayout, "Showing my location", Snackbar.LENGTH_INDEFINITE);
+                //snackbar.show();
 
             }
             else
             {
                 Toast.makeText(activity.get(),"channel location could not be determined",Toast.LENGTH_LONG).show();
-                //map_style.setText("channel location could not be determined");
-                Snackbar snackbar = Snackbar.make(coordinatorLayout, "channel location could not be determined", Snackbar.LENGTH_INDEFINITE);
-                snackbar.show();
+                map_style.setText("channel location could not be determined");
+                //Snackbar snackbar = Snackbar.make(coordinatorLayout, "channel location could not be determined", Snackbar.LENGTH_INDEFINITE);
+                //snackbar.show();
             }
 
         }

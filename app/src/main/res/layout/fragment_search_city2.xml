@@ -1,0 +1,27 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="gps.tracker.com.gpstracker.Search_city">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/desc"
+        android:textColor="#3353e0"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <ListView
+        android:id="@+id/search_list"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:dividerHeight="1px"
+        android:divider="#bbbbbb"
+        android:background="#11ffffaa"
+        android:cacheColorHint="#11ffffaa"
+
+        />
+</FrameLayout>

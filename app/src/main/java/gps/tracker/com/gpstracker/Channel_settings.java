@@ -51,7 +51,7 @@ public class Channel_settings extends AppCompatActivity{
    // private Intent i;
     private String channel_id;
     private EditText new_number;
-    private final Integer[] images2 = { R.drawable.block_icon,R.drawable.unblock_icon };
+    private final Integer[] images2 = { R.drawable.block_icon1,R.drawable.unblock_icon1 };
     private Button vtype;
     private Button category;
     private Button withincity;
@@ -190,7 +190,7 @@ public class Channel_settings extends AppCompatActivity{
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {
                             vtype.setText(item.getTitle());
-                            vtype.setTextColor(Color.WHITE);
+                           // vtype.setTextColor(Color.WHITE);
                             return true;
                         }
                     });
@@ -211,7 +211,7 @@ public class Channel_settings extends AppCompatActivity{
                     popup_travel.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {
                             withincity.setText(item.getTitle());
-                            withincity.setTextColor(Color.WHITE);
+                            //withincity.setTextColor(Color.WHITE);
                             return true;
                         }
                     });
@@ -226,15 +226,16 @@ public class Channel_settings extends AppCompatActivity{
                 public void onClick(View v) {
 
                     popup_refresh = new PopupMenu(Channel_settings.this, refresh_rate);
-                    popup_refresh.getMenu().add("High");
-                    popup_refresh.getMenu().add("Medium");
-                    popup_refresh.getMenu().add("Low");
-
+                    popup_refresh.getMenu().add("10 secs");
+                    popup_refresh.getMenu().add("30 secs");
+                    popup_refresh.getMenu().add("1 min");
+                    popup_refresh.getMenu().add("15 mins");
+                    popup_refresh.getMenu().add("30 mins");
 
                     popup_refresh.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {
                             refresh_rate.setText(item.getTitle());
-                            refresh_rate.setTextColor(Color.WHITE);
+                            //refresh_rate.setTextColor(Color.WHITE);
                             return true;
                         }
                     });
@@ -255,7 +256,7 @@ public class Channel_settings extends AppCompatActivity{
                     popup_category.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {
                             category.setText(item.getTitle());
-                            category.setTextColor(Color.WHITE);
+                            //category.setTextColor(Color.WHITE);
                             return true;
                         }
                     });

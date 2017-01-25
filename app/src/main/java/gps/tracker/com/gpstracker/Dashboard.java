@@ -278,7 +278,7 @@ public class Dashboard extends BaseClass  {
 
              if (grant_permission() && isNetworkAvailable()) {
 
-                 Intent intent = new Intent(Dashboard.this, Search_activity.class);
+                 Intent intent = new Intent(Dashboard.this, Search_activity_v2.class);
                  startActivity(intent);
                  finish();
                  return true;

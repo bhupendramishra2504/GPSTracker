@@ -77,15 +77,15 @@ class Follower_list_view_adapter extends BaseAdapter {
         holder.txtName.setText(searchArrayList.get(position).getfName());
         holder.txtPhone.setText(searchArrayList.get(position).getfPhone());
         holder.block.setImageResource(searchArrayList.get(position).getImageid());
-        holder.block.setTag(R.id.resource,R.drawable.unblock_icon);
+        holder.block.setTag(R.id.resource,R.drawable.unblock_icon1);
         holder.status=searchArrayList.get(position).getstatus();
         holder.block.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
                 if(Global.block) {
-                    holder.block.setImageResource(R.drawable.unblock_icon);
-                    holder.block.setTag(R.id.resource,R.drawable.unblock_icon);
+                    holder.block.setImageResource(R.drawable.unblock_icon1);
+                    holder.block.setTag(R.id.resource,R.drawable.unblock_icon1);
                     holder.status="0";
                     Global.block=false;
                     DatabaseReference ref=Global.firebase_dbreference.child("USERS").child(searchArrayList.get(position).getfPhone()).child("Subscribers").child(Global.channel_id).child("unblock");
@@ -95,8 +95,8 @@ class Follower_list_view_adapter extends BaseAdapter {
                 }
                 else
                 {
-                    holder.block.setImageResource(R.drawable.block_icon);
-                    holder.block.setTag(R.id.resource,R.drawable.block_icon);
+                    holder.block.setImageResource(R.drawable.block_icon1);
+                    holder.block.setTag(R.id.resource,R.drawable.block_icon1);
                     holder.status="1";
                     Global.block=true;
                     DatabaseReference ref=Global.firebase_dbreference.child("USERS").child(searchArrayList.get(position).getfPhone()).child("Subscribers").child(Global.channel_id).child("unblock");

@@ -36,6 +36,7 @@ class Global {
     //public static String channel_broadcasting_vnumber="NONE";
     public static String username="NA";
     public static String user_desc_name="NA";
+    public static String search_string="NA";
     public static final String separator = System.getProperty("line.separator");
     //public static long high=0,med=0,low=0;
     //public static String rr="LOW";

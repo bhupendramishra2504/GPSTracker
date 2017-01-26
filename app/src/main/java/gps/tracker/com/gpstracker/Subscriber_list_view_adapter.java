@@ -1,7 +1,9 @@
 package gps.tracker.com.gpstracker;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +88,15 @@ class Subscriber_list_view_adapter extends BaseAdapter {
         holder.txtPhone.setText(searchArrayList.get(position).getsPhone());
         holder.txtvnumber.setText(searchArrayList.get(position).getsVnumber());
         holder.txtvname.setText(searchArrayList.get(position).getsvname());
-        holder.status.setImageResource(searchArrayList.get(position).getImageid());
+        if(searchArrayList.get(position).getImageid()==R.drawable.red_circle) {
+            holder.status.setImageResource(searchArrayList.get(position).getImageid());
+            holder.status.setColorFilter(Color.argb(255, 205, 92, 92));
+        }
+        else
+        {
+            holder.status.setImageResource(searchArrayList.get(position).getImageid());
+            holder.status.setColorFilter(Color.argb(255, 3, 155, 229));
+        }
         holder.channelid=searchArrayList.get(position).getChannelid();
         holder.vtype.setText(searchArrayList.get(position).getvtype());
         holder.category.setText(searchArrayList.get(position).getcategory());

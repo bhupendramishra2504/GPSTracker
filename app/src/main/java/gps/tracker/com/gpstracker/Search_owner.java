@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -99,8 +100,14 @@ public class Search_owner extends Fragment {
                     channel_vtype = fullObject.getvtype();
                     follower_set=fullObject.getfollower();
 
-
-                    new AlertDialog.Builder(getActivity())
+                    AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        builder = new AlertDialog.Builder(getActivity());
+                    }
+                    //new AlertDialog.Builder(getActivity())
+                    builder
                             .setTitle("Subscribe Channel")
                             .setMessage("Are you sure you want Subscribe Channel " + channel_invite)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

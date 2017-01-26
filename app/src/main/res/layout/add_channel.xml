@@ -297,13 +297,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Block"
-                        android:checked="true" />
+                        android:checked="true"
+                        android:textColor="@color/colorAccent"/>
 
                     <RadioButton
                         android:id="@+id/rallow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Allow" />
+                        android:text="Allow"
+                        android:textColor="@color/colorAccent"/>
 
                 </RadioGroup>
 

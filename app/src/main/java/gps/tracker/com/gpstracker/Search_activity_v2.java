@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -34,6 +35,7 @@ public class Search_activity_v2 extends AppCompatActivity
     private TabLayout tabLayout;
     private ViewPager viewPager;
     AppCompatActivity activity;
+    Fragment search_city,search_mobile,search_owner,search_vname,search_vnumber;
     int position=0;
     // Tab titles
 
@@ -46,38 +48,34 @@ public class Search_activity_v2 extends AppCompatActivity
         Global.set_action_bar_details(Search_activity_v2.this,"Search","");
         activity=Search_activity_v2.this;
 
+        search_city=new Search_city();
+        search_mobile=new Search_mobile();
+        search_owner=new Search_owner();
+        search_vname=new Search_vname();
+        search_vnumber=new Search_vnumber();
+
+        Global.search_string="NA";
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
+
+
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
             @Override
             public void onTabSelected(TabLayout.Tab tab){
                 position = tab.getPosition();
-                if(position==0)
-                {
-                    Toast.makeText(activity,"owner selected",Toast.LENGTH_LONG).show();
-                }
-                else if(position==1)
-                {
-                    Toast.makeText(activity,"city selected",Toast.LENGTH_LONG).show();
-                }
-                else if(position==2)
-                {
-                    Toast.makeText(activity,"mobile selected",Toast.LENGTH_LONG).show();
-                }
-                else if(position==3)
-                {
-                    Toast.makeText(activity,"vname selected",Toast.LENGTH_LONG).show();
-                }
-                else if(position==4)
-                {
-                    Toast.makeText(activity,"vnumber selected",Toast.LENGTH_LONG).show();
-                }
+                LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(Search_activity_v2.this);
+                Intent i = new Intent("TAG_REFRESH");
+                lbm.sendBroadcast(i);
+
             }
 
             @Override
@@ -92,6 +90,8 @@ public class Search_activity_v2 extends AppCompatActivity
         });
 
     }
+
+
 
 
     @Override
@@ -111,7 +111,9 @@ public class Search_activity_v2 extends AppCompatActivity
             public boolean onQueryTextSubmit(String query) {
                 Global.search_string=query;
                 Toast.makeText(activity,"search string is"+Global.search_string,Toast.LENGTH_LONG).show();
-
+                LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(Search_activity_v2.this);
+                Intent i = new Intent("TAG_REFRESH");
+                lbm.sendBroadcast(i);
                 return true;
             }
 

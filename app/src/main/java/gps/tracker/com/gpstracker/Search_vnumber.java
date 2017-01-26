@@ -1,12 +1,19 @@
 package gps.tracker.com.gpstracker;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +40,8 @@ public class Search_vnumber extends Fragment {
 
     private int count=0,follower_count=0;
     private int LIMIT_SEARCH_RESULT=30;
-
+    private ProgressBar spinner;
+    MyReceiver r;
 
 
     public Search_vnumber() {
@@ -46,10 +54,12 @@ public class Search_vnumber extends Fragment {
                              Bundle savedInstanceState) {
         LayoutInflater lf = getActivity().getLayoutInflater();
         View rootview =lf.inflate(R.layout.fragment_search_vnumber, container, false);
+        lv2=(ListView)rootview.findViewById(R.id.search_list);
         desc=(TextView)rootview.findViewById(R.id.desc);
         Channel_search sr1 = new Channel_search();
-        sr1.setName("Search Results");
-
+        sr1.setName("");
+        spinner=(ProgressBar)rootview.findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
 
 
         search_results.add(sr1);
@@ -64,6 +74,7 @@ public class Search_vnumber extends Fragment {
     {
         if(!Global.search_string.equalsIgnoreCase("NA"))
         {
+            spinner.setVisibility(View.VISIBLE);
             GetChannelSearchResults_vnumber(Global.search_string,2);
         }
     }
@@ -76,6 +87,8 @@ public class Search_vnumber extends Fragment {
         user_ref.orderByChild("vehicle_number").startAt(query).endAt(query + "\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                count=0;
+                search_results.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     if (child != null) {
@@ -160,10 +173,11 @@ public class Search_vnumber extends Fragment {
                 }
 
 
-                //search_adapter = new Channel_search_list_view(Search_channel.this, search_results);
+                search_adapter = new Channel_search_list_view(getActivity(), search_results);
+                search_adapter.notifyDataSetChanged();
                 lv2.setAdapter(search_adapter);
                 // search_adapter.setContext(Search_channel.this);
-              //  spinner.setVisibility(View.GONE);
+                spinner.setVisibility(View.GONE);
                // search_button.setEnabled(true);
 
             }
@@ -175,6 +189,37 @@ public class Search_vnumber extends Fragment {
                 //search_button.setEnabled(true);
             }
         });
+    }
+
+    public void refresh() {
+        //yout code in refresh.
+        show_search_results();
+        search_adapter.notifyDataSetChanged();
+        lv2.invalidateViews();
+
+        Log.i("Refresh", "YES");
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Search_vnumber.this.refresh();
+            //search_adapter.notifyDataSetChanged();
+
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
+    }
+
+    public void onResume() {
+        super.onResume();
+        r = new Search_vnumber.MyReceiver();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r,
+                new IntentFilter("TAG_REFRESH"));
     }
 
 

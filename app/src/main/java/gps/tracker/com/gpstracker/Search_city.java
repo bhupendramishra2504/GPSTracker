@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ public class Search_city extends Fragment {
 
     private int count=0,follower_count=0;
     private int LIMIT_SEARCH_RESULT=30;
-
+    private ProgressBar spinner;
 
 
     public Search_city() {
@@ -47,9 +48,10 @@ public class Search_city extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
         View rootview =lf.inflate(R.layout.fragment_search_city2, container, false);
+        lv2=(ListView)rootview.findViewById(R.id.search_list);
         desc=(TextView)rootview.findViewById(R.id.desc);
         Channel_search sr1 = new Channel_search();
-        sr1.setName("Search Results");
+        sr1.setName("");
 
 
 

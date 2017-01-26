@@ -3,9 +3,15 @@ package gps.tracker.com.gpstracker;
 
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +42,8 @@ public class Search_owner extends Fragment {
 
     private int count=0,follower_count=0;
     private int LIMIT_SEARCH_RESULT=30;
-
-
+    private ProgressBar spinner;
+    MyReceiver r;
 
     public Search_owner() {
         // Required empty public constructor
@@ -51,17 +57,17 @@ public class Search_owner extends Fragment {
         // Inflate the layout for this fragment
         LayoutInflater lf = getActivity().getLayoutInflater();
         View rootview=lf.inflate(R.layout.fragment_search_owner, container, false);
+
         lv2=(ListView)rootview.findViewById(R.id.search_list);
+        spinner=(ProgressBar)rootview.findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
         desc=(TextView)rootview.findViewById(R.id.desc);
         Channel_search sr1 = new Channel_search();
-        sr1.setName("Search Results");
-
-
-
+        sr1.setName("");
         search_results.add(sr1);
         // search_adapter.setContext(Search_channel.this);
         search_adapter = new Channel_search_list_view(getActivity(), search_results);
-        show_search_results();
+        //show_search_results();
         return rootview;
     }
 
@@ -69,7 +75,14 @@ public class Search_owner extends Fragment {
     {
         if(!Global.search_string.equalsIgnoreCase("NA"))
         {
+            spinner.setVisibility(View.VISIBLE);
             GetChannelSearchResults_owner(Global.search_string,2);
+        }
+    }
+
+    public void updateFragment1ListView(){
+        if(search_adapter != null){
+            search_adapter.notifyDataSetChanged();
         }
     }
 
@@ -83,6 +96,7 @@ public class Search_owner extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 count=0;
+                search_results.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     if (child != null) {
@@ -174,10 +188,12 @@ public class Search_owner extends Fragment {
 
 
 
-                //search_adapter = new Channel_search_list_view(Search_channel.this, search_results);
+                search_adapter = new Channel_search_list_view(getActivity(), search_results);
+                search_adapter.notifyDataSetChanged();
                 lv2.setAdapter(search_adapter);
+
                 // search_adapter.setContext(Search_channel.this);
-                //spinner.setVisibility(View.GONE);
+                spinner.setVisibility(View.GONE);
                // search_button.setEnabled(true);
 
 
@@ -192,6 +208,37 @@ public class Search_owner extends Fragment {
             }
         });
 
+    }
+
+    public void refresh() {
+        //yout code in refresh.
+        show_search_results();
+        search_adapter.notifyDataSetChanged();
+        lv2.invalidateViews();
+
+        Log.i("Refresh", "YES");
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Search_owner.this.refresh();
+            //search_adapter.notifyDataSetChanged();
+
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
+    }
+
+    public void onResume() {
+        super.onResume();
+        r = new MyReceiver();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r,
+                new IntentFilter("TAG_REFRESH"));
     }
 
 

@@ -1,8 +1,10 @@
 package gps.tracker.com.gpstracker;
 
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,6 +43,17 @@ public class Search_mobile extends Fragment {
 
     private int count=0,follower_count=0;
     private int LIMIT_SEARCH_RESULT=30;
+    private String channel_mobile;
+    private String channel_name;
+    private String channel_vnumber;
+    private String channel_vname;
+    private String channel_invite;
+    // --Commented out by Inspection (01/12/16, 10:26 PM):String channel_bmp;
+    private String channel_category;
+    private String channel_vtype;
+    private String follower_set;
+    private int MAX_CHANNEL_FOLLOWED_USER=40;
+    private int MAX_FOLLOWER_COUNT=50;
     private ProgressBar spinner;
     MyReceiver r;
 
@@ -66,7 +80,72 @@ public class Search_mobile extends Fragment {
         search_results.add(sr1);
         // search_adapter.setContext(Search_channel.this);
         search_adapter = new Channel_search_list_view(getActivity(), search_results);
-        show_search_results();
+        lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+
+                if(Global.isNetworkAvailable(getActivity())) {
+//
+                    Object o = lv2.getItemAtPosition(position);
+                    Channel_search fullObject = (Channel_search) o;
+
+                    channel_mobile = fullObject.getPhone();
+                    channel_name = fullObject.getName();
+                    channel_vnumber = fullObject.getVnumber();
+                    channel_vname = fullObject.getsvname();
+                    channel_invite = fullObject.getChannelid();
+                    channel_category = fullObject.getvcategory();
+                    channel_vtype = fullObject.getvtype();
+                    follower_set=fullObject.getfollower();
+
+
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Subscribe Channel")
+                            .setMessage("Are you sure you want Subscribe Channel " + channel_invite)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    if (!Global.username.equalsIgnoreCase("") | !Global.username.equalsIgnoreCase(null) | !Global.username.equalsIgnoreCase("not valid")) {
+                                        // continue with delete
+                                        /*add_subscribe_details();
+                                        add_follower_details();
+                                        write_bmp_to_firebase();
+                                        //write_image_to_firebase(bmp);
+                                        lv2.setVisibility(View.GONE);
+                                        Toast.makeText(Search_activity.this, "Channel is subscribed successfully ", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(Search_activity.this, Dashboard.class);
+                                        startActivity(intent);
+                                        finish();*/
+
+                                        int channel_count=Global.get_channel_count(getActivity());
+                                        if(channel_count<MAX_CHANNEL_FOLLOWED_USER) {
+                                            Global.save_channel_count(getActivity(), channel_count+1);
+                                            subscribe_channel();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(getActivity(),"You have reached maximum subscribers limits either switch to premium plan or delete some channel to add new",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                else
+                {
+                    Toast.makeText(getActivity(),"No Active Network Connection Found",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+        //show_search_results();
         return rootview;
 
     }
@@ -223,6 +302,118 @@ public class Search_mobile extends Fragment {
                 new IntentFilter("TAG_REFRESH"));
     }
 
+
+    private void subscribe_channel()
+    {
+        try {
+            DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_invite.split(":")[1].trim()).child("followers");
+            user_ref.keepSynced(true);
+            user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    follower_count = 0;
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                        if (child != null) {
+                            follower_count++;
+                        }
+
+                    }
+                    if (follower_count <= MAX_FOLLOWER_COUNT) {
+                        add_subscribe_details();
+                        add_follower_details();
+                        write_bmp_to_firebase();
+                        //write_image_to_firebase(bmp);
+                        lv2.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), "Channel is subscribed successfully ", Toast.LENGTH_LONG).show();
+                        //Intent intent = new Intent(getActivity(), Dashboard.class);
+                        //startActivity(intent);
+                        //finish();
+                    } else {
+                        Toast.makeText(getActivity(), "Cannot follow this channel as it exceeds the maximum number of follwers limit", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Toast.makeText(getActivity(), error.toException().toString(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }catch(Exception e){
+            Toast.makeText(getActivity(),"Fatal Error while Subscribing a channel",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
+    private void add_subscribe_details()
+    {
+        DatabaseReference userdata = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("name");
+        userdata.setValue(channel_name.split(":")[1].trim());
+        DatabaseReference userdata1 = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("vehicle_number");
+        userdata1.setValue(channel_vnumber.split(":")[1].trim());
+        DatabaseReference userdata3 = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("vname");
+        userdata3.setValue(channel_vname.split(":")[1].trim());
+        DatabaseReference userdata4 = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("active");
+        userdata4.setValue("1");
+        DatabaseReference userdata5 = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("status");
+        userdata5.setValue("0");
+        DatabaseReference userdata6 = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("mobile");
+        userdata6.setValue(channel_mobile.split(":")[1].trim());
+        DatabaseReference userdata7 = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("vtype");
+        userdata7.setValue(channel_vtype);
+        DatabaseReference userdata8 = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("category");
+        userdata8.setValue(channel_category);
+        DatabaseReference userdata9 = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("unblock");
+        userdata9.setValue(follower_set);
+
+    }
+
+    private void add_follower_details()
+    {
+        DatabaseReference userdata = Global.firebase_dbreference.child("CHANNELS").child(channel_invite.split(":")[1].trim()).child("followers").child(Global.username).child("name");
+        userdata.setValue(Global.user_desc_name);
+        DatabaseReference userdata2 = Global.firebase_dbreference.child("CHANNELS").child(channel_invite.split(":")[1].trim()).child("followers").child(Global.username).child("unblock");
+        userdata2.setValue(follower_set);
+        DatabaseReference userdata1 = Global.firebase_dbreference.child("USERS").child(channel_invite.split(":")[1].trim()).child("followers").child(Global.username).child("unblock");
+        userdata1.setValue(follower_set);
+
+    }
+
+
+
+    private void write_bmp_to_firebase() {
+        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_invite.split(":")[1].trim()).child("image");
+        user_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                if(dataSnapshot!=null) {
+                    DatabaseReference userdata6 = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(channel_invite.split(":")[1].trim()).child("image");
+                    userdata6.setValue(dataSnapshot.getValue());
+
+                }
+
+
+            }
+
+
+
+
+
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+
+            }
+        });
+
+    }
 
 
 

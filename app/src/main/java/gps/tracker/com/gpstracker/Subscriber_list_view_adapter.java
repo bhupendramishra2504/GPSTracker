@@ -90,7 +90,7 @@ class Subscriber_list_view_adapter extends BaseAdapter {
         holder.txtvname.setText(searchArrayList.get(position).getsvname());
         if(searchArrayList.get(position).getImageid()==R.drawable.red_circle) {
             holder.status.setImageResource(searchArrayList.get(position).getImageid());
-            holder.status.setColorFilter(Color.argb(255, 205, 92, 92));
+            holder.status.setColorFilter(Color.argb(255, 255, 211, 0));
         }
         else
         {

@@ -64,6 +64,14 @@ class Global {
         return datetime;
     }
 
+    public static String date_time_mod()
+    {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String datetime = sdf.format(cal.getTime());
+        return datetime;
+    }
+
     public static String generate_channel_id()
     {
         channel_id="";

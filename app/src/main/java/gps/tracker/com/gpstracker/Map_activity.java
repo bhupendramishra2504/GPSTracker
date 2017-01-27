@@ -36,6 +36,9 @@ import com.squareup.okhttp.Response;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -70,6 +73,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private OkHttpClient okClient;
     private CoordinatorLayout coordinatorLayout;
     private RelativeLayout ma;
+    private Date date1,date2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,9 +243,20 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 props.put("color", "#000000");
                                 points.addPoint(new LngLat(longitude, latitude), props);
 
-                                //goToLandmark_mod();
 
-                                map_style.setText(time_stamp + Global.separator);
+                                SimpleDateFormat simpleDateFormat =
+                                        new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+                                //goToLandmark_mod();
+                                try {
+                                    date1=simpleDateFormat.parse(time_stamp);
+                                    date2=simpleDateFormat.parse(Global.date_time_mod());
+                                    map_style.setText("Updated : "+time_stamp+" ("+printDifference(date1,date2)+" )");
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(activity.get(),e.getMessage(),Toast.LENGTH_LONG).show();
+                                }
                                 //Snackbar snackbar = Snackbar.make(coordinatorLayout, time_stamp, Snackbar.LENGTH_INDEFINITE);
                                 //snackbar.show();
                             } else {
@@ -490,6 +505,59 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
 
     }
+
+
+
+    public String printDifference(Date startDate, Date endDate){
+
+        //milliseconds
+        String diff="";
+        long different = endDate.getTime() - startDate.getTime();
+
+        System.out.println("startDate : " + startDate);
+        System.out.println("endDate : "+ endDate);
+        System.out.println("different : " + different);
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        long elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
+
+        long elapsedSeconds = different / secondsInMilli;
+
+        if(elapsedDays>0)
+        {
+            diff=diff+" "+String.valueOf(elapsedDays)+" days";
+        }
+        if(elapsedHours>0)
+        {
+            diff=diff+" "+String.valueOf(elapsedHours)+" hrs";
+        }
+        if(elapsedMinutes>0)
+        {
+            diff=diff+" "+String.valueOf(elapsedMinutes)+" mins";
+        }
+
+        if(diff.equalsIgnoreCase(""))
+        {
+            diff="right now";
+        }
+        else {
+            diff = diff + " ago";
+        }
+        return diff;
+
+    }
+
 
 
 

@@ -153,6 +153,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             //status = true;
                             SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                             editor.putString("broadcasting",channellist.get(position).getChannelid());
+                            editor.putString("broadcasting_sticky",channellist.get(position).getChannelid());
                             editor.putString("broadcasting_cmd",channellist.get(position).getChannelid());
                             editor.apply();
                              status_update_mod("1", channellist.get(position).getChannelid());
@@ -198,6 +199,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                          SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                          editor.putString("broadcasting","NA");
                          editor.putString("broadcasting_cmd","NA");
+                         editor.putString("broadcasting_sticky","NA");
 
                     editor.apply();
                         play_sound_bstop();

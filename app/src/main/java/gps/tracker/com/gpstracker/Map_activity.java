@@ -251,7 +251,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 try {
                                     date1=simpleDateFormat.parse(time_stamp);
                                     date2=simpleDateFormat.parse(Global.date_time_mod());
-                                    map_style.setText("Updated : "+time_stamp+" ("+printDifference(date1,date2)+" )");
+                                    map_style.setText(time_stamp+" ("+printDifference(date1,date2)+" )");
 
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -500,7 +500,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
         }
         else{
-            gps.showSettingsAlert1();
+            map_style.setText("Your location could not be determined, GPS is not enabled, Enable Location services ");
+            //gps.showSettingsAlert1();
         }
 
 

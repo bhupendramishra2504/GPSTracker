@@ -182,11 +182,33 @@ public class Channel_settings extends AppCompatActivity{
                 public void onClick(View v) {
 
                     popup = new PopupMenu(Channel_settings.this, vtype);
-                    popup.getMenu().add("Small");
-                    popup.getMenu().add("Hatchback");
+                    popup.getMenu().add("Train");
+                    popup.getMenu().add("Tram");
+                    popup.getMenu().add("Shuttle");
+                    popup.getMenu().add("Bus");
+                    popup.getMenu().add("Bus-Mini");
+                    popup.getMenu().add("Van");
+                    popup.getMenu().add("Van-Mini");
+                    popup.getMenu().add("Car");
                     popup.getMenu().add("Sedan");
-                    popup.getMenu().add("LMV");
-                    popup.getMenu().add("HMV");
+                    popup.getMenu().add("SUV");
+                    popup.getMenu().add("3-Wheeler");
+                    popup.getMenu().add("2-Wheeler");
+                    popup.getMenu().add("Bicycle");
+                    popup.getMenu().add("Walk");
+                    popup.getMenu().add("Truck-Heavy");
+                    popup.getMenu().add("Truck-Dumper");
+                    popup.getMenu().add("Truck-Tanker");
+                    popup.getMenu().add("Truck-Flatbed");
+                    popup.getMenu().add("Truck-Light");
+                    popup.getMenu().add("Truck-Ultra Light");
+                    popup.getMenu().add("Machine-Construction");
+                    popup.getMenu().add("Machine-Agriculture");
+                    popup.getMenu().add("Machine-Industrial");
+                    popup.getMenu().add("Trawler");
+                    popup.getMenu().add("Boat");
+                    popup.getMenu().add("Ship");
+                    popup.getMenu().add("Other");
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {
                             vtype.setText(item.getTitle());
@@ -250,8 +272,28 @@ public class Channel_settings extends AppCompatActivity{
                 public void onClick(View v) {
 
                     popup_category = new PopupMenu(Channel_settings.this, category);
-                    popup_category.getMenu().add("a");
-                    popup_category.getMenu().add("b");
+                    popup_category.getMenu().add("Public Transport");
+                    popup_category.getMenu().add("Intercity Travel");
+                    popup_category.getMenu().add("Hotel Fleet");
+                    popup_category.getMenu().add("Field Staff");
+                    popup_category.getMenu().add("Personal");
+                    popup_category.getMenu().add("Taxi");
+                    popup_category.getMenu().add("Transport Cargo");
+                    popup_category.getMenu().add("Courier");
+                    popup_category.getMenu().add("Chartered");
+                    popup_category.getMenu().add("Office");
+                    popup_category.getMenu().add("Institutional");
+                    popup_category.getMenu().add("Millitary");
+                    popup_category.getMenu().add("Emergency");
+                    popup_category.getMenu().add("Health");
+                    popup_category.getMenu().add("Government");
+                    popup_category.getMenu().add("Utility");
+                    popup_category.getMenu().add("Food");
+                    popup_category.getMenu().add("Sports");
+                    popup_category.getMenu().add("Shopping");
+                    popup_category.getMenu().add("Business");
+                    popup_category.getMenu().add("Entertainment");
+                    popup_category.getMenu().add("Others");
 
                     popup_category.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {

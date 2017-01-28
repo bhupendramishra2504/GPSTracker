@@ -70,8 +70,11 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
                 cpuWakeLock.acquire();
            // }
             //System.out.println("Broadcasted");
-            channel_id = arg1.getStringExtra("channel_id");
+            //channel_id = arg1.getStringExtra("channel_id");
+
             context = arg0;
+            SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+            channel_id = prefs.getString("broadcasting_sticky", "NA");
        /* if(client==null) {
 
             try {
@@ -96,7 +99,7 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             offline_update();
             //get_location();
             GPSTracker gps = new GPSTracker(context);
-            if (gps.canGetLocation()) {
+            if (gps.canGetLocation() && !channel_id.equalsIgnoreCase("NA")) {
                 //Location location=gps.getLocation();
                 //Global.gps_ok=true;
                 latitude = 0.0;

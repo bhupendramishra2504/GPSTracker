@@ -210,7 +210,7 @@ public class MyChannels_RV extends AppCompatActivity {
                         if (map != null && map.get("owner") != null && map.get("vehicle_number") != null && map.get("category") != null && map.get("vtype") != null && map.get("visible") != null) {
                             sr1.setsName(capitalize_string(map.get("owner").toString()));
                             sr1.setChannelid(child.getKey());
-                            sr1.setscategary("C : " + map.get("category").toString() + Global.separator + "Refresh Rate: " + map.get("refresh_status").toString());
+                            sr1.setscategary(capitalize_string(map.get("category").toString()));
                             sr1.setsVnumber(capitalize_string(map.get("vehicle_number").toString()));
                             sr1.setsvtype(capitalize_string(map.get("vtype").toString()));
                             String act = map.get("visible").toString();

@@ -206,7 +206,10 @@ public class Dashboard extends BaseClass  {
             });
         }catch(Exception e)
         {
-            Toast.makeText(Dashboard.this, "Fatal error on fetching channel details", Toast.LENGTH_LONG).show();
+
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Fatal error on fetching channel details", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            //Toast.makeText(Dashboard.this, "Fatal error on fetching channel details", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -237,7 +240,9 @@ public class Dashboard extends BaseClass  {
             }
             else
             {
-                Toast.makeText(Dashboard.this,"Give full permission to app, without it can not work properly , restart your app to get permission request page, if you are not seeing it then go to settings app permissions then give all permissions",Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar.make(coordinatorLayout, "Give full permission to app, without it can not work properly , restart your app to get permission request page, if you are not seeing it then go to settings app permissions then give all permissions", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                //Toast.makeText(Dashboard.this,"Give full permission to app, without it can not work properly , restart your app to get permission request page, if you are not seeing it then go to settings app permissions then give all permissions",Toast.LENGTH_LONG).show();
 
             }
             return true;
@@ -263,9 +268,7 @@ public class Dashboard extends BaseClass  {
                 finish();
             }
             else {
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, "No Active Internet Connection Found", Snackbar.LENGTH_LONG);
-
+                Snackbar snackbar = Snackbar.make(coordinatorLayout, "No Active Internet Connection Found", Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         }
@@ -383,7 +386,9 @@ public class Dashboard extends BaseClass  {
 
                         }
                         catch (ClassCastException ce) {
-                            Toast.makeText(Dashboard.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(Dashboard.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Filtered few invalid Channels", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
 
 
@@ -412,8 +417,9 @@ public class Dashboard extends BaseClass  {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
+                //Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar.make(coordinatorLayout, error.toException().toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 
@@ -485,7 +491,9 @@ public class Dashboard extends BaseClass  {
 
                         }
                         catch (ClassCastException ce) {
-                            Toast.makeText(Dashboard.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(Dashboard.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
+                            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Filtered few invalid Channels", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
 
 
@@ -514,8 +522,9 @@ public class Dashboard extends BaseClass  {
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
+                //Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                Snackbar snackbar = Snackbar.make(coordinatorLayout, error.toException().toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 
@@ -594,14 +603,18 @@ public class Dashboard extends BaseClass  {
 
                             }
                         } else {
-                            Toast.makeText(Dashboard.this, "Invalid Subscriber Details", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(Dashboard.this, "Invalid Subscriber Details", Toast.LENGTH_LONG).show();
+                            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Invalid Subscriber Details", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
                         if (adapter != null) {
                             adapter.notifyDataSetChanged();
                             lv1.invalidate();
                         }
-                    }catch(Exception e){
-                        Toast.makeText(activity,"Error on loading subscribers"+e.getMessage(),Toast.LENGTH_LONG).show();
+                    }catch(Exception e) {
+                        //Toast.makeText(activity,"Error on loading subscribers"+e.getMessage(),Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Error on loading subscribers"+e.getMessage(), Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
 
                 }
@@ -609,8 +622,9 @@ public class Dashboard extends BaseClass  {
                 @Override
                 public void onCancelled(DatabaseError error) {
                     // Failed to read value
-                    Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
+                    //Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                    Snackbar snackbar = Snackbar.make(coordinatorLayout, error.toException().toString(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             });
 
@@ -651,7 +665,9 @@ public class Dashboard extends BaseClass  {
 
                     else
                     {
-                        Toast.makeText(Dashboard.this,"Invalid Subscriber Details",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(Dashboard.this,"Invalid Subscriber Details",Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Invalid Subscriber Details", Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                     if(adapter!=null) {
                         adapter.notifyDataSetChanged();
@@ -663,8 +679,9 @@ public class Dashboard extends BaseClass  {
                 @Override
                 public void onCancelled(DatabaseError error) {
                     // Failed to read value
-                    Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-
+                   // Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
+                    Snackbar snackbar = Snackbar.make(coordinatorLayout, error.toException().toString(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             });
 

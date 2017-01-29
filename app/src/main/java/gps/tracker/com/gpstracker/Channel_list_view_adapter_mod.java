@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +55,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     Typeface robotoLight;
     Typeface robotoThin;
     Typeface robotoBold;
+    private CoordinatorLayout cl1;
 
 
     public Channel_list_view_adapter_mod(Context context, ArrayList<Channel_list> results) {
@@ -109,7 +112,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
             holder.txtvtype = (TextView) convertView.findViewById(R.id.ctype);
             holder.txtcategary=(TextView)convertView.findViewById(R.id.ccategary);
             holder.broadcast=(ImageButton)convertView.findViewById(R.id.bross);
-            holder.broadcast_auto=(ImageButton)convertView.findViewById(R.id.bross_auto);
+            //holder.broadcast_auto=(ImageButton)convertView.findViewById(R.id.bross_auto);
             holder.visible=(ToggleButton)convertView.findViewById(R.id.visible);
             holder.channel_pic=(CircleImageView)convertView.findViewById(R.id.pic);
             holder.vname=(TextView)convertView.findViewById(R.id.cvname);
@@ -130,7 +133,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         holder.txtcategary.setText(channellist.get(position).getsvcategary());
         holder.txtactive=channellist.get(position).getsActive();
         holder.broadcast.setImageResource(channellist.get(position).getImageid());
-        holder.broadcast_auto.setImageResource(channellist.get(position).agetImageid());
+       // holder.broadcast_auto.setImageResource(channellist.get(position).agetImageid());
         holder.visible.setChecked(channellist.get(position).getstate());
         holder.channel_pic.setImageBitmap(channellist.get(position).getImage());
 
@@ -156,7 +159,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                             editor.putString("broadcasting_sticky",channellist.get(position).getChannelid());
                             editor.putString("broadcasting_cmd",channellist.get(position).getChannelid());
                             editor.apply();
-                             status_update_mod("1", channellist.get(position).getChannelid());
+                             status_update_v2("1", channellist.get(position).getChannelid());
                             play_sound();
                             holder.broadcast.setImageResource(R.drawable.broadcast);
 
@@ -180,7 +183,9 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                            // manager2.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval2, pendingIntent);
 
 
-                            Toast.makeText(context,"Alarm service activated",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(context,"Alarm service activated",Toast.LENGTH_LONG).show();
+                            Snackbar snackbar = Snackbar.make(cl1, "Broadcast Started", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                             Global.show_notification_dead(context,"CHANNEL BROADCASTING","CHANNEL : "+channellist.get(position).getvname()+Global.separator+"Broadcast Started at"+Global.date_time());
                             // Broadcasting_on_Notification();
                         }
@@ -203,7 +208,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
 
                     editor.apply();
                         play_sound_bstop();
-                         status_update_mod("0", channellist.get(position).getChannelid());
+                         status_update_v2("0", channellist.get(position).getChannelid());
                         holder.broadcast.setImageResource(R.drawable.broadcast_off);
                         channellist.get(position).setImageid(images[1]);
                         Intent intent = new Intent(context, Broadcast_Receiver.class);
@@ -218,14 +223,18 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                    // manager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                    // manager2.cancel(pendingIntent);
                         //pendingIntent.cancel();
-                        Toast.makeText(context,"Alarm service stopped",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context,"Alarm service stopped",Toast.LENGTH_LONG).show();
+                    Snackbar snackbar = Snackbar.make(cl1, "Broadcast stopped", Snackbar.LENGTH_LONG);
+                    snackbar.show();
                     NotificationManager nMgr = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                     nMgr.cancelAll();
                     }
 
                 else if(!channel_broadcasting.equalsIgnoreCase(channellist.get(position).getChannelid()))
                 {
-                    Toast.makeText(context,"Other Channel is Broadcasting",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context,"Other Channel is Broadcasting",Toast.LENGTH_LONG).show();
+                    Snackbar snackbar = Snackbar.make(cl1, "Other Channel is Broadcasting", Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
 
                 //holder.notifyAll();
@@ -233,7 +242,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         });
 
 
-        holder.broadcast_auto.setOnClickListener(new View.OnClickListener() {
+        /*holder.broadcast_auto.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
@@ -256,7 +265,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                         editor.apply();
                         status_update_mod("1", channellist.get(position).getChannelid());
                         play_sound();
-                        holder.broadcast_auto.setImageResource(R.drawable.broadcast_auto);
+                        //holder.broadcast_auto.setImageResource(R.drawable.broadcast_auto);
                         holder.broadcast.setImageResource(R.drawable.broadcast);
                         channellist.get(position).asetImageid(aimages[0]);
                         //alarmIntent.setAction("gps.tracker.com.gpstracker.Broadcast_Receiver");
@@ -294,7 +303,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                     editor.apply();
                     play_sound_bstop();
                     status_update_mod("0", channellist.get(position).getChannelid());
-                    holder.broadcast_auto.setImageResource(R.drawable.broadcast_auto_off);
+                    //holder.broadcast_auto.setImageResource(R.drawable.broadcast_auto_off);
                     holder.broadcast.setImageResource(R.drawable.broadcast_off);
                     channellist.get(position).asetImageid(images[1]);
                     Intent intent = new Intent(context, Auto_Broadcast_Reciever.class);
@@ -317,7 +326,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
 
                 //holder.notifyAll();
             }
-        });
+        });*/
 
 
         holder.visible.setOnClickListener(new View.OnClickListener() {
@@ -338,6 +347,9 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                                 ref1.setValue("0");
                                 holder.visible.setChecked(false);
                                 channellist.get(position).setvisibleimageid(visible_images[1]);
+                                Snackbar snackbar = Snackbar.make(cl1, "Channel is no longer visible in Search", Snackbar.LENGTH_LONG);
+
+                                snackbar.show();
                             } else {
                                 DatabaseReference ref = Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("visible");
                                 ref.setValue("1");
@@ -345,6 +357,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                                 ref1.setValue("1");
                                 holder.visible.setChecked(true);
                                 channellist.get(position).setvisibleimageid(visible_images[0]);
+                                Snackbar snackbar = Snackbar.make(cl1, "Channel is now visible in Search, anyone can subscribe your channel", Snackbar.LENGTH_LONG);
+                                snackbar.show();
                             }
 
 
@@ -377,7 +391,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         String txtchannelid;
         String txtactive;
         ImageButton broadcast;
-        ImageButton broadcast_auto;
+        //ImageButton broadcast_auto;
         ToggleButton visible;
         CircleImageView channel_pic;
 
@@ -495,6 +509,20 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         MediaPlayer mp = MediaPlayer.create(context, R.raw.bstop);
         mp.start();
     }
+
+    public void getlayout(CoordinatorLayout cl)
+    {
+        cl1=cl;
+    }
+
+
+    private void status_update_v2(final String update,final String channelid)
+    {
+        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channelid).child("status");
+        user_ref.setValue(update);
+        //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
+    }
+
 
 
 // --Commented out by Inspection START (14/12/16, 10:15 PM):

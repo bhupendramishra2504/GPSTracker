@@ -233,14 +233,14 @@ public class MyChannels_RV extends AppCompatActivity {
                                     editor.putString("broadcasting","NA");
                                     editor.apply();
                                 }
-                                status_update("0", child.getKey());
+                                status_update_v2("0", child.getKey());
                                 sr1.setImageid(images[1]);
                                 sr1.asetImageid(aimages[1]);
 
 
                             } else {
 
-                                    status_update("1", child.getKey());
+                                    status_update_v2("1", child.getKey());
                                     sr1.setImageid(images[0]);
                                     sr1.asetImageid(aimages[0]);
                                     SharedPreferences.Editor editor = getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
@@ -269,9 +269,7 @@ public class MyChannels_RV extends AppCompatActivity {
 
                     } catch (ClassCastException ce) {
                         Toast.makeText(MyChannels_RV.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
-                        Snackbar snackbar = Snackbar
-                                .make(coordinatorLayout, "Filtered few invalid Channels", Snackbar.LENGTH_LONG);
-
+                        Snackbar snackbar = Snackbar.make(coordinatorLayout, "Filtered few invalid Channels", Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }
 
@@ -281,6 +279,7 @@ public class MyChannels_RV extends AppCompatActivity {
                     adapter = new Channel_list_view_adapter_mod(getApplicationContext(), results);
                 if(adapter!=null) {
                     lv1.setAdapter(adapter);
+                    adapter.getlayout(coordinatorLayout);
                     adapter.setContext(getApplicationContext());
                 }
 
@@ -306,7 +305,7 @@ public class MyChannels_RV extends AppCompatActivity {
 
 
                         } else {
-                            Toast.makeText(MyChannels_RV.this, "No Internet connection found chekc wifi/mobile networks", Toast.LENGTH_LONG).show();
+                           // Toast.makeText(MyChannels_RV.this, "No Internet connection found chekc wifi/mobile networks", Toast.LENGTH_LONG).show();
                             Snackbar snackbar = Snackbar
                                     .make(coordinatorLayout, "No Internet connection found chekc wifi/mobile networks", Snackbar.LENGTH_LONG);
 
@@ -334,8 +333,7 @@ public class MyChannels_RV extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                // Toast.makeText(MyChannels_RV.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, error.toException().toString(), Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(coordinatorLayout, error.toException().toString(), Snackbar.LENGTH_LONG);
 
                 snackbar.show();
 
@@ -356,7 +354,7 @@ public class MyChannels_RV extends AppCompatActivity {
 //    }
 // --Commented out by Inspection STOP (01/12/16, 10:11 PM)
 
-    private void status_update(final String update,final String channelid)
+   /* private void status_update(final String update,final String channelid)
     {
         DatabaseReference user_ref = Global.firebase_dbreference.child("USERS").child(channelid).child("followers");
         //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
@@ -386,8 +384,14 @@ public class MyChannels_RV extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 
+    private void status_update_v2(final String update,final String channelid)
+    {
+        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channelid).child("status");
+        user_ref.setValue(update);
+        //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
+    }
 
 
 

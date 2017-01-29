@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 
@@ -34,6 +35,7 @@ class Subscriber_list_view_adapter extends BaseAdapter {
     Typeface robotoLight;
     Typeface robotoThin;
     Typeface robotoBold;
+    Context context;
 
 
 
@@ -114,15 +116,19 @@ class Subscriber_list_view_adapter extends BaseAdapter {
         holder.remove .setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
-                DatabaseReference ref=Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(holder.channelid);
-                ref.setValue(null);
-                DatabaseReference ref1=Global.firebase_dbreference.child("CHANNELS").child(holder.channelid).child("followers").child(Global.username);
-                ref1.setValue(null);
-                System.out.println("User : "+Global.username+" , "+"Channel : "+holder.txtPhone.getText().toString());
-                searchArrayList.remove(position);
-                //searchArrayList.clear();
-                notifyDataSetChanged();
+                try {
+                    DatabaseReference ref = Global.firebase_dbreference.child("USERS").child(Global.username).child("Subscribers").child(holder.channelid);
+                    ref.setValue(null);
+                    DatabaseReference ref1 = Global.firebase_dbreference.child("CHANNELS").child(holder.channelid).child("followers").child(Global.username);
+                    ref1.setValue(null);
+                    System.out.println("User : " + Global.username + " , " + "Channel : " + holder.txtPhone.getText().toString());
+                    searchArrayList.remove(position);
+                    //searchArrayList.clear();
+                    notifyDataSetChanged();
+                }catch(Exception e)
+                {
+                    Toast.makeText(context,e.getMessage().toString(),Toast.LENGTH_LONG).show();
+                }
 
                 //holder.notifyAll();
             }
@@ -143,6 +149,11 @@ class Subscriber_list_view_adapter extends BaseAdapter {
         String status_channel;
         String channelid;
 
+    }
+
+    public void getContext(Context c)
+    {
+       context=c;
     }
 
 // --Commented out by Inspection START (01/12/16, 10:32 PM):

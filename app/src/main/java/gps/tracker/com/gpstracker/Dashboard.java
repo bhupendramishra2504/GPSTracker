@@ -66,8 +66,8 @@ public class Dashboard extends BaseClass  {
     // --Commented out by Inspection (01/12/16, 10:05 PM):private String channel_mobile,channel_name,channel_vnumber,channel_vname,channel_invite,channel_bmp,channel_category,channel_vtype;
     private String subscriber;
     private DatabaseReference user_ref;
-    private ValueEventListener subscriber_listener,subscriber_detail_listener;
-    private DatabaseReference subscriber_detail, authenticate_user_ref;
+    private ValueEventListener subscriber_listener,subscriber_detail_listener,subscriber_listener1,subscriber_detail_listener1;
+    private DatabaseReference subscriber_detail, authenticate_user_ref,subscriber_detail1;
     Toolbar toolbar;
     FloatingActionButton fab;
     private CoordinatorLayout coordinatorLayout;
@@ -171,6 +171,9 @@ public class Dashboard extends BaseClass  {
                                 if (subscriber_detail != null && subscriber_detail_listener != null) {
                                     subscriber_detail.removeEventListener(subscriber_detail_listener);
                                 }
+                                if (subscriber_detail1 != null && subscriber_detail_listener1 != null) {
+                                    subscriber_detail1.removeEventListener(subscriber_detail_listener1);
+                                }
                                 Intent i1 = new Intent(Dashboard.this, Map_activity.class);
                                 i1.putExtra("subscriber", subscriber);
                                 i1.putExtra("status", status);
@@ -254,6 +257,10 @@ public class Dashboard extends BaseClass  {
                 }
                 if(subscriber_detail!=null && subscriber_detail_listener!=null) {
                     subscriber_detail.removeEventListener(subscriber_detail_listener);
+                }
+
+                if(subscriber_detail1!=null && subscriber_detail_listener1!=null) {
+                    subscriber_detail1.removeEventListener(subscriber_detail_listener1);
                 }
 
                 if(results!=null) {
@@ -643,9 +650,9 @@ public class Dashboard extends BaseClass  {
             Object o = lv1.getItemAtPosition(i);
             final Suscriber_results fullObject = (Suscriber_results) o;
             String Channel_id=fullObject.getChannelid();
-            subscriber_detail = Global.firebase_dbreference.child("CHANNELS").child(Channel_id).child("status");
-            subscriber_detail.keepSynced(true);
-            subscriber_detail_listener= subscriber_detail.addValueEventListener(new ValueEventListener() {
+            subscriber_detail1 = Global.firebase_dbreference.child("CHANNELS").child(Channel_id).child("status");
+            subscriber_detail1.keepSynced(true);
+            subscriber_detail_listener1= subscriber_detail1.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String act;

@@ -145,7 +145,7 @@ public class Dashboard extends BaseClass  {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 
-                    if (isNetworkAvailable() ) {
+                    //if (isNetworkAvailable() ) {
 
                         if (!Global.username.equalsIgnoreCase("") && !Global.username.equalsIgnoreCase(null) && !Global.username.equalsIgnoreCase("not valid") && !username.equalsIgnoreCase(null) && !username.equalsIgnoreCase("NA")) {
 
@@ -197,14 +197,14 @@ public class Dashboard extends BaseClass  {
                         }
 
 
-                    } else {
+                   /* } else {
                         //Toast.makeText(Dashboard.this, "No Active Internet Connection Found", Toast.LENGTH_LONG).show();
 
                         Snackbar snackbar = Snackbar
                                 .make(coordinatorLayout, "No Active Internet Connection Found", Snackbar.LENGTH_LONG);
 
                         snackbar.show();
-                    }
+                    }*/
                 }
             });
         }catch(Exception e)
@@ -307,7 +307,7 @@ public class Dashboard extends BaseClass  {
             AlertDialog.Builder builder =
                     new AlertDialog.Builder(this);
             builder.setTitle("JustIn");
-            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-2.0.1"+System.getProperty("line.separator")+"Release Date : 21/01/2017"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"bug fixes and perf improvements"+System.getProperty("line.separator")+"Broadcasting performance enhanced"+System.getProperty("line.separator")+"old gps on map issue solved"+System.getProperty("line.separator")+"locations stored on local storage in sqlite");
+            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-3.0"+System.getProperty("line.separator")+"Release Date : 30/01/2017"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"bug fixes and perf improvements"+System.getProperty("line.separator")+"Broadcasting performance enhanced"+System.getProperty("line.separator")+"old gps on map issue solved"+System.getProperty("line.separator")+"locations stored on local storage in sqlite");
             builder.setPositiveButton("OK", null);
             builder.show();
             return true;

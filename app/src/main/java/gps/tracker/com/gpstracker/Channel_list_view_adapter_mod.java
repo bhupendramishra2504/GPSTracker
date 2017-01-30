@@ -67,7 +67,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         robotoBold = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_bold.ttf");
         //i=new Intent(this.context, TimeServiceGPS.class);
         alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
-        alarmIntent1 = new Intent(this.context, Auto_Broadcast_Reciever.class);
+        //alarmIntent1 = new Intent(this.context, Auto_Broadcast_Reciever.class);
        // alarmIntent = new Intent(this.context, Br_rx.class);
 
     }

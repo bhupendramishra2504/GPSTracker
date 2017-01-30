@@ -54,6 +54,9 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context arg0, Intent arg1) {
         try {
+
+
+
             // For our recurring task, we'll just display a message
             //Toast.makeText(arg0, "I'm running", Toast.LENGTH_SHORT).show();
             //Intent startServiceIntent = new Intent(arg0, Broadcast_service.class);
@@ -72,7 +75,14 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             //System.out.println("Broadcasted");
             //channel_id = arg1.getStringExtra("channel_id");
 
+
+
+
             context = arg0;
+
+            if (Intent.ACTION_BOOT_COMPLETED.equals(arg1.getAction())) {
+                context.startService(new Intent(context, Broadcast_restart_service.class));
+            }
             SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
             channel_id = prefs.getString("broadcasting_sticky", "NA");
        /* if(client==null) {

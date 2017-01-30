@@ -168,7 +168,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Version beta-2.0.1"
+            android:text="Version beta-3.0"
             android:textColor="@color/colorAccent"/>
 
     </LinearLayout>

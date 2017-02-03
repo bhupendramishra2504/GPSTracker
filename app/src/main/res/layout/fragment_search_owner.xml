@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/search_owner"
     tools:context="gps.tracker.com.gpstracker.Search_owner"
     tools:targetApi="11">
 

@@ -31,7 +31,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,8 +62,7 @@ public class Dashboard_v2 extends BaseClass {
     private ValueEventListener subscriber_listener,subscriber_detail_listener;
     private DatabaseReference subscriber_detail, authenticate_user_ref;
     Toolbar toolbar;
-    FloatingActionButton fab;
-    private CoordinatorLayout coordinatorLayout;
+    private LinearLayout coordinatorLayout;
 
     private ListView lv2;
     private final ArrayList<Channel_list> results_broadcast = new ArrayList<Channel_list>();
@@ -94,7 +95,7 @@ public class Dashboard_v2 extends BaseClass {
             adapter = null;
             activity = Dashboard_v2.this;
             constant = new Constant(activity);
-            coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+            coordinatorLayout = (LinearLayout) findViewById(R.id
                     .coordinatorLayout);
 
             //authenticate();
@@ -142,16 +143,6 @@ public class Dashboard_v2 extends BaseClass {
             }
             lv1 = (ListView) findViewById(R.id.subscriber_list);
 
-
-            fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(activity, Search_activity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
 
 
             lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -325,106 +316,6 @@ public class Dashboard_v2 extends BaseClass {
 
 
 
-    private void GetSubscriberResults_modified_v2(){
-        //ArrayList<SearchResults> results = new ArrayList<SearchResults>();
-        adapter=null;
-        //results.clear();
-        FirebaseDatabase firebase_database = FirebaseDatabase.getInstance();
-        DatabaseReference firebase_dbreference=firebase_database.getReference("JustIn");
-        user_ref = firebase_dbreference.child("USERS").child(Global.username).child("Subscribers");
-        user_ref.keepSynced(true);
-        subscriber_listener=user_ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                results.clear();
-                channel_count=0;
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-                    if (child != null){
-
-                        try {
-
-                            Map<String, Object> map = (Map<String, Object>) child.getValue();
-                            Suscriber_results sr1 = new Suscriber_results();
-                            if (map != null && map.get("name") != null && map.get("vehicle_number") != null && map.get("status") != null && map.get("vname") != null && map.get("mobile") != null) {
-                                sr1.setsName("N: " + map.get("name").toString());
-                                sr1.setChannelid(child.getKey());
-                                sr1.setsPhone("M: " + map.get("mobile").toString());
-                                sr1.setsVnumber("VNo: " + map.get("vehicle_number").toString());
-                                sr1.setsvname("VN: " + map.get("vname").toString());
-                                if (map.get("unblock") != null) {
-                                    sr1.setstatus(map.get("unblock").toString());
-                                } else {
-                                    sr1.setstatus("1");
-                                }
-
-                                // if (act.equalsIgnoreCase("1")) {
-                                // sr1.setImageid(images[0]);
-                              /*  } else {
-                                    sr1.setImageid(images[1]);
-                                }*/
-
-                                if (map.get("image") != null) {
-                                    sr1.setImage(download_image_to_firebase1(map.get("image").toString()));
-                                } else {
-                                    sr1.setImage(download_image_to_firebase1("default"));
-                                }
-                                if (map.get("vtype") != null) {
-                                    sr1.setvtype("T: " + map.get("vtype").toString());
-                                } else {
-                                    sr1.setvtype("T: " + "NA");
-                                }
-                                if (map.get("category") != null) {
-                                    sr1.setcategory("c: " + map.get("category").toString());
-                                } else {
-                                    sr1.setcategory("c: " + "NA");
-                                }
-
-
-                                results.add(sr1);
-                                channel_count++;
-                                map.clear();
-                                sr1 = null;
-                            }
-
-
-                        }
-                        catch (ClassCastException ce) {
-                            Toast.makeText(activity, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();
-                        }
-
-
-
-                    }
-
-                }
-
-
-                //adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
-                //lv1.setAdapter(adapter);
-                //adapter.setContext(getApplicationContext());
-                //spinner.setVisibility(View.GONE);
-
-                adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
-                if(adapter!=null) {
-                    lv1.setAdapter(adapter);
-                    Global.save_channel_count(activity,channel_count);
-                    //Toast.makeText(activity,"Channel Count is"+String.valueOf(Global.get_channel_count(activity)),Toast.LENGTH_LONG).show();
-                    //adapter.setContext(getApplicationContext());
-                }
-
-                getStatus();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(activity, error.toException().toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
 
 
     private void GetSubscriberResults_modified_v3(){
@@ -911,7 +802,8 @@ public class Dashboard_v2 extends BaseClass {
 
                 adapter_broadcast = new Channel_list_view_adapter_mod(getApplicationContext(), results_broadcast);
                 if(adapter_broadcast!=null) {
-                    lv1.setAdapter(adapter_broadcast);
+                    lv2.setAdapter(adapter_broadcast);
+                    adapter_broadcast.getlayout(coordinatorLayout);
                     adapter_broadcast.setContext(getApplicationContext());
                 }
 
@@ -921,7 +813,7 @@ public class Dashboard_v2 extends BaseClass {
                     public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                         if (Global.isNetworkAvailable(activity)) {
 
-                            Object o = lv1.getItemAtPosition(position);
+                            Object o = lv2.getItemAtPosition(position);
                             Channel_list fullObject = (Channel_list) o;
                             Toast.makeText(activity, "You have chosen: " + " " + fullObject.getsName() + Global.separator + fullObject.getsPhone(), Toast.LENGTH_LONG).show();
                             subscriber_invite_broadcast = fullObject.getChannelid();

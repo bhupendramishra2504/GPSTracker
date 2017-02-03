@@ -17,6 +17,7 @@ import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -67,6 +68,9 @@ public class Channel_settings extends AppCompatActivity{
     private boolean validated1=false,validated2=false,validated3=false,validated4=false;
     private RadioGroup rg;
     private Activity activity;
+    String [] city_list_string;
+    ListView city_list;
+    ArrayAdapter<String> adapter1;
 
 
     @Override
@@ -88,6 +92,31 @@ public class Channel_settings extends AppCompatActivity{
             Global.channel_id = channel_id;
 
 
+            city_list_string = getResources().getStringArray(R.array.cities_name);
+            city_list=(ListView)findViewById(R.id.list_city);
+            adapter1 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, android.R.id.text1, city_list_string);
+            city_list.setAdapter(adapter1);
+            city_list.setVisibility(View.GONE);
+
+            city_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+
+                    // ListView Clicked item index
+                    int itemPosition     = position;
+
+                    // ListView Clicked item value
+                    String  itemValue    = (String) city_list.getItemAtPosition(position);
+                    city1.setText(itemValue);
+                    city_list.setVisibility(View.GONE);
+
+                }
+
+            });
+
+
             vtype = (Button) findViewById(R.id.vtype);
             withincity = (Button) findViewById(R.id.atravel);
             category = (Button) findViewById(R.id.acategory);
@@ -98,6 +127,35 @@ public class Channel_settings extends AppCompatActivity{
             vname = (EditText) findViewById(R.id.avname);
             vnumber = (EditText) findViewById(R.id.avnumber);
             city1 = (EditText) findViewById(R.id.acity);
+            city_list.setTextFilterEnabled(true);
+            city1.addTextChangedListener(new TextWatcher(){
+
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+
+                    Channel_settings.this.adapter1.getFilter().filter(cs);
+                    city_list.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                              int arg3) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+
+
+
+
+
+
             add_pic = (ImageView) findViewById(R.id.pic);
 
             //owner.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);

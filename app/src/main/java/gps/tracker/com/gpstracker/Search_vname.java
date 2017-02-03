@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class Search_vname extends Fragment {
     private ListView lv2;
     // --Commented out by Inspection (01/12/16, 10:25 PM):ArrayList<Suscriber_results> results = new ArrayList<Suscriber_results>();
     private final ArrayList<Channel_search> search_results = new ArrayList<Channel_search>();
-    private Channel_search_list_view search_adapter;
+    private Channel_search_vname search_adapter;
 
     private int count=0,follower_count=0;
     private int LIMIT_SEARCH_RESULT=30;
@@ -59,7 +60,8 @@ public class Search_vname extends Fragment {
     private int MAX_FOLLOWER_COUNT=50;
     private ProgressBar spinner;
     MyReceiver r;
-
+    View rootview;
+    int search_type=1;
 
     public Search_vname() {
 
@@ -72,18 +74,20 @@ public class Search_vname extends Fragment {
                              Bundle savedInstanceState) {
 
         LayoutInflater lf = getActivity().getLayoutInflater();
-        View rootview =lf.inflate(R.layout.fragment_search_vname, container, false);
+        rootview =lf.inflate(R.layout.fragment_search_vname, container, false);
         lv2=(ListView)rootview.findViewById(R.id.search_list);
         desc=(TextView)rootview.findViewById(R.id.desc);
-        Channel_search sr1 = new Channel_search();
-        sr1.setName("");
+        //Channel_search sr1 = new Channel_search();
+       // sr1.setName("");
 
         spinner=(ProgressBar)rootview.findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
 
-        search_results.add(sr1);
+        //search_results.add(sr1);
         // search_adapter.setContext(Search_channel.this);
-        search_adapter = new Channel_search_list_view(getActivity(), search_results);
+        search_adapter = new Channel_search_vname(getActivity(), search_results);
+
+
         lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
@@ -166,7 +170,7 @@ public class Search_vname extends Fragment {
         if(!Global.search_string.equalsIgnoreCase("NA"))
         {
             spinner.setVisibility(View.VISIBLE);
-            GetChannelSearchResults(Global.search_string,2);
+            GetChannelSearchResults(Global.search_string,Global.search_type);
         }
     }
 
@@ -175,7 +179,7 @@ public class Search_vname extends Fragment {
         //lv2.setVisibility(View.VISIBLE);
         DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS");
 
-        user_ref.orderByChild("vehicle_name").startAt(query).endAt(query+"\uf8ff").addValueEventListener(new ValueEventListener() {
+        user_ref.orderByChild("vehicle_name").startAt(query).endAt(query+"\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 count=0;
@@ -266,11 +270,13 @@ public class Search_vname extends Fragment {
 
 
 
-                search_adapter = new Channel_search_list_view(getActivity(), search_results);
+                search_adapter = new Channel_search_vname(getActivity(), search_results);
                 search_adapter.notifyDataSetChanged();
                 lv2.setAdapter(search_adapter);
+                lv2.invalidateViews();
                 //search_adapter.setContext(Search_channel.this);
                 spinner.setVisibility(View.GONE);
+
                 //search_button.setEnabled(true);
 
 
@@ -290,8 +296,8 @@ public class Search_vname extends Fragment {
     public void refresh() {
         //yout code in refresh.
         show_search_results();
-        search_adapter.notifyDataSetChanged();
-        lv2.invalidateViews();
+       // search_adapter.notifyDataSetChanged();
+      //  lv2.invalidateViews();
 
         Log.i("Refresh", "YES");
     }
@@ -316,6 +322,10 @@ public class Search_vname extends Fragment {
         r = new Search_vname.MyReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r,
                 new IntentFilter("TAG_REFRESH"));
+       // search_results.add(sr1);
+        // search_adapter.setContext(Search_channel.this);
+
+
     }
 
 

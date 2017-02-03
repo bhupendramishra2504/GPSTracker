@@ -13,9 +13,12 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -42,6 +45,9 @@ public class Add_Channel extends AppCompatActivity {
     private String channel_id;
     private boolean validated1=false,validated2=false,validated3=false,validated4=false;
     private RadioGroup rg;
+    String [] city_list_string;
+    ListView city_list;
+    ArrayAdapter<String> adapter;
     //Spinner spinnerUse, spinnerVehicleType, spinnerTravelType, spinnerBroadcastRate;
 
     @Override
@@ -56,6 +62,29 @@ public class Add_Channel extends AppCompatActivity {
             TextView logged_user = (TextView) findViewById(R.id.logged_user);
             assert logged_user != null;
             logged_user.setText("");
+            city_list_string = getResources().getStringArray(R.array.cities_name);
+            city_list=(ListView)findViewById(R.id.list_city);
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, android.R.id.text1, city_list_string);
+            city_list.setAdapter(adapter);
+            city_list.setVisibility(View.GONE);
+
+            city_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+
+                    // ListView Clicked item index
+                    int itemPosition     = position;
+
+                    // ListView Clicked item value
+                    String  itemValue    = (String) city_list.getItemAtPosition(position);
+                    city1.setText(itemValue);
+                    city_list.setVisibility(View.GONE);
+
+                }
+
+            });
 
             vtype = (Button) findViewById(R.id.vtype);
             withincity = (Button) findViewById(R.id.atravel);
@@ -67,6 +96,33 @@ public class Add_Channel extends AppCompatActivity {
             vname = (EditText) findViewById(R.id.avname);
             vnumber = (EditText) findViewById(R.id.avnumber);
             city1 = (EditText) findViewById(R.id.acity);
+
+
+            city_list.setTextFilterEnabled(true);
+            city1.addTextChangedListener(new TextWatcher(){
+
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+
+                    Add_Channel.this.adapter.getFilter().filter(cs);
+                    city_list.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                              int arg3) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+
+
 
 
             vtype.setOnClickListener(new View.OnClickListener() {

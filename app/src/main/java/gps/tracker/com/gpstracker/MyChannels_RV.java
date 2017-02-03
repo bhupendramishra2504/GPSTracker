@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ public class MyChannels_RV extends AppCompatActivity {
     private final Integer[] visible_images={R.drawable.visible,R.drawable.invisible};
     private int position=0;
     private Activity activity;
-    private CoordinatorLayout coordinatorLayout;
+    private LinearLayout coordinatorLayout;
 
     //private ProgressBar spinner;
 
@@ -57,7 +58,7 @@ public class MyChannels_RV extends AppCompatActivity {
         setContentView(R.layout.my_channels);
         adapter=null;
         activity=MyChannels_RV.this;
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+        coordinatorLayout = (LinearLayout) findViewById(R.id
                 .coordinatorLayout);
 
         lv1=(ListView)findViewById(R.id.channel_list);

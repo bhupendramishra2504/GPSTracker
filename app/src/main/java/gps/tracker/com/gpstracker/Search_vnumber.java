@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -40,7 +41,7 @@ public class Search_vnumber extends Fragment {
     private ListView lv2;
     // --Commented out by Inspection (01/12/16, 10:25 PM):ArrayList<Suscriber_results> results = new ArrayList<Suscriber_results>();
     private final ArrayList<Channel_search> search_results = new ArrayList<Channel_search>();
-    private Channel_search_list_view search_adapter;
+    private Channel_search_vnumber search_adapter;
 
     private int count=0,follower_count=0;
     private int LIMIT_SEARCH_RESULT=30;
@@ -57,6 +58,8 @@ public class Search_vnumber extends Fragment {
     private int MAX_FOLLOWER_COUNT=50;
     private ProgressBar spinner;
     MyReceiver r;
+    View rootview;
+    int search_type=1;
 
 
     public Search_vnumber() {
@@ -68,7 +71,7 @@ public class Search_vnumber extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LayoutInflater lf = getActivity().getLayoutInflater();
-        View rootview =lf.inflate(R.layout.fragment_search_vnumber, container, false);
+        rootview =lf.inflate(R.layout.fragment_search_vnumber, container, false);
         lv2=(ListView)rootview.findViewById(R.id.search_list);
         desc=(TextView)rootview.findViewById(R.id.desc);
         Channel_search sr1 = new Channel_search();
@@ -79,7 +82,7 @@ public class Search_vnumber extends Fragment {
 
         search_results.add(sr1);
         // search_adapter.setContext(Search_channel.this);
-        search_adapter = new Channel_search_list_view(getActivity(), search_results);
+        search_adapter = new Channel_search_vnumber(getActivity(), search_results);
 
         lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -163,7 +166,7 @@ public class Search_vnumber extends Fragment {
         if(!Global.search_string.equalsIgnoreCase("NA"))
         {
             spinner.setVisibility(View.VISIBLE);
-            GetChannelSearchResults_vnumber(Global.search_string,2);
+            GetChannelSearchResults_vnumber(Global.search_string,search_type);
         }
     }
 
@@ -175,7 +178,7 @@ public class Search_vnumber extends Fragment {
         user_ref.orderByChild("vehicle_number").startAt(query).endAt(query + "\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                count=0;
+                count = 0;
                 search_results.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
@@ -261,13 +264,11 @@ public class Search_vnumber extends Fragment {
                 }
 
 
-                search_adapter = new Channel_search_list_view(getActivity(), search_results);
+                search_adapter = new Channel_search_vnumber(getActivity(), search_results);
                 search_adapter.notifyDataSetChanged();
                 lv2.setAdapter(search_adapter);
                 // search_adapter.setContext(Search_channel.this);
                 spinner.setVisibility(View.GONE);
-               // search_button.setEnabled(true);
-
             }
 
             @Override

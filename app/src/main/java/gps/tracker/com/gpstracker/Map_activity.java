@@ -1,6 +1,7 @@
 package gps.tracker.com.gpstracker;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +32,7 @@ import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.MapView;
+import com.mapzen.tangram.Marker;
 import com.mapzen.tangram.TouchInput;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.CacheControl;
@@ -80,6 +82,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private CoordinatorLayout coordinatorLayout;
     private RelativeLayout ma;
     private Date date1, date2;
+    private Marker ownLocation;
+    Typeface robotoLight;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -103,6 +107,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
         Intent i = getIntent();
         okClient = new OkHttpClient();
+
+        robotoLight = Typeface.createFromAsset(activity.get().getAssets(), "fonts/roboto_light.ttf");
+        map_style.setTypeface(robotoLight);
         okClient.setConnectTimeout(10, TimeUnit.HOURS);
         okClient.setReadTimeout(72, TimeUnit.HOURS);
         try {
@@ -111,12 +118,13 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             String vnumber = i.getStringExtra("vnumber");
             ab = getSupportActionBar();
             assert ab != null;
-            ab.setTitle(name + " " + vnumber);
+            ab.setTitle(name);
             ab.setDisplayHomeAsUpEnabled(true);
 
             mapview.onCreate(savedInstanceState);
             mapview.getMapAsync(this, "bubble-wrap1/bubble-wrap.yaml");
             scale_map = 13f;
+
             //fetch_loc_fb();
 
 
@@ -175,6 +183,11 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                             }
 
                             int duration = 100;
+
+
+                            //ownLocation.setStyling("{ style: 'points', size: [27px, 27px], order: 2000, collide: false , color: white}");
+                            //ownLocation.setVisible(true);
+
                             map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
                             map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
                             points = map.addDataLayer("mz_default_point");
@@ -237,8 +250,25 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 if (points != null) {
                                     points.clear();
                                 }
+
+
+                                //ownLocation = map.addMarker();
+                                //ownLocation.setDrawable(R.drawable.cha_loc1);
+
+                             /*  if(longitude!=0.0 && latitude!=0.0 && ownLocation!=null) {
+                                   //map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
+
+                                   ownLocation.setStyling("{ style: 'points', size: [27px, 27px], order: 2000, collide: false , color: white}");
+                                    ownLocation.setVisible(true);
+                                    ownLocation.setPointEased(
+                                            new LngLat(longitude, latitude),
+                                            duration, MapController.EaseType.CUBIC);
+
+                                    //map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
+                                      }*/
                                 map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
                                 map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
+
                                 points = map.addDataLayer("mz_default_point");
                                 props.put("type", "point");
                                 props.put("color", "#000000");
@@ -368,7 +398,8 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         map = mapController;
         //Toast.makeText(Map_activity.this,"Map is ready and cache will be saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/tile_cache",Toast.LENGTH_LONG).show();
 
-
+        //ownLocation = map.addMarker();
+        //ownLocation.setDrawable(R.drawable.cha_loc1);
         map.useCachedGlState(true);
         map.setHttpHandler(getHttpHandler());
         fetch_loc_fb();
@@ -435,8 +466,12 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     @Override
     public void onDestroy() {
         super.onDestroy();
-        fetch_loc_ref.removeEventListener(fetch_listener);
-        channel_status.removeEventListener(channel_status_listener);
+        if(fetch_loc_ref!=null && fetch_listener!=null) {
+            fetch_loc_ref.removeEventListener(fetch_listener);
+        }
+        if(channel_status!=null && channel_status_listener!=null) {
+            channel_status.removeEventListener(channel_status_listener);
+        }
 
         if (gps != null) {
             gps = null;
@@ -534,10 +569,10 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         if (elapsedDays > 0) {
             diff = diff + " " + String.valueOf(elapsedDays) + " days";
         }
-        if (elapsedHours > 0) {
+        else if (elapsedHours > 0) {
             diff = diff + " " + String.valueOf(elapsedHours) + " hrs";
         }
-        if (elapsedMinutes > 0) {
+        else if (elapsedMinutes > 0) {
             diff = diff + " " + String.valueOf(elapsedMinutes) + " mins";
         }
 

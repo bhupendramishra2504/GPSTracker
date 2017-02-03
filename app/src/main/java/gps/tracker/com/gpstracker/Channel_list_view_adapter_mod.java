@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -55,7 +56,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     Typeface robotoLight;
     Typeface robotoThin;
     Typeface robotoBold;
-    private CoordinatorLayout cl1;
+    private LinearLayout cl1;
 
 
     public Channel_list_view_adapter_mod(Context context, ArrayList<Channel_list> results) {
@@ -103,6 +104,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Channel_list_view_adapter_mod.ViewHolder holder;
         if (convertView == null) {
+            //convertView = mInflater.inflate(R.layout.broadcast_row_new, parent, false);
             convertView = mInflater.inflate(R.layout.broadcast_row_new, parent, false);
             holder = new ViewHolder();
 
@@ -510,7 +512,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         mp.start();
     }
 
-    public void getlayout(CoordinatorLayout cl)
+    public void getlayout(LinearLayout cl)
     {
         cl1=cl;
     }

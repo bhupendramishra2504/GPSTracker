@@ -43,6 +43,7 @@ class Global {
     public static String channel_id="";
     // --Commented out by Inspection (01/12/16, 10:07 PM):public static boolean authenticated=false;
     public static boolean block;
+    public static int search_type=1;
     // --Commented out by Inspection (01/12/16, 10:07 PM):public static boolean gps_ok=false;
     //public static boolean broadcasting=false;
     //public static int ch_list_pos=-1;

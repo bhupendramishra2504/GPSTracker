@@ -35,7 +35,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by bhupendramishra on 09/12/16.
  */
 
-public class Broadcast_Receiver extends WakefulBroadcastReceiver {
+public class Broadcast_Reciever1 extends WakefulBroadcastReceiver {
 
     private Context context;
     private PowerManager.WakeLock cpuWakeLock;
@@ -70,8 +70,8 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             cpuWakeLock.setReferenceCounted(false);
 
             //if (!cpuWakeLock.isHeld()) {
-                cpuWakeLock.acquire();
-           // }
+            cpuWakeLock.acquire();
+            // }
             //System.out.println("Broadcasted");
             //channel_id = arg1.getStringExtra("channel_id");
 
@@ -167,8 +167,8 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
         }
 
         //if(cpuWakeLock.isHeld()) {
-            cpuWakeLock.release();
-       // }
+        cpuWakeLock.release();
+        // }
 
 
 
@@ -237,18 +237,18 @@ public class Broadcast_Receiver extends WakefulBroadcastReceiver {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //results.clear();
-                        if(dataSnapshot!=null)
-                        {
-                            if(dataSnapshot.getValue().toString().equalsIgnoreCase("0"))
-                            {
-                                DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
-                                user_ref.setValue("1");
-
-                            }
-                        }
-
+                if(dataSnapshot!=null)
+                {
+                    if(dataSnapshot.getValue().toString().equalsIgnoreCase("0"))
+                    {
+                        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+                        user_ref.setValue("1");
 
                     }
+                }
+
+
+            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

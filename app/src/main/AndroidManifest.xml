@@ -45,6 +45,14 @@
         </intent-filter>
         </receiver>
 
+        <receiver android:name=".Device_Boot_Reciever"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".Map_activity"
             android:configChanges="keyboardHidden|orientation"
@@ -121,13 +129,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Settings" />
-        <activity
-            android:name=".Dashboard_v2"
-            android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName=".Dashboard_v2"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+
         <activity android:name=".Search_activity_v2"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

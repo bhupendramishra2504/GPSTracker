@@ -156,7 +156,7 @@ public class Dashboard extends BaseClass  {
                             subscriber_invite = fullObject.getChannelid();
                             subscriber = subscriber_invite;
                             String block_unblock = fullObject.getstatus();
-                            subscriber_name = fullObject.getsName();
+                            subscriber_name = fullObject.getsvname();
                             if (fullObject.getImageid() == images[0]) {
                                 status = "online";
                             } else {

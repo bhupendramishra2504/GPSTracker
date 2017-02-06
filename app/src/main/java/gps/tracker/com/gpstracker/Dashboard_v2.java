@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
@@ -102,6 +103,11 @@ public class Dashboard_v2 extends BaseClass {
             if (!grant_permission()) {
                 grant_all_permission();
             }
+
+            Global.setAppUid(Dashboard_v2.this);
+
+            Global.mStartRX = TrafficStats.getUidRxBytes(Global.Uid);
+            Global.mStartTX = TrafficStats.getUidTxBytes(Global.Uid);
 
             lv2=(ListView)findViewById(R.id.channel_list);
             TextView desc = (TextView) findViewById(R.id.dd);

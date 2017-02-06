@@ -3,8 +3,12 @@ package gps.tracker.com.gpstracker;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.TrafficStats;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,10 +41,12 @@ class Global {
     public static String username="NA";
     public static String user_desc_name="NA";
     public static String search_string="NA";
+    public static long mStartRX,mStartTX;
     public static final String separator = System.getProperty("line.separator");
     //public static long high=0,med=0,low=0;
     //public static String rr="LOW";
     public static String channel_id="";
+    public static int Uid=0;
     // --Commented out by Inspection (01/12/16, 10:07 PM):public static boolean authenticated=false;
     public static boolean block;
     public static int search_type=1;
@@ -244,6 +250,23 @@ class Global {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(100, mBuilder.build());
     }
+
+    public static int setAppUid(Context context)
+    {
+        int uid=0;
+        try {
+            ApplicationInfo app = context.getPackageManager().getApplicationInfo("gps.tracker.com.gpstracker", 0);
+            uid=app.uid;
+            Uid=uid;
+
+        } catch (PackageManager.NameNotFoundException e) {
+
+            e.printStackTrace();
+        }
+        return uid;
+
+    }
+
 
 
 

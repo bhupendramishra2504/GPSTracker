@@ -98,6 +98,19 @@
             android:layout_marginTop="20dp"
             android:background="@color/white"/>
 
+        <Button
+            android:id="@+id/btnDataUsage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="0dp"
+            android:text="Data Usage"
+            android:textSize="15dp"
+            android:textColor="@color/colorAccent"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:layout_marginTop="0.02dp"
+            android:background="@color/white"/>
+
         <!--<View
             android:layout_width="match_parent"
             android:layout_height="0.03dp"
@@ -140,7 +153,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="0dp"
+            android:elevation="2dp"
             android:text="@string/terms_and_privacy"
             android:textSize="15dp"
             android:textColor="@color/colorAccent"

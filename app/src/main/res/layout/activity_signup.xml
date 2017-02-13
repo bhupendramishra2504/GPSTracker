@@ -19,6 +19,14 @@
         >
 
 
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="1dp"
+            card_view:cardElevation="5dp"
+            card_view:cardUseCompatPadding="true">
 
         <EditText
             android:layout_width="match_parent"
@@ -26,15 +34,25 @@
             android:id="@+id/rname"
             android:inputType="text"
             android:hint="NAME"
-            android:layout_marginTop="20dp"
             android:textColorHint="#B3B6B7"
             android:textCursorDrawable="@null"
-            android:textColor="#3F51B5"
+            android:textColor="@color/colorAccent"
             android:imeOptions="actionDone"
             android:maxLines="1"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:padding="18dp"
+            android:background="@drawable/square_shape_white"
             />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="1dp"
+            card_view:cardElevation="5dp"
+            card_view:cardUseCompatPadding="true">
+
 
         <Button
             android:layout_width="match_parent"
@@ -44,11 +62,23 @@
             android:textStyle="normal"
             android:gravity="left"
             android:id="@+id/rdob"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:padding="18dp"
             android:textColor="#ffffff"
             android:drawableRight="@drawable/drop_down"
+            android:background="@color/colorAccent"
             />
+
+        </android.support.v7.widget.CardView>
+
+        
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="1dp"
+            card_view:cardElevation="5dp"
+            card_view:cardUseCompatPadding="true">
 
         <Button
             android:layout_width="match_parent"
@@ -58,11 +88,23 @@
             android:textStyle="normal"
             android:gravity="left"
             android:id="@+id/rgender"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:padding="18dp"
             android:textColor="#ffffff"
             android:drawableRight="@drawable/drop_down"
+            android:background="@color/colorAccent"
             />
+       </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="1dp"
+            card_view:cardElevation="5dp"
+            card_view:cardUseCompatPadding="true">
+
 
 
         <EditText
@@ -73,12 +115,23 @@
             android:hint="MOBILE NUMBER"
             android:textColorHint="#B3B6B7"
             android:textCursorDrawable="@null"
-            android:textColor="#3F51B5"
+            android:textColor="@color/colorAccent"
             android:imeOptions="actionDone"
             android:maxLines="1"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:padding="18dp"
+            android:background="@drawable/square_shape_white"
             />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="1dp"
+            card_view:cardElevation="5dp"
+            card_view:cardUseCompatPadding="true">
+
 
         <EditText
             android:layout_width="match_parent"
@@ -87,13 +140,25 @@
             android:inputType="text"
             android:hint="CITY"
             android:textCursorDrawable="@null"
-            android:textColor="#3F51B5"
+            android:textColor="@color/colorAccent"
             android:textColorHint="#B3B6B7"
             android:imeOptions="actionDone"
             android:maxLines="1"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:padding="18dp"
+            android:background="@drawable/square_shape_white"
             />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="1dp"
+            card_view:cardElevation="5dp"
+            card_view:cardUseCompatPadding="true">
+
 
         <EditText
             android:layout_width="match_parent"
@@ -103,18 +168,41 @@
             android:hint="COUNTRY"
             android:textColorHint="#B3B6B7"
             android:textCursorDrawable="@null"
-            android:textColor="#3F51B5"
+            android:textColor="@color/colorAccent"
             android:imeOptions="actionDone"
             android:maxLines="1"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:padding="18dp"
+            android:background="@drawable/square_shape_white"
             />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="1dp"
+            card_view:cardElevation="5dp"
+            card_view:cardUseCompatPadding="true">
+
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="I agreed to terms and conditions"
-            android:textColor="#3353e0" />
+            android:textColor="@color/colorAccent" />
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="1dp"
+            card_view:cardElevation="5dp"
+            card_view:cardUseCompatPadding="true">
+
 
         <Button
             android:layout_width="match_parent"
@@ -126,8 +214,9 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:textColor="#ffffff"
-            android:background="@drawable/allborder"
+            android:background="@color/colorAccent"
             />
+        </android.support.v7.widget.CardView>
 
         <ProgressBar
 
@@ -137,6 +226,7 @@
             android:progressDrawable="@drawable/circular_progress_bar"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginBottom="20dp"
+
             />
 
 

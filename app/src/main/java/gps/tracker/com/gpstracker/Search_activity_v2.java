@@ -46,7 +46,7 @@ public class Search_activity_v2 extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_v2);
+        setContentView(R.layout.activity_search_v3);
         //toolbar = (Toolbar) findViewById(R.id.toolbar);
        // setSupportActionBar(toolbar);
         Global.set_action_bar_details(Search_activity_v2.this,"Search","");
@@ -187,10 +187,10 @@ public class Search_activity_v2 extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Search_owner(), "OWNER");
         adapter.addFragment(new Search_mobile(), "MOBILE");
-        adapter.addFragment(new Search_vname(), "VEH NAME");
-        adapter.addFragment(new Search_vnumber(), "VEH NUMBER");
+        adapter.addFragment(new Search_owner(), "OWNER");
+        adapter.addFragment(new Search_vname(), "CHANNEL");
+        adapter.addFragment(new Search_vnumber(), "NUMBER");
         viewPager.setAdapter(adapter);
     }
 

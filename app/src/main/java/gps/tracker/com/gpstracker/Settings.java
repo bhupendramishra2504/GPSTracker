@@ -2,6 +2,7 @@ package gps.tracker.com.gpstracker;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ResolveInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener{
         mobile.setText(Global.username);
         btnMyAccount.setOnClickListener(this);
         data_usage.setOnClickListener(this);
+        //battery_Usage.setOnClickListener(this);
     }
 
     @Override
@@ -64,6 +66,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener{
                 Intent datausage = new Intent(Settings.this, Data_usage_activity.class);
                 Settings.this.startActivity(datausage);
                 break;
+
+
 
         }
     }

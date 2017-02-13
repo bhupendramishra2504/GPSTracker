@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -258,6 +259,7 @@ class Global {
             ApplicationInfo app = context.getPackageManager().getApplicationInfo("gps.tracker.com.gpstracker", 0);
             uid=app.uid;
             Uid=uid;
+            //Toast.makeText(context,"UID is : "+String.valueOf(Uid), Toast.LENGTH_LONG).show();
 
         } catch (PackageManager.NameNotFoundException e) {
 

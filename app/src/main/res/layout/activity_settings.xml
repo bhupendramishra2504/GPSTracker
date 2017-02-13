@@ -103,13 +103,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="0dp"
-            android:text="Data Usage"
+            android:text="Data and Battery Usage"
             android:textSize="15dp"
             android:textColor="@color/colorAccent"
             android:textAllCaps="false"
             android:textStyle="bold"
             android:layout_marginTop="0.02dp"
             android:background="@color/white"/>
+
+
 
         <!--<View
             android:layout_width="match_parent"

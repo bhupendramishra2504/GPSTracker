@@ -104,10 +104,7 @@ public class Dashboard_v2 extends BaseClass {
                 grant_all_permission();
             }
 
-            Global.setAppUid(Dashboard_v2.this);
 
-            Global.mStartRX = TrafficStats.getUidRxBytes(Global.Uid);
-            Global.mStartTX = TrafficStats.getUidTxBytes(Global.Uid);
 
             lv2=(ListView)findViewById(R.id.channel_list);
             TextView desc = (TextView) findViewById(R.id.dd);

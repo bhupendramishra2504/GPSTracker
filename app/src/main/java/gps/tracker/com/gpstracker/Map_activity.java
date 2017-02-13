@@ -2,9 +2,11 @@ package gps.tracker.com.gpstracker;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -88,7 +90,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +104,11 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         center = (ImageButton) findViewById(R.id.center);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
                 .coordinatorLayout);
-        ma = (RelativeLayout) findViewById(R.id
-                .ma);
+        ma = (RelativeLayout) findViewById(R.id.ma);
 
         Intent i = getIntent();
         okClient = new OkHttpClient();
+
 
         robotoLight = Typeface.createFromAsset(activity.get().getAssets(), "fonts/roboto_light.ttf");
         map_style.setTypeface(robotoLight);
@@ -126,7 +128,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             scale_map = 13f;
 
             //fetch_loc_fb();
-
+            update_data_map();
 
             assert zoomplus != null;
             zoomplus.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +220,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client2 = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+       // client2 = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
@@ -439,11 +441,11 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
         if (cacheDir != null && cacheDir.exists()) {
             handler.setCache(new File(cacheDir, "tile_cache"), 500 * 1024 * 1024);
-            long SIZE_OF_CACHE = 500 * 1024 * 1024; // 10 MiB
-            Cache cache = new Cache(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache", "http"), SIZE_OF_CACHE);
-            OkHttpClient client = new OkHttpClient();
+            //long SIZE_OF_CACHE = 500 * 1024 * 1024; // 10 MiB
+            //Cache cache = new Cache(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/cache", "http"), SIZE_OF_CACHE);
+            //OkHttpClient client = new OkHttpClient();
             //client.cache(cache);
-            client.networkInterceptors().add(new CachingControlInterceptor());
+            //client.networkInterceptors().add(new CachingControlInterceptor());
             //Toast.makeText(Map_activity.this,"cache saved at "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/gpstracker/tile_cache",Toast.LENGTH_LONG).show();
 
         }
@@ -585,6 +587,41 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
     }
 
+
+    public void update_data_map()
+    {
+
+        final Handler h = new Handler();
+        final int delay = 30000; //milliseconds
+
+
+        h.postDelayed(new Runnable(){
+            public void run(){
+                //do something
+                SimpleDateFormat simpleDateFormat =
+                        new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+                //goToLandmark_mod();
+                try {
+                    if(time_stamp!=null) {
+                        date1 = simpleDateFormat.parse(time_stamp);
+                        date2 = simpleDateFormat.parse(Global.date_time_mod());
+                        map_style.setText(time_stamp + " (" + printDifference(date1, date2) + " )");
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Toast.makeText(activity.get(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                h.postDelayed(this, delay);
+
+
+            }
+        }, delay);
+
+
+    }
 
 
     public class CachingControlInterceptor implements Interceptor {

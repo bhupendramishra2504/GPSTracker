@@ -16,7 +16,7 @@
     <string name="letter">J</string>
     <string name="active">Available</string>
     <string name="channel_name">Channel Name</string>
-
+    <string name="font_family_medium">sans-serif-medium</string>
     <string name="name">Name :</string>
     <string name="name1">Rakesh R. Sharma</string>
     <string name="vehicle_name">Vehicle Name</string>

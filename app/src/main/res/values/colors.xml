@@ -22,6 +22,7 @@
     <color name="top">#0d0d0d</color>
     <color name="bottom">#292929</color>
     <color name="delete_channel">#a8a8a8</color>
+    <color name="divider">#6a5c5777</color>
 
     <!-- Screens background color-->
     <color name="bg_screen1">#f64c73</color>

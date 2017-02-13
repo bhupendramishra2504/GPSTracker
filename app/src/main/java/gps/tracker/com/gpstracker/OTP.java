@@ -99,6 +99,7 @@ public class OTP extends AppCompatActivity {
 
                             Toast.makeText(OTP.this, "User Created Successfully" + imei, Toast.LENGTH_LONG).show();
                             save_user_profile(mobile);
+                            Global.username=mobile;
                             default_channel_dashboard(mobile);
                             spinner.setVisibility(View.GONE);
                             Intent intent = new Intent(OTP.this, Dashboard.class);
@@ -229,7 +230,7 @@ public class OTP extends AppCompatActivity {
 
     private void default_channel_dashboard(String mobile)
     {
-        try {
+       // try {
 
 
             String channel_id = Global.generate_channel_id();
@@ -308,10 +309,10 @@ public class OTP extends AppCompatActivity {
             userdata2222.setValue("1");
             DatabaseReference userdata1111 = Global.firebase_dbreference.child("USERS").child(channel_id).child("followers").child(mobile).child("unblock");
             userdata1111.setValue("1");
-        }catch(Exception e)
-        {
-            Toast.makeText(OTP.this,"Fatal Error while creating default channel in dashboard"+e.getMessage(),Toast.LENGTH_LONG).show();
-        }
+       // }catch(Exception e)
+      //  {
+      //      Toast.makeText(OTP.this,"Fatal Error while creating default channel in dashboard"+e.getMessage(),Toast.LENGTH_LONG).show();
+      //  }
         //upload_image_to_firebase1();
 
     }

@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="gps.tracker.com.gpstracker.Search_mobile">
+    android:layout_marginTop="100dp"
+    android:layout_marginBottom="100dp"
+    tools:context="gps.tracker.com.gpstracker.Search_activity_v2$ViewPagerAdapter">
 
     <ProgressBar
 

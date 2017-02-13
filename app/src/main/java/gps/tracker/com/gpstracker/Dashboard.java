@@ -162,7 +162,7 @@ public class Dashboard extends BaseClass  {
                             } else {
                                 status = "offline";
                             }
-                            if (block_unblock.equalsIgnoreCase("1")) {
+                            if (block_unblock.equalsIgnoreCase("1")|subscriber_invite.equalsIgnoreCase("Demo")) {
 
 
                                 if (user_ref != null && subscriber_listener != null) {
@@ -514,6 +514,19 @@ public class Dashboard extends BaseClass  {
                 //lv1.setAdapter(adapter);
                 //adapter.setContext(getApplicationContext());
                 //spinner.setVisibility(View.GONE);
+
+                Suscriber_results sr1 = new Suscriber_results();
+                sr1.setChannelid("Demo");
+                sr1.setstatus("0");
+                sr1.setImageid(images[0]);
+                sr1.setsName("Name");
+                sr1.setsPhone("0000000000");
+                sr1.setsVnumber("MP04ZZ0000");
+                sr1.setvtype("Sedan");
+                sr1.setcategory("Personal");
+                sr1.setsvname("Demo");
+                sr1.setImage(download_image_to_firebase1("default"));
+                results.add(sr1);
 
                 adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
                 if(adapter!=null) {

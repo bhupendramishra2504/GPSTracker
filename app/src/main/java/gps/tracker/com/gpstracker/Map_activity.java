@@ -128,7 +128,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             scale_map = 13f;
 
             //fetch_loc_fb();
-            update_data_map();
+            if(!s_phone.equalsIgnoreCase("Demo")) {
+                update_data_map();
+            }
 
             assert zoomplus != null;
             zoomplus.setOnClickListener(new View.OnClickListener() {
@@ -210,9 +212,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
                 }
             });
-
-
-            channel_status_check();
+            if(!s_phone.equalsIgnoreCase("Demo")) {
+                channel_status_check();
+            }
         } catch (Exception e) {
             Toast.makeText(activity.get(), "Fatal error in fetching channel details", Toast.LENGTH_LONG).show();
         }
@@ -404,7 +406,13 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         //ownLocation.setDrawable(R.drawable.cha_loc1);
         map.useCachedGlState(true);
         map.setHttpHandler(getHttpHandler());
-        fetch_loc_fb();
+        if(!s_phone.equalsIgnoreCase("Demo")) {
+            fetch_loc_fb();
+        }
+        else
+        {
+            demo_map_show();
+        }
 
         map.setViewCompleteListener(new MapController.ViewCompleteListener() {
             public void onViewComplete() {
@@ -584,6 +592,44 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
             diff = diff + " ago";
         }
         return diff;
+
+    }
+
+    public void demo_map_show()
+    {
+        final Handler h = new Handler();
+        final int delay = 2000;
+        latitude=37.773972;
+        longitude=-122.431297;
+
+
+
+        h.postDelayed(new Runnable(){
+            public void run(){
+                if(points!=null)
+                {
+                    points.clear();
+                }
+                //do something
+                map.setPositionEased(new LngLat(longitude, latitude), 200, MapController.EaseType.CUBIC);
+                map.setZoomEased(scale_map, 200, MapController.EaseType.QUINT);
+
+                points = map.addDataLayer("mz_default_point");
+                props.put("type", "point");
+                props.put("color", "#000000");
+                points.addPoint(new LngLat(longitude, latitude), props);
+
+                latitude=latitude+0.001110;
+                longitude=longitude+0.001110;
+                map_style.setText(Global.date_time_mod() + " ( now )");
+
+
+                h.postDelayed(this, delay);
+
+
+            }
+        }, delay);
+
 
     }
 

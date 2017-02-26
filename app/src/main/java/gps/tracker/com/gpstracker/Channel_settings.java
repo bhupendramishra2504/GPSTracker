@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -67,11 +68,14 @@ public class Channel_settings extends AppCompatActivity{
     private DatePickerDialog.OnDateSetListener date;
     private boolean validated1=false,validated2=false,validated3=false,validated4=false;
     private RadioGroup rg;
-    private Activity activity;
+
     String [] city_list_string;
     ListView city_list;
     ArrayAdapter<String> adapter1;
-
+    Typeface robotoLight;
+    Typeface robotoThin;
+    Typeface robotoBold;
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +84,17 @@ public class Channel_settings extends AppCompatActivity{
 
         try {
             activity =Channel_settings.this;
+
+            robotoThin = Typeface.createFromAsset(activity.getAssets(), "fonts/roboto_thin.ttf");
+            robotoLight = Typeface.createFromAsset(activity.getAssets(), "fonts/roboto_light.ttf");
+            robotoBold = Typeface.createFromAsset(activity.getAssets(), "fonts/roboto_bold.ttf");
+
             rg = (RadioGroup) findViewById(R.id.rg);
+            RadioButton allow=(RadioButton) findViewById(R.id.rallow);
+            RadioButton block=(RadioButton) findViewById(R.id.rblock);
+            allow.setTypeface(robotoLight);
+            block.setTypeface(robotoLight);
+
             //RadioButton block = (RadioButton) findViewById(R.id.rblock);
             //RadioButton allow = (RadioButton) findViewById(R.id.rallow);
             Button change = (Button) findViewById(R.id.change);
@@ -118,15 +132,22 @@ public class Channel_settings extends AppCompatActivity{
 
 
             vtype = (Button) findViewById(R.id.vtype);
+            vtype.setTypeface(robotoLight);
             withincity = (Button) findViewById(R.id.atravel);
+            withincity.setTypeface(robotoLight);
             category = (Button) findViewById(R.id.acategory);
+            category.setTypeface(robotoLight);
             refresh_rate = (Button) findViewById(R.id.arefresh);
+            refresh_rate.setTypeface(robotoLight);
             //add_channel=(Button)findViewById(R.id.rregister);
-            Button browse = (Button) findViewById(R.id.browse);
             owner = (EditText) findViewById(R.id.aowner);
+            owner.setTypeface(robotoLight);
             vname = (EditText) findViewById(R.id.avname);
+            vname.setTypeface(robotoLight);
             vnumber = (EditText) findViewById(R.id.avnumber);
+            vnumber.setTypeface(robotoLight);
             city1 = (EditText) findViewById(R.id.acity);
+            city1.setTypeface(robotoLight);
             city_list.setTextFilterEnabled(true);
             city1.addTextChangedListener(new TextWatcher(){
 
@@ -157,9 +178,15 @@ public class Channel_settings extends AppCompatActivity{
 
 
             add_pic = (ImageView) findViewById(R.id.pic);
+            add_pic.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    openImageChooser();
+                }
+            });
 
             //owner.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-
+           // lv1.setVisibility(View.GONE);
 
             lv1 = (ListView) findViewById(R.id.list);
             // Activity activity = this;
@@ -363,14 +390,6 @@ public class Channel_settings extends AppCompatActivity{
 
                     popup_category.show();
 
-                }
-            });
-
-            assert browse != null;
-            browse.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-
-                    openImageChooser();
                 }
             });
 
@@ -637,6 +656,8 @@ public class Channel_settings extends AppCompatActivity{
                             } else {
                                 rg.check(R.id.rblock);
                             }
+
+                            city_list.setVisibility(View.GONE);
                         }
                     catch (ClassCastException ce) {
                         //Toast.makeText(MyChannels_RV.this, "Filtered few invalid Channels", Toast.LENGTH_LONG).show();

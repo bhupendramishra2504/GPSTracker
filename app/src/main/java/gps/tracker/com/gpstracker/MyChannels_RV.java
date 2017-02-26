@@ -256,6 +256,12 @@ public class MyChannels_RV extends AppCompatActivity {
                                 sr1.setImage(download_image_to_firebase1("default"));
                             }
 
+                            if (map.get("refresh_status") != null) {
+                                sr1.setrr(map.get("refresh_status").toString());
+                            } else {
+                                sr1.setrr("20 secs");
+                            }
+
                             if (map.get("vehicle_name") != null) {
                                 sr1.setvname(capitalize_string(map.get("vehicle_name").toString()));
                             } else {

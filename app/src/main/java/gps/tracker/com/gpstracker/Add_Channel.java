@@ -1,9 +1,11 @@
 package gps.tracker.com.gpstracker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -48,20 +50,42 @@ public class Add_Channel extends AppCompatActivity {
     String [] city_list_string;
     ListView city_list;
     ArrayAdapter<String> adapter;
+    Typeface robotoLight;
+    Typeface robotoThin;
+    Typeface robotoBold;
+    Activity activity;
     //Spinner spinnerUse, spinnerVehicleType, spinnerTravelType, spinnerBroadcastRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_channel);
+        activity=this;
         try {
+
+            robotoThin = Typeface.createFromAsset(activity.getAssets(), "fonts/roboto_thin.ttf");
+            robotoLight = Typeface.createFromAsset(activity.getAssets(), "fonts/roboto_light.ttf");
+            robotoBold = Typeface.createFromAsset(activity.getAssets(), "fonts/roboto_bold.ttf");
+
             rg = (RadioGroup) findViewById(R.id.rg);
+
+            RadioButton block=(RadioButton)findViewById(R.id.rblock);
+            RadioButton allow=(RadioButton)findViewById(R.id.rallow);
+            block.setTypeface(robotoLight);
+            allow.setTypeface(robotoLight);
+
             add_pic = (ImageView) findViewById(R.id.pic);
+            add_pic.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    openImageChooser();
+                }
+            });
+
 
             Global.set_action_bar_details(Add_Channel.this, "Add Channel", "");
-            TextView logged_user = (TextView) findViewById(R.id.logged_user);
-            assert logged_user != null;
-            logged_user.setText("");
+            //TextView logged_user = (TextView) findViewById(R.id.logged_user);
+            //assert logged_user != null;
+            //logged_user.setText("");
             city_list_string = getResources().getStringArray(R.array.cities_name);
             city_list=(ListView)findViewById(R.id.list_city);
             adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, android.R.id.text1, city_list_string);
@@ -87,15 +111,25 @@ public class Add_Channel extends AppCompatActivity {
             });
 
             vtype = (Button) findViewById(R.id.vtype);
+            vtype.setTypeface(robotoLight);
             withincity = (Button) findViewById(R.id.atravel);
+            withincity.setTypeface(robotoLight);
             category = (Button) findViewById(R.id.acategory);
+            category.setTypeface(robotoLight);
             refresh_rate = (Button) findViewById(R.id.arefresh);
+            refresh_rate.setTypeface(robotoLight);
             Button add_channel = (Button) findViewById(R.id.rregister);
-            Button browse = (Button) findViewById(R.id.browse);
+            add_channel.setTypeface(robotoLight);
+
+
             owner = (EditText) findViewById(R.id.aowner);
+            owner.setTypeface(robotoLight);
             vname = (EditText) findViewById(R.id.avname);
+            vname.setTypeface(robotoLight);
             vnumber = (EditText) findViewById(R.id.avnumber);
+            vnumber.setTypeface(robotoLight);
             city1 = (EditText) findViewById(R.id.acity);
+            city1.setTypeface(robotoLight);
 
 
             city_list.setTextFilterEnabled(true);
@@ -121,6 +155,7 @@ public class Add_Channel extends AppCompatActivity {
 
                 }
             });
+
 
 
 
@@ -276,14 +311,6 @@ public class Add_Channel extends AppCompatActivity {
             });
 
 
-            assert browse != null;
-            browse.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-
-                    openImageChooser();
-                }
-            });
-
 
             owner.addTextChangedListener(new TextWatcher() {
 
@@ -355,6 +382,7 @@ public class Add_Channel extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    //vnumber.setText(s.toString().toUpperCase());
                 }
 
                 @Override

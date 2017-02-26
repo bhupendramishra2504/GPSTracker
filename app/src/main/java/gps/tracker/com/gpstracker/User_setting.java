@@ -16,12 +16,12 @@ public class User_setting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_setting);
+        setContentView(R.layout.user_settings);
         Button change_number = (Button) findViewById(R.id.uchg_num);
         new_number=(EditText)findViewById(R.id.uchange);
         Global.set_action_bar_details(User_setting.this,"User Settings","");
         assert change_number != null;
-        change_number.setOnClickListener(new View.OnClickListener() {
+        /*change_number.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
@@ -31,7 +31,7 @@ public class User_setting extends AppCompatActivity {
                 startActivity(i1);
                 finish();
             }
-        });
+        });*/
 
     }
 

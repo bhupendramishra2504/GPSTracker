@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:paddingBottom="10dp"
-    android:paddingTop="10dp">
+    android:paddingTop="10dp"
+   >
 
     <TextView android:id="@+id/fname"
         android:textSize="15sp"
         android:textColor="@color/gray"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"/>
+        android:layout_weight="0.45"/>
     <TextView android:id="@+id/fmobile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textSize="15sp"
         android:textColor="@color/colorAccent"
-        android:layout_toRightOf="@+id/fname"
-        android:paddingLeft="10dp"/>
-    <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="0.45"/>
+    <ImageButton
         android:id="@+id/block"
-        android:layout_alignParentRight="true"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
         android:src="@drawable/block_icon1"
         android:tint="@color/gray"
         android:background="@android:color/transparent"
         android:paddingRight="10dp"/>
 
 
-</RelativeLayout>
+</LinearLayout>

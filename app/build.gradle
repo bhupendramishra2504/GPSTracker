@@ -7,7 +7,7 @@ android {
     buildToolsVersion "22.0.1"
     defaultConfig {
         applicationId "gps.tracker.com.gpstracker"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"

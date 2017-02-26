@@ -13,6 +13,7 @@ class Channel_list {
     private String vcategary="";
     private String channel_id="";
     private String vname="";
+    private String rr="";
     private int imageid;
     private int aimageid;
     private int visibleimageid;
@@ -75,6 +76,8 @@ class Channel_list {
     public Bitmap getImage(){return image;}
     public void setImage(Bitmap image){this.image=image;}
 
+    public void setrr(String rr){this.rr=rr;}
+    public String getrr(){return rr;}
 
 
 }

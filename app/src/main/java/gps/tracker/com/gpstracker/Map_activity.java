@@ -83,9 +83,10 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     private OkHttpClient okClient;
     private CoordinatorLayout coordinatorLayout;
     private RelativeLayout ma;
-    private Date date1, date2;
+    private Date date1, date2,date3;
     private Marker ownLocation;
     Typeface robotoLight;
+    private String gps_speed;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -125,7 +126,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
 
             mapview.onCreate(savedInstanceState);
             mapview.getMapAsync(this, "bubble-wrap1/bubble-wrap.yaml");
-            scale_map = 13f;
+            scale_map = 15f;
 
             //fetch_loc_fb();
             if(!s_phone.equalsIgnoreCase("Demo")) {
@@ -199,7 +200,26 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                             props.put("color", "#000000");
                             props.put("text", "hiii");
                             points.addPoint(new LngLat(longitude, latitude), props);
-                            map_style.setText("Last updated on :" + time_stamp + Global.separator);
+                            SimpleDateFormat simpleDateFormat =
+                                    new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+                            SimpleDateFormat simpleDateFormat1 =
+                                    new SimpleDateFormat("dd MMM HH:mm:ss");
+
+
+                            //goToLandmark_mod();
+                            try {
+                                date1 = simpleDateFormat.parse(time_stamp);
+                                date2 = simpleDateFormat.parse(Global.date_time_mod());
+
+                                String time_stamp_mod=simpleDateFormat1.format(date1);
+                                map_style.setText(time_stamp_mod + " (" + printDifference(date1, date2) + " )");
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                                Toast.makeText(activity.get(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                            //map_style.setText("Last updated on :" + time_stamp + Global.separator);
                             //Snackbar snackbar = Snackbar.make(ma, "Last updated on :"+ time_stamp, Snackbar.LENGTH_INDEFINITE);
                             //snackbar.show();
                         } else {
@@ -238,6 +258,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                     latitude = 0.0;
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         String data[] = dataSnapshot.getValue().toString().split(";");
+
                         if (data.length == 3) {
 
                             longitude = Double.parseDouble(data[0]);
@@ -282,11 +303,17 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 SimpleDateFormat simpleDateFormat =
                                         new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
+                                SimpleDateFormat simpleDateFormat1 =
+                                        new SimpleDateFormat("dd MMM HH:mm:ss");
+
+
                                 //goToLandmark_mod();
                                 try {
                                     date1 = simpleDateFormat.parse(time_stamp);
                                     date2 = simpleDateFormat.parse(Global.date_time_mod());
-                                    map_style.setText(time_stamp + " (" + printDifference(date1, date2) + " )");
+
+                                    String time_stamp_mod=simpleDateFormat1.format(date1);
+                                    map_style.setText(time_stamp_mod + " (" + printDifference(date1, date2) + " )");
 
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -299,7 +326,78 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                 //Snackbar snackbar = Snackbar.make(coordinatorLayout, "Waiting for data...", Snackbar.LENGTH_INDEFINITE);
                                 //snackbar.show();
                             }
-                        } else {
+                        }
+                        else if(data.length == 4)
+                        {
+                            gps_speed=data[3];
+                            longitude = Double.parseDouble(data[0]);
+                            latitude = Double.parseDouble(data[1]);
+                            time_stamp = data[2];
+                            if (longitude != 0.0 && latitude != 0.0) {
+                                if (map == null) {
+                                    Toast.makeText(activity.get(), "Map is still not initialized :)", Toast.LENGTH_LONG).show();
+
+                                    return;
+                                }
+
+                                int duration = 100;
+                                if (points != null) {
+                                    points.clear();
+                                }
+
+
+                                //ownLocation = map.addMarker();
+                                //ownLocation.setDrawable(R.drawable.cha_loc1);
+
+                             /*  if(longitude!=0.0 && latitude!=0.0 && ownLocation!=null) {
+                                   //map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
+
+                                   ownLocation.setStyling("{ style: 'points', size: [27px, 27px], order: 2000, collide: false , color: white}");
+                                    ownLocation.setVisible(true);
+                                    ownLocation.setPointEased(
+                                            new LngLat(longitude, latitude),
+                                            duration, MapController.EaseType.CUBIC);
+
+                                    //map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
+                                      }*/
+                                map.setPositionEased(new LngLat(longitude, latitude), duration, MapController.EaseType.CUBIC);
+                                map.setZoomEased(scale_map, duration, MapController.EaseType.QUINT);
+
+                                points = map.addDataLayer("mz_default_point");
+                                props.put("type", "point");
+                                props.put("color", "#000000");
+                                points.addPoint(new LngLat(longitude, latitude), props);
+
+
+                                SimpleDateFormat simpleDateFormat =
+                                        new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+                                SimpleDateFormat simpleDateFormat1 =
+                                        new SimpleDateFormat("dd MMM HH:mm:ss");
+
+
+                                //goToLandmark_mod();
+                                try {
+                                    date1 = simpleDateFormat.parse(time_stamp);
+                                    date2 = simpleDateFormat.parse(Global.date_time_mod());
+
+                                    String time_stamp_mod=simpleDateFormat1.format(date1);
+                                    map_style.setText(time_stamp_mod + " (" + printDifference(date1, date2) + " )"+ " Speed : "+gps_speed);
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(activity.get(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                                //Snackbar snackbar = Snackbar.make(coordinatorLayout, time_stamp, Snackbar.LENGTH_INDEFINITE);
+                                //snackbar.show();
+                            } else {
+                                map_style.setText("Waiting for data...");
+                                //Snackbar snackbar = Snackbar.make(coordinatorLayout, "Waiting for data...", Snackbar.LENGTH_INDEFINITE);
+                                //snackbar.show();
+                            }
+                        }
+
+                        else {
                             map_style.setText("Channel not active or map not initialized");
                             //Snackbar snackbar = Snackbar.make(coordinatorLayout, "Channel not active or map not initialized", Snackbar.LENGTH_INDEFINITE);
                             // snackbar.show();
@@ -587,9 +685,9 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
         }
 
         if (diff.equalsIgnoreCase("")) {
-            diff = "right now";
+            diff = " now";
         } else {
-            diff = diff + " ago";
+            diff = diff ;
         }
         return diff;
 
@@ -599,8 +697,22 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
     {
         final Handler h = new Handler();
         final int delay = 2000;
-        latitude=37.773972;
-        longitude=-122.431297;
+
+        gps = new GPSTracker(getApplicationContext());
+        if (gps.canGetLocation()) {
+
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+            if (longitude == 0.0 && latitude == 0.0) {
+                latitude=37.773972;
+                longitude=-122.431297;
+            }
+        }
+        else
+        {
+            latitude=37.773972;
+            longitude=-122.431297;
+        }
 
 
 
@@ -620,7 +732,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                 points.addPoint(new LngLat(longitude, latitude), props);
 
                 latitude=latitude+0.001110;
-                longitude=longitude+0.001110;
+                //longitude=longitude+0.001110;
                 map_style.setText(Global.date_time_mod() + " ( now )");
 
 
@@ -652,7 +764,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                     if(time_stamp!=null) {
                         date1 = simpleDateFormat.parse(time_stamp);
                         date2 = simpleDateFormat.parse(Global.date_time_mod());
-                        map_style.setText(time_stamp + " (" + printDifference(date1, date2) + " )");
+                        map_style.setText(time_stamp + " (" + printDifference(date1, date2) + " )"+ " Speed : "+gps_speed);
                     }
 
                 } catch (ParseException e) {

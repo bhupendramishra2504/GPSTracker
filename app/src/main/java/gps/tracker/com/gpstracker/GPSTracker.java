@@ -168,6 +168,12 @@ public final class GPSTracker extends Service implements LocationListener {
         return text;
     }
 
+    public String getSpeed()
+    {
+        int speed=(int) ((location.getSpeed()*3600)/1000);
+        return String.valueOf(speed)+" km/h";
+    }
+
 
     /**
      * Stop using GPS listener Calling this function will stop using GPS in your

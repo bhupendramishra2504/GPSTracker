@@ -164,15 +164,15 @@
                             android:layout_marginLeft="5dp"
                             android:background="@drawable/circle_white"/>
 
-                      <!--  <TextView
-                            android:id="@+id/tvMobileNo"
+                        <TextView
+                            android:id="@+id/tvrr"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:text="@string/mobile_no1"
+                            android:text="refresh_rate"
                             android:textSize="16dp"
                             android:textColor="@color/white"
-                            android:layout_marginLeft="5dp"/>-->
+                            android:layout_marginLeft="5dp"/>
 
 
 

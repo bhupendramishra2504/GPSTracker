@@ -3,7 +3,10 @@ package gps.tracker.com.gpstracker;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
@@ -21,12 +24,7 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ibt.ortc.api.Ortc;
-import ibt.ortc.extensibility.OnConnected;
-import ibt.ortc.extensibility.OnMessage;
-import ibt.ortc.extensibility.OnRegistrationId;
-import ibt.ortc.extensibility.OrtcClient;
-import ibt.ortc.extensibility.OrtcFactory;
+
 
 /**
  * Created by bhupendramishra on 14/10/16.
@@ -48,9 +46,10 @@ public class TimeServiceGPS extends Service {
     public static FirebaseDatabase firebase_database1;
     public static DatabaseReference firebase_dbreference1;
     boolean status=false;
-    OrtcFactory factory;
-    OrtcClient client;
-    String channel=Global.username;
+    public String channel_id="",gps_speed="0 km/h",gps_time="";
+    Context context;
+
+    //String channel=Global.username;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -61,97 +60,15 @@ public class TimeServiceGPS extends Service {
     public void onCreate() {
 
 
-        status=true;
-        Log.d("GPS Service","GPS Service Started");
-        // cancel if already existed
-        if(mTimer != null) {
-            mTimer.cancel();
-        } else {
-            // recreate new
-            mTimer = new Timer();
-            Log.d("GPS Service","Timer Started");
-        }
-        if(Global.rr.equalsIgnoreCase("low"))
-        {
-            NOTIFY_INTERVAL=Global.low;
-        }
-        else if(Global.rr.equalsIgnoreCase("high"))
-        {
-            NOTIFY_INTERVAL=Global.high;
-        }
-        else if(Global.rr.equalsIgnoreCase("medium"))
-        {
-            NOTIFY_INTERVAL=Global.med;
-        }
-        else
-        {
-            NOTIFY_INTERVAL=Global.low;
-        }
 
+        context=this;
         final long nt=NOTIFY_INTERVAL;
+        latitude = 0.0;
+        longitude = 0.0;
+        SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+        channel_id = prefs.getString("broadcasting_sticky", "NA");
         // schedule task
         mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, NOTIFY_INTERVAL1);
-
-
-        try {
-            Ortc ortc = new Ortc();
-
-            OrtcFactory factory;
-
-
-            factory = ortc.loadOrtcFactory("IbtRealtimeSJ");
-
-
-            client = factory.createClient();
-
-
-            client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1");
-            client.connect("Cmo9Y1", "testToken");
-            client.setApplicationContext(getApplicationContext());
-        }
-        catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-        // Use this method if you have implemented a backend to store your user's GCM registration ids
-        //RegistrationIdRemoteStore.getRegistrationIdFromBackend(getApplicationContext(), client);
-
-        OrtcClient.setOnRegistrationId(new OnRegistrationId() {
-            @Override
-            public void run(String registrationId) {
-                Log.i("REG", "GCM Registration ID: " + registrationId);
-
-                // Use this method if you have implemented a backend to store your user's GCM registration ids
-                //RegistrationIdRemoteStore.setRegistrationIdToBackend(getApplicationContext(), registrationId);
-            }
-        });
-
-        client.setGoogleProjectId("joinin-440f7");
-
-        /*client.onConnected = new OnConnected() {
-            @Override
-            public void run(final OrtcClient sender) {
-                // Messaging client connected
-
-                // Now subscribe the channel
-                client.subscribe(Global.username, true,
-                        new OnMessage() {
-                            // This function is the message handler
-                            // It will be invoked for each message received in myChannel
-
-                            public void run(OrtcClient sender, String channel, String message) {
-                                // Received a message
-                                System.out.println(message);
-                                //Toast.makeText(Channel_settings.this,"message recieved "+message,Toast.LENGTH_LONG ).show();
-                            }
-                        });
-            }
-        };*/
 
 
 
@@ -164,7 +81,7 @@ public class TimeServiceGPS extends Service {
         status=false;
         mHandler.removeCallbacksAndMessages(null);
         mTimer.cancel();
-        status_update("0");
+        //status_update("0");
         this.stopSelf();
 
     }
@@ -178,107 +95,158 @@ public class TimeServiceGPS extends Service {
 
                 @Override
                 public void run() {
-                    gps = new GPSTracker(TimeServiceGPS.this);
-                    if(gps.canGetLocation()){
+                    try
+                    {
+                    offline_update();
+                    //get_location();
+                    GPSTracker gps = new GPSTracker(context);
+                    if (gps.canGetLocation() && !channel_id.equalsIgnoreCase("NA")) {
+                        //Location location=gps.getLocation();
+                        //Global.gps_ok=true;
+                        latitude = 0.0;
+                        longitude = 0.0;
+
                         latitude = gps.getLatitude();
                         longitude = gps.getLongitude();
-                        Toast.makeText(TimeServiceGPS.this,"Location saved to server"+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
+                        gps_time=gps.getTimeStamp();
+                        gps_speed=gps.getSpeed();
+
+                        //Date date = new Date(location.getTime());
+                        // SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                        // text = sdf.format(date);
+                        //Toast.makeText(context,"GPS Time Stamp for location is "+text,Toast.LENGTH_LONG).show();
 
 
+                        add_location_to_server();
+                        //gps.stopUsingGPS();
+                    } else {
+                        Toast.makeText(context, "cannot fetch the gps location in gps tracker", Toast.LENGTH_LONG).show();
+                        //show_notification(context,"JUSTIN BROADCAST","BROADCAST_STOPPED : "+Global.date_time());
 
-                        AsyncGPSWSCall task= new AsyncGPSWSCall();
-                        task.execute();
-                        //common.showToast("Your Location is - \nLat: " + latitude + "\nLong: " + longitude + "\nDate: " + dba.getDateTime()+ "\nUsername: " + user.get(UserSessionManager.KEY_USERNAME)+ "\nIMEI: " + user.get(UserSessionManager.KEY_IMEI));
+                        status_update("0");
+                        //SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+                        //editor.putString("broadcasting","NA");
+                        //editor.commit();
                     }
-                    else{
-                        gps.showSettingsAlert();
-                    }
-
+                }catch(Exception e)
+                {
+                    Toast.makeText(context,"Fatal error at Alarm Manager : "+e.getMessage(),Toast.LENGTH_LONG).show();
                 }
+
+
+            }
 
             });
         }
 
-        //Async Class to send Credentials
-        private class AsyncGPSWSCall extends AsyncTask<String, Void, Void> {
-            @Override
-            protected Void doInBackground(String... params) {
-                Log.d("GPS Service","Background service Started");
-                Log.d("GPS Service","Location collected");
 
 
-                if(status) {
-                    add_location_to_server();
-                }
-
-                return null;
-              }
-            @Override
-            protected void onPostExecute(Void result) {
-                Log.i(log, "onPostExecute");
-                //Toast.makeText(TimeServiceGPS.this,"Location saved to server"+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            protected void onPreExecute() {
-                Log.i(log, "onPreExecute");
-            }
-
-            @Override
-            protected void onProgressUpdate(Void... values) {
-                Log.i(log, "onProgressUpdate");
-            }
-        }
 
 
 
     }
 
-    public void add_location_to_server()
+    private void add_location_to_server()
     {
-        if(longitude!=0.0 && latitude!=0.0) {
-            //DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(Global.username).child("locations").push();
-            client.send(Global.channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
-            //loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
-            //Toast.makeText(Channel_settings.this,"Location saved to server",Toast.LENGTH_LONG).show();
+        if(longitude!=0.0 && latitude!=0.0 && !channel_id.equalsIgnoreCase("") && isNetworkAvailable(context)) {
+            update_channel_status();
+
+            DatabaseReference loc_long = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("locations").child("latest_location");
+            //client.send(channel_id,String.valueOf(longitude+";"+latitude+";"+Global.date_time()));
+            loc_long.setValue(String.valueOf(longitude+";"+latitude+";"+gps_time+";"+gps_speed));
+            Toast.makeText(context,"Location saved to server values are "+String.valueOf(longitude)+","+String.valueOf(latitude),Toast.LENGTH_LONG).show();
+            //show_notification(context,"JUSTIN BROADCAST","New Location Acquired : "+gps_time);
         }
         else
         {
-            //Toast.makeText(Channel_settings.this,"Location not valid, check GPS Settings",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"cannot fetch the gps location in add location to server func",Toast.LENGTH_LONG).show();
+            //show_notification(context,"JUSTIN BROADCAST","BROADCAST_STOPPED : "+Global.date_time());
+
+            status_update("0");
+            SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
+            editor.putString("broadcasting","NA");
+            editor.apply();
         }
+
+        //if(cpuWakeLock.isHeld()) {
+        //cpuWakeLock.release();
+        // }
+
+
+
     }
 
     private void status_update(final String update)
     {
-        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(Global.channel_id).child("followers");
+        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+        ref2.setValue(update);
         //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
+    }
 
-        if(user_ref!=null) {
 
-            user_ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+// --Commented out by Inspection START (14/12/16, 10:13 PM):
+//    private void status_update_kill()
+//    {
+//        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+//        ref2.setValue("0");
+//        //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
+//    }
+// --Commented out by Inspection STOP (14/12/16, 10:13 PM)
 
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+    private static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
-                        if (child != null) {
 
-                            DatabaseReference ref=Global.firebase_dbreference.child("USERS").child(child.getKey().toString()).child("Subscribers").child(Global.username).child("status");
-                            ref.setValue(update);
 
-                        }
+
+    private void offline_update()
+    {
+
+        DatabaseReference ref2=Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+        ref2.onDisconnect().setValue("0");
+        //offline_network_issue();
+        ref2.keepSynced(true);
+        //FirebaseMessaging.getInstance().subscribeToTopic(Global.username);
+    }
+
+
+    private void update_channel_status()
+    {
+        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+        user_ref.keepSynced(true);
+        user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //results.clear();
+                if(dataSnapshot!=null)
+                {
+                    if(dataSnapshot.getValue().toString().equalsIgnoreCase("0"))
+                    {
+                        DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("status");
+                        user_ref.setValue("1");
+
                     }
                 }
 
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    //Toast.makeText(Channel_settings.this, error.toException().toString(), Toast.LENGTH_LONG).show();
 
-                }
-            });
-        }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
+
+
+
+
 
 }

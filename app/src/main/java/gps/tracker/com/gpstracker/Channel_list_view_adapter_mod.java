@@ -56,14 +56,12 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
     private final LayoutInflater mInflater;
     //private final Intent i;
     private static PendingIntent pendingIntent;
-    private static Intent alarmIntent,alarmIntent1;
+    private static Intent alarmIntent,i,alarmIntent1;
     private static AlarmManager manager,manager2;
     Typeface robotoLight;
     Typeface robotoThin;
     Typeface robotoBold;
     private LinearLayout cl1;
-    private static int kJobId = 0;
-    JobInfo jobInfo;
 
 
     public Channel_list_view_adapter_mod(Context context, ArrayList<Channel_list> results) {
@@ -75,6 +73,8 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
         robotoBold = Typeface.createFromAsset(context.getAssets(), "fonts/roboto_bold.ttf");
         //i=new Intent(this.context, TimeServiceGPS.class);
         alarmIntent = new Intent(this.context, Broadcast_Receiver.class);
+        i=new Intent(context, TimeServiceGPS.class);
+
         //alarmIntent1 = new Intent(this.context, Auto_Broadcast_Reciever.class);
        // alarmIntent = new Intent(this.context, Br_rx.class);
 
@@ -205,25 +205,16 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                                 editor.putString("broadcasting", channellist.get(position).getChannelid());
                                 editor.putString("broadcasting_sticky", channellist.get(position).getChannelid());
                                 editor.putString("broadcasting_cmd", channellist.get(position).getChannelid());
+                                editor.putString("refresh_rate", channellist.get(position).getrr());
                                 editor.apply();
                                 status_update_v2("1", channellist.get(position).getChannelid());
                                 play_sound();
                                 holder.broadcast.setImageResource(R.drawable.broadcast);
-
+                                i.putExtra("refresh_rate", channellist.get(position).getrr());
+                                i.putExtra("channel_id",channellist.get(position).getChannelid());
+                                context.startService(i);
                                 channellist.get(position).setImageid(images[0]);
-                                ComponentName serviceComponent = new ComponentName(context, Job_Service.class);
 
-                                JobInfo jobInfo;
-                                PersistableBundle bundle = new PersistableBundle();
-                                bundle.putString("channel_id",channellist.get(position).getChannelid());
-
-                                    jobInfo = new JobInfo.Builder(1, serviceComponent).setPeriodic(15000).setExtras(bundle)
-                                            .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setPersisted(true).build();
-
-
-
-                                JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-                                jobScheduler.schedule(jobInfo);
                                 Snackbar snackbar = Snackbar.make(cl1, "Broadcast Started via Job Scheduler", Snackbar.LENGTH_LONG);
                                 snackbar.show();
                                 Global.show_notification_dead(context, "CHANNEL BROADCASTING : Job Scheduler", "CHANNEL : " + channellist.get(position).getvname() + Global.separator + "Broadcast Started at" + Global.date_time());
@@ -250,6 +241,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
 
                         editor.apply();
                         play_sound_bstop();
+
                         status_update_v2("0", channellist.get(position).getChannelid());
                         holder.broadcast.setImageResource(R.drawable.broadcast_off);
                         channellist.get(position).setImageid(images[1]);
@@ -273,8 +265,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
                     }
                     else
                     {
-                        JobScheduler tm = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-                        tm.cancelAll();
+
                         SharedPreferences.Editor editor = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE).edit();
                         editor.putString("broadcasting", "NA");
                         editor.putString("broadcasting_cmd", "NA");
@@ -282,6 +273,7 @@ class Channel_list_view_adapter_mod extends BaseAdapter {
 
                         editor.apply();
                         play_sound_bstop();
+                        context.stopService(i);
                         status_update_v2("0", channellist.get(position).getChannelid());
                         holder.broadcast.setImageResource(R.drawable.broadcast_off);
                         channellist.get(position).setImageid(images[1]);

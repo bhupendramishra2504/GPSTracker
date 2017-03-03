@@ -18,6 +18,12 @@
             android:orderInCategory="400"
             dash:showAsAction="ifRoom"
            />
+
+    <item android:id="@+id/new_dashboard"
+        android:title="New Dashboard"
+        android:orderInCategory="500"
+        dash:showAsAction="ifRoom"
+        />
             <item android:id="@+id/user_setting"
                 android:title="User Settings"
                 dash:showAsAction="never"/>

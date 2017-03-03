@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.vishal.test.MainActivity">
+
+    <android.support.v4.widget.NestedScrollView
+
+        android:fillViewport="true"
+        android:id="@+id/activity_main_scv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"><!--android:scrollbars="vertical"-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#f2f2f2">
+
+                <TextView
+                    android:fontFamily="@string/font_family_light"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_horizontal_margin"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="30sp"
+                    android:paddingRight="20sp"
+                    android:text="Follows"
+                    />
+
+                <ImageView
+                    android:clickable="true"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="10sp"
+                    android:id="@+id/activity_main_iv_follows_add"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_add"/>
+
+                <ImageView
+                    android:id="@+id/activity_main_iv_follows_delete"
+                    android:clickable="true"
+                    android:visibility="gone"
+                    android:layout_marginLeft="10sp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:src="@drawable/ic_delete"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@id/activity_main_iv_follows_add"
+                    android:layout_toStartOf="@id/activity_main_iv_follows_add" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4sp"
+                android:background="@drawable/dropshadow"
+                android:visibility="visible" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_main_rcv_follows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" />
+
+            <!-- <ListView
+                 android:id="@+id/activity_main_ll_follows"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:divider="#00000000"
+                 android:fadeScrollbars="false"
+                 android:scrollbars="none"
+                 android:textAppearance="?android:attr/textAppearanceSmall" />-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#f2f2f2">
+
+                <TextView
+                    android:fontFamily="@string/font_family_light"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_horizontal_margin"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="30sp"
+                    android:paddingRight="20sp"
+                    android:text="Broadcast"
+                    />
+
+                <ImageView
+                    android:id="@+id/activity_main_iv_broadcast_add"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="10sp"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_add"/>
+
+                <ImageView
+                    android:id="@+id/activity_main_iv_broadcast_delete"
+                    android:visibility="gone"
+                    android:layout_marginLeft="10sp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:src="@drawable/ic_delete"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@id/activity_main_iv_broadcast_add"
+                    android:layout_toStartOf="@id/activity_main_iv_broadcast_add" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4sp"
+                android:background="@drawable/dropshadow"
+                android:visibility="visible" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_main_rcv_broadcast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" />
+            <!--  <ListView
+                  android:id="@+id/activity_main_ll_broadcast"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:divider="#00000000"
+                  android:fadeScrollbars="false"
+                  android:scrollbars="none" />-->
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</RelativeLayout>

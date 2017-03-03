@@ -250,6 +250,15 @@ public class Dashboard extends BaseClass  {
             }
             return true;
         }
+        else if(id==R.id.new_dashboard) {
+                Intent i1 = new Intent(Dashboard.this,Dashboard_v3.class);
+                startActivity(i1);
+                finish();
+
+
+            return true;
+        }
+
         else if (id==R.id.broadcast) {
             if (grant_permission() && isNetworkAvailable()) {
                 if(user_ref!=null && subscriber_listener!=null) {
@@ -307,7 +316,7 @@ public class Dashboard extends BaseClass  {
             AlertDialog.Builder builder =
                     new AlertDialog.Builder(this);
             builder.setTitle("JustIn");
-            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-4.2"+System.getProperty("line.separator")+"Release Date : 20/02/2017"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"bug fixes and perf improvements"+System.getProperty("line.separator")+"Broadcasting performance enhanced"+System.getProperty("line.separator")+"old gps on map issue solved"+System.getProperty("line.separator")+"locations stored on local storage in sqlite");
+            builder.setMessage("Application Version"+System.getProperty("line.separator")+"Justin-beta-4.3(26-02-2017)"+System.getProperty("line.separator")+"Release Date : 26/02/2017"+System.getProperty("line.separator")+System.getProperty("line.separator")+"Change Logs"+System.getProperty("line.separator")+"bug fixes and perf improvements"+System.getProperty("line.separator")+"Lossless image compression with glide"+System.getProperty("line.separator")+"Broadcast with less than 1 min implemented"+System.getProperty("line.separator"));
             builder.setPositiveButton("OK", null);
             builder.show();
             return true;

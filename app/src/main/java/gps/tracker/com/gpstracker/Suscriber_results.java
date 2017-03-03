@@ -37,9 +37,7 @@ class Suscriber_results {
         return channel_id;
     }
 
-    public int getImageid(){return imageid;}
 
-    public void setImageid(int imageid){this.imageid=imageid;}
 
 
 
@@ -69,6 +67,10 @@ class Suscriber_results {
     public Bitmap getImage(){return image;}
 
     public void setImage(Bitmap image){this.image=image;}
+
+    public int getImageid(){return imageid;}
+
+    public void setImageid(int imageid){this.imageid=imageid;}
 
 
 }

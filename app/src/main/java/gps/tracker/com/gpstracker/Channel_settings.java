@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -42,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 
 public class Channel_settings extends AppCompatActivity{
@@ -68,6 +76,8 @@ public class Channel_settings extends AppCompatActivity{
     private DatePickerDialog.OnDateSetListener date;
     private boolean validated1=false,validated2=false,validated3=false,validated4=false;
     private RadioGroup rg;
+    private boolean image_changed=false;
+    private Uri image_uri;
 
     String [] city_list_string;
     ListView city_list;
@@ -572,25 +582,40 @@ public class Channel_settings extends AppCompatActivity{
         if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK && null != data) {
             try {
                 if(data.getData()!=null) {
-                    InputStream inputStream = Channel_settings.this.getContentResolver().openInputStream(data.getData());
-                    assert (inputStream != null ? inputStream : null) != null;
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                   // InputStream inputStream = Channel_settings.this.getContentResolver().openInputStream(data.getData());
+                   // assert (inputStream != null ? inputStream : null) != null;
+                   // BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
 
-                    Bitmap bmp = BitmapFactory.decodeStream(bufferedInputStream);
+                   // Bitmap bmp = BitmapFactory.decodeStream(bufferedInputStream);
 
-                    Bitmap resized1 = Bitmap.createScaledBitmap(bmp,150, 150, true);
+                    //resized = Bitmap.createScaledBitmap(bmp,150, 150, true);
 
-                    resized = Bitmap.createScaledBitmap(bmp,50, 50, true);
+                    image_uri=data.getData();
+                    //add_pic.setImageBitmap(resized);
+                    Glide
+                            .with(this)
+                            .load(data.getData()).asBitmap()
+                            .fitCenter()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(new SimpleTarget<Bitmap>(200,200) {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                                    add_pic.setImageBitmap(resource);
+                                    resized=resource;// Possibly runOnUiThread()
+                                }
+                            });
+                    image_changed=true;
 
 
-                    add_pic.setImageBitmap(resized1);
+                    // resized = ((BitmapDrawable)add_pic.getDrawable()).getBitmap();
+
                 }
                 else
                 {
                     Toast.makeText(Channel_settings.this,"picture cannnot uploaded from this location",Toast.LENGTH_LONG).show();
                 }
             }
-            catch(FileNotFoundException ignored) {
+            catch(Exception e) {
             }
 
             //add_pic.setImageBitmap(BitmapFactory.decodeFile(picturePath));
@@ -1119,8 +1144,21 @@ public class Channel_settings extends AppCompatActivity{
     {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        /*try {
+            resized = Glide.
+                    with(this).
+                    load(image_uri).
+                    asBitmap().
+                    into(200, 200). // Width and height
+                    get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }*/
         if(resized!=null) {
-            resized.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            //resized = ((BitmapDrawable)add_pic.getDrawable()).getBitmap();
+            resized.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] data = baos.toByteArray();
             DatabaseReference userdata10 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("image");
             String data_string = Base64.encodeToString(data, Base64.DEFAULT);
@@ -1156,6 +1194,10 @@ public class Channel_settings extends AppCompatActivity{
         }
         if(popup_refresh!=null) {
             popup_refresh.dismiss();
+        }
+        if(resized!=null)
+        {
+            resized=null;
         }
     }
 

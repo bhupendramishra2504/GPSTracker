@@ -269,9 +269,10 @@ public class Search_vname extends Fragment {
 
 
 
-
-                search_adapter = new Channel_search_vname(getActivity(), search_results);
-                search_adapter.notifyDataSetChanged();
+                if(search_adapter!=null) {
+                    search_adapter = new Channel_search_vname(getActivity(), search_results);
+                    search_adapter.notifyDataSetChanged();
+                }
                 lv2.setAdapter(search_adapter);
                 lv2.invalidateViews();
                 //search_adapter.setContext(Search_channel.this);

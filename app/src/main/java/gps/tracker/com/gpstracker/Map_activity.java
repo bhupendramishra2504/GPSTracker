@@ -382,7 +382,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                                     date2 = simpleDateFormat.parse(Global.date_time_mod());
 
                                     String time_stamp_mod=simpleDateFormat1.format(date1);
-                                    map_style.setText(time_stamp_mod + " (" + printDifference(date1, date2) + " )"+ " Speed : "+gps_speed);
+                                    map_style.setText(time_stamp_mod + " (" + printDifference(date1, date2) + " )"+Global.separator+ "Approx. Speed : "+gps_speed);
 
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -764,7 +764,7 @@ public class Map_activity extends AppCompatActivity implements MapView.OnMapRead
                     if(time_stamp!=null) {
                         date1 = simpleDateFormat.parse(time_stamp);
                         date2 = simpleDateFormat.parse(Global.date_time_mod());
-                        map_style.setText(time_stamp + " (" + printDifference(date1, date2) + " )"+ " Speed : "+gps_speed);
+                        map_style.setText(time_stamp + " (" + printDifference(date1, date2) + " )"+Global.separator+ "Approx. Speed : "+gps_speed);
                     }
 
                 } catch (ParseException e) {

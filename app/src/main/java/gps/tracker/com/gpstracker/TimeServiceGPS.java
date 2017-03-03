@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -48,6 +49,7 @@ public class TimeServiceGPS extends Service {
     boolean status=false;
     public String channel_id="",gps_speed="0 km/h",gps_time="";
     Context context;
+    String rr_interval="10 secs";
 
     //String channel=Global.username;
 
@@ -62,17 +64,75 @@ public class TimeServiceGPS extends Service {
 
 
         context=this;
-        final long nt=NOTIFY_INTERVAL;
+        /*final long nt=NOTIFY_INTERVAL;
         latitude = 0.0;
         longitude = 0.0;
-        SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
-        channel_id = prefs.getString("broadcasting_sticky", "NA");
+        if(mTimer != null) {
+            mTimer.cancel();
+        } else {
+            // recreate new
+            mTimer = new Timer();
+            Log.d("GPS Service","Timer Started");
+        }
+
+        //SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+        //channel_id = prefs.getString("broadcasting_sticky", "NA");
+        //Intent i=getApplicationContext().getIntent();
+
         // schedule task
-        mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, NOTIFY_INTERVAL1);
+        mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, 10000);*/
 
 
 
 
+    }
+
+    @Override
+    public int onStartCommand (Intent intent, int flags, int startId) {
+        //channel_id = intent.getStringExtra("channel_id");
+        //rr_interval=intent.getStringExtra("refresh_rate");
+
+        SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+        channel_id = prefs.getString("broadcasting", "NA");
+        rr_interval=prefs.getString("refresh_rate","10 secs");
+        if(rr_interval.equalsIgnoreCase("10 secs"))
+        {
+            NOTIFY_INTERVAL=10000;
+        }
+        else if(rr_interval.equalsIgnoreCase("30 secs"))
+        {
+            NOTIFY_INTERVAL=30000;
+        }
+        else if(rr_interval.equalsIgnoreCase("1 min"))
+        {
+            NOTIFY_INTERVAL=10000*60;
+        }
+        else if(rr_interval.equalsIgnoreCase("15 mins"))
+        {
+            NOTIFY_INTERVAL=10000*60*15;
+        }
+        else if(rr_interval.equalsIgnoreCase("30 mins"))
+        {
+            NOTIFY_INTERVAL=10000*60*30;
+        }
+
+        if(mTimer != null) {
+            mTimer.cancel();
+        } else {
+            // recreate new
+            mTimer = new Timer();
+            Log.d("GPS Service","Timer Started");
+        }
+
+        //SharedPreferences prefs = context.getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
+        //channel_id = prefs.getString("broadcasting_sticky", "NA");
+        //Intent i=getApplicationContext().getIntent();
+
+        // schedule task
+        mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, NOTIFY_INTERVAL);
+
+
+        return START_STICKY;
     }
 
     @Override

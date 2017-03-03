@@ -27,6 +27,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.firebase.database.DatabaseReference;
 
 import java.io.BufferedInputStream;
@@ -457,9 +461,13 @@ public class Add_Channel extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-
+        if(resized!=null)
+        {
+            resized.recycle();
+        }
         Intent intent = new Intent(Add_Channel.this, MyChannels_RV.class);
         startActivity(intent);
+
         finish();
     }
 
@@ -631,25 +639,36 @@ public class Add_Channel extends AppCompatActivity {
         if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK && null != data) {
             try {
                 if(data.getData()!=null) {
-                    InputStream inputStream = Add_Channel.this.getContentResolver().openInputStream(data.getData());
-                    assert inputStream != null;
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                    //InputStream inputStream = Add_Channel.this.getContentResolver().openInputStream(data.getData());
+                    //assert inputStream != null;
+                    //BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
 
-                    Bitmap bmp = BitmapFactory.decodeStream(bufferedInputStream);
+                   //// Bitmap bmp = BitmapFactory.decodeStream(bufferedInputStream);
 
-                    Bitmap resized1 = Bitmap.createScaledBitmap(bmp,150, 150, true);
+                    Glide
+                            .with(this)
+                            .load(data.getData()).asBitmap()
+                            .fitCenter()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(new SimpleTarget<Bitmap>(200,200) {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                                    add_pic.setImageBitmap(resource);
+                                    resized=resource;// Possibly runOnUiThread()
+                                }
+                            });
 
-                    resized = Bitmap.createScaledBitmap(bmp,50, 50, true);
+                    //resized = Bitmap.createScaledBitmap(bmp,150, 150, true);
 
 
-                    add_pic.setImageBitmap(resized1);
+                   // add_pic.setImageBitmap(resized);
                 }
                 else
                 {
                     Toast.makeText(Add_Channel.this,"picture cannnot uploaded from this location",Toast.LENGTH_LONG).show();
                 }
             }
-            catch(FileNotFoundException ignored) {
+            catch(Exception e) {
 
             }
 
@@ -668,7 +687,7 @@ public class Add_Channel extends AppCompatActivity {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         if(resized!=null) {
-            resized.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            resized.compress(Bitmap.CompressFormat.WEBP, 100, baos);
             byte[] data = baos.toByteArray();
             DatabaseReference userdata10 = Global.firebase_dbreference.child("CHANNELS").child(channel_id).child("image");
             String data_string = Base64.encodeToString(data, Base64.DEFAULT);

@@ -36,12 +36,14 @@
         <service
             android:name=".Broadcast_restart_service"
             android:enabled="true" />
-
         <service
             android:name=".Job_Service"
-            android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="true"
-            />
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".TimeServiceGPS"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
             android:name=".Broadcast_Receiver"
@@ -145,7 +147,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Data_usage_activity"></activity>
+        <activity android:name=".Data_usage_activity" />
+        <activity android:name=".Dashboard_v3"></activity>
     </application>
 
 </manifest>

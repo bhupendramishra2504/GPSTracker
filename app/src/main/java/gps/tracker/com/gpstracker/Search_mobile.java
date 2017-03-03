@@ -173,7 +173,7 @@ public class Search_mobile extends Fragment {
         //lv2.setVisibility(View.VISIBLE);
         DatabaseReference user_ref = Global.firebase_dbreference.child("CHANNELS");
 
-        user_ref.orderByChild("mobile").startAt(query).endAt(query + "\uf8ff").addValueEventListener(new ValueEventListener() {
+        user_ref.orderByChild("mobile").startAt(query).endAt(query + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 count = 0;
@@ -260,9 +260,10 @@ public class Search_mobile extends Fragment {
                     }
                 }
 
-
-                search_adapter = new Channel_search_mobile(getActivity(), search_results);
-                search_adapter.notifyDataSetChanged();
+                if(search_adapter!=null) {
+                    search_adapter = new Channel_search_mobile(getActivity(), search_results);
+                    search_adapter.notifyDataSetChanged();
+                }
                 lv2.setAdapter(search_adapter);
                 // search_adapter.setContext(Search_channel.this);
                 spinner.setVisibility(View.GONE);

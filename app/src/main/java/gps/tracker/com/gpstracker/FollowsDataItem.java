@@ -13,6 +13,7 @@ public class FollowsDataItem {
     private String vehicle_location;
     private int imageid;
     private Bitmap image;
+
     /*      Constructor     */
 
     public FollowsDataItem(String subscriber_vehicle_name, String subscriber_name, String vehicle_type, String vehicle_category, String subscriber_mobile_no, String subscriber_vehicle_no, String time, String status, String channel_id, String vehicle_location) {

@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,8 +21,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mapzen.tangram.LngLat;
+import com.mapzen.tangram.MapController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,13 +43,20 @@ public class Dashboard_v3 extends AppCompatActivity {
     private DatabaseReference user_ref;
     private ValueEventListener subscriber_listener,subscriber_detail_listener,subscriber_listener1,subscriber_detail_listener1;
     private DatabaseReference subscriber_detail, authenticate_user_ref,subscriber_detail1;
+    private DatabaseReference fetch_loc_ref, channel_status;
+    private ValueEventListener fetch_listener, channel_status_listener;
     private int channel_count=0;
     FollowsDataAdapter followsDataAdapter;
+    String time_stamp="";
+    private Date date1, date2;
+    private ImageView follow_delete,follow_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_v3);
+        follow_delete=(ImageView)findViewById(R.id.activity_main_iv_follows_delete);
+        follow_add=(ImageView)findViewById(R.id.activity_main_iv_follows_add);
         SharedPreferences prefs = getSharedPreferences("GPSTRACKER", MODE_PRIVATE);
         name = prefs.getString("mobile", "not valid");
         username = prefs.getString("username", "NA");
@@ -437,7 +450,8 @@ public class Dashboard_v3 extends AppCompatActivity {
                 sr1.setSubscriber_vehicle_name("Demo");
                 sr1.setVehicle_location("Bhopal");
                 sr1.setImageid(status_images[0]);
-                //sr1.setImage(download_image_to_firebase1("default"));
+                sr1.setImage(download_image_to_firebase1("default"));
+                sr1.setTime("online");
                 follows_results.add(sr1);
 
                 //adapter = new Subscriber_list_view_adapter(getApplicationContext(), results);
@@ -490,39 +504,31 @@ public class Dashboard_v3 extends AppCompatActivity {
                                 } else {
                                     fullObject.setImageid(status_images[1]);
                                 }
-                                if(map.get("owner")!=null) {
+                                if (map.get("owner") != null) {
                                     fullObject.setSubscriber_name(capitalize_string(map.get("owner").toString()));
-                                }
-                                else
-                                {
+                                } else {
                                     fullObject.setSubscriber_name("NA");
                                 }
-                                if(map.get("mobile")!=null) {
+                                if (map.get("mobile") != null) {
                                     fullObject.setSubscriber_mobile_no(capitalize_string(map.get("mobile").toString()));
-                                }
-                                else
-                                {
+                                } else {
                                     fullObject.setSubscriber_mobile_no("NA");
                                 }
-                                if(map.get("vehicle_number")!=null) {
+                                if (map.get("vehicle_number") != null) {
                                     fullObject.setSubscriber_vehicle_no(capitalize_string(map.get("vehicle_number").toString()));
-                                }
-                                else
-                                {
+                                } else {
                                     fullObject.setSubscriber_vehicle_no("NA");
                                 }
-                                if(map.get("vehicle_name")!=null) {
+                                if (map.get("vehicle_name") != null) {
                                     fullObject.setSubscriber_vehicle_name(capitalize_string(map.get("vehicle_name").toString()));
-                                }
-                                else
-                                {
+                                } else {
                                     fullObject.setSubscriber_vehicle_name("NA");
                                 }
-                               /* if (map.get("image") != null) {
+                                if (map.get("image") != null) {
                                     fullObject.setImage(download_image_to_firebase1(map.get("image").toString()));
                                 } else {
                                     fullObject.setImage(download_image_to_firebase1("default"));
-                                }*/
+                                }
                                 if (map.get("vtype") != null) {
                                     fullObject.setVehicle_type(capitalize_string(map.get("vtype").toString()));
                                 } else {
@@ -533,20 +539,54 @@ public class Dashboard_v3 extends AppCompatActivity {
                                 } else {
                                     fullObject.setVehicle_category("NA");
                                 }
+                                if (map.get("locations") != null) {
+                                    Map<String, Object> map1 = (Map<String, Object>) map.get("locations");
+                                    if (map1.get("latest_location") != null) {
+
+                                        String data[] = map1.get("latest_location").toString().split(";");
+
+                                        if (data.length >= 3) {
 
 
+                                            time_stamp = data[2];
+
+                                            SimpleDateFormat simpleDateFormat =
+                                                    new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+                                            SimpleDateFormat simpleDateFormat1 =
+                                                    new SimpleDateFormat("dd MMM HH:mm:ss");
+                                            try {
+                                                date1 = simpleDateFormat.parse(time_stamp);
+                                                date2 = simpleDateFormat.parse(Global.date_time_mod());
+
+                                                String time_stamp_mod = simpleDateFormat1.format(date1);
+                                                //map_style.setText(time_stamp_mod + " (" + printDifference(date1, date2) + " )");
+                                                fullObject.setTime(printDifference(date1, date2));
+
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                                Toast.makeText(Dashboard_v3.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+
+
+                                        } else {
+                                            fullObject.setTime("NA");
+                                        }
+                                    } else {
+                                        fullObject.setTime("NA");
+                                    }
+
+
+                                }
                             }
-                        } else {
-                            //Toast.makeText(Dashboard.this, "Invalid Subscriber Details", Toast.LENGTH_LONG).show();
-                            //Snackbar snackbar = Snackbar.make(coordinatorLayout, "Invalid Subscriber Details", Snackbar.LENGTH_LONG);
-                            //snackbar.show();
-                        }
-                        followsDataAdapter.notifyDataSetChanged();
-                        rcv_follows.invalidate();
+
+                            followsDataAdapter.notifyDataSetChanged();
+                            rcv_follows.invalidate();
                        /* if (adapter != null) {
                             adapter.notifyDataSetChanged();
                             lv1.invalidate();
                         }*/
+                        }
                     }catch(Exception e) {
                         //Toast.makeText(activity,"Error on loading subscribers"+e.getMessage(),Toast.LENGTH_LONG).show();
                         //Snackbar snackbar = Snackbar.make(coordinatorLayout, "Error on loading subscribers"+e.getMessage(), Snackbar.LENGTH_LONG);
@@ -567,64 +607,65 @@ public class Dashboard_v3 extends AppCompatActivity {
 
         }
 
+
+
+
     }
 
 
 
+    public String printDifference(Date startDate, Date endDate) {
 
-    private void getStatus()
-    {
+        //milliseconds
+        String diff = "";
+        long different = endDate.getTime() - startDate.getTime();
 
-        for (int i = 0; i < follows_index+1; i++) {
-            Object o = follows_results.get(i);
-            final FollowsDataItem fullObject = (FollowsDataItem) o;
-            String Channel_id=fullObject.getChannel_id();
-            subscriber_detail1 = Global.firebase_dbreference.child("CHANNELS").child(Channel_id).child("status");
-            subscriber_detail1.keepSynced(true);
-            subscriber_detail_listener1= subscriber_detail1.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String act;
-                    //results.clear();
-                    if(dataSnapshot!=null) {
-                        if (dataSnapshot.getValue() != null) {
-                            act = dataSnapshot.getValue().toString();
-                            /*if (act.equalsIgnoreCase("1")) {
-                                fullObject.setImageid(images[0]);
-                            } else {
-                                fullObject.setImageid(images[1]);
-                            }*/
+        System.out.println("startDate : " + startDate);
+        System.out.println("endDate : " + endDate);
+        System.out.println("different : " + different);
 
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
 
-                        }
-                    }
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
 
-                    else
-                    {
-                        //Toast.makeText(Dashboard.this,"Invalid Subscriber Details",Toast.LENGTH_LONG).show();
-                       // Snackbar snackbar = Snackbar.make(coordinatorLayout, "Invalid Subscriber Details", Snackbar.LENGTH_LONG);
-                       // snackbar.show();
-                    }
-                   /* if(adapter!=null) {
-                        adapter.notifyDataSetChanged();
-                        lv1.invalidate();
-                    }*/
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
 
-                }
+        long elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
 
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    // Toast.makeText(Dashboard.this, error.toException().toString(), Toast.LENGTH_LONG).show();
-                    //Snackbar snackbar = Snackbar.make(coordinatorLayout, error.toException().toString(), Snackbar.LENGTH_LONG);
-                   // snackbar.show();
-                }
-            });
+        long elapsedSeconds = different / secondsInMilli;
 
-
+        if (elapsedDays > 0) {
+            diff = diff + " " + String.valueOf(elapsedDays) + " days";
+        }
+        else if (elapsedHours > 0) {
+            diff = diff + " " + String.valueOf(elapsedHours) + " hrs";
+        }
+        else if (elapsedMinutes > 0) {
+            diff = diff + " " + String.valueOf(elapsedMinutes) + " mins";
         }
 
+        if (diff.equalsIgnoreCase("")) {
+            diff = " now";
+        } else {
+            diff = diff ;
+        }
+        return diff;
+
     }
+
+
+
+
+
+
+
+
 
 
 }

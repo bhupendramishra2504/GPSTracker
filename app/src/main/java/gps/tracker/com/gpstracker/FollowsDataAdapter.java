@@ -1,6 +1,8 @@
 package gps.tracker.com.gpstracker;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,11 +28,13 @@ public class FollowsDataAdapter extends RecyclerView.Adapter<FollowsDataAdapter.
     private Context context;
     private List<FollowsDataItem> followsDataItemList;
     private static final Integer[] status_images = {R.drawable.green_circle, R.drawable.red_circle};
+    private Activity activity;
 
 
     public FollowsDataAdapter(Context context, List<FollowsDataItem> followsDataItemList) {
         this.followsDataItemList = followsDataItemList;
         this.context = context;
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -65,15 +69,15 @@ public class FollowsDataAdapter extends RecyclerView.Adapter<FollowsDataAdapter.
         holder.tv_time.setText(followsDataItem.getTime());
         holder.tv_vehicle_location.setText(followsDataItem.getVehicle_location());
         holder.iv_status.setImageResource(followsDataItem.getImageid());
+        holder.civ_car.setImageBitmap(followsDataItem.getImage());
 
-
-        Glide.with(context)
+        /*Glide.with(context)
                 .load(R.drawable.ic_car)
                 .crossFade(1000)
                 .override(500, 500)
                 .thumbnail(0.5f)
                 .centerCrop()// good for profile image
-                .into(holder.civ_car);
+                .into(holder.civ_car);*/
 
       /*  if ("Active".equalsIgnoreCase(followsDataItem.getStatus())) {
             Glide.with(context)
@@ -112,6 +116,13 @@ public class FollowsDataAdapter extends RecyclerView.Adapter<FollowsDataAdapter.
         followsDataItemList.add(position, followsDataItem);
         notifyItemInserted(position);
     }
+
+    public void setActivity(Activity activity)
+    {
+        this.activity=activity;
+    }
+
+
 
     // Remove a RecyclerView item containing a specified Data object
     public void remove(FollowsDataItem directoryDataItem) {
@@ -172,8 +183,35 @@ public class FollowsDataAdapter extends RecyclerView.Adapter<FollowsDataAdapter.
                 public void onClick(View v) {
                     int position = getLayoutPosition();
                     int adapposition = getAdapterPosition();
-                    Log.e("List Length", position + " -- " +adapposition+" --- "+followsDataItemList.size());
+                    String status;
+                    Log.e("List Length", position + " -- " + adapposition + " --- " + followsDataItemList.size());
+                    if (!followsDataItemList.get(position).getChannel_id().equalsIgnoreCase(null) && !followsDataItemList.get(position).getChannel_id().equalsIgnoreCase("") && !followsDataItemList.get(position).getChannel_id().equalsIgnoreCase("NA")) {
+                        String subscriber_invite = followsDataItemList.get(position).getChannel_id();
+                        String subscriber = subscriber_invite;
+                        String block_unblock = followsDataItemList.get(position).getStatus();
+                        String subscriber_name = followsDataItemList.get(position).getSubscriber_vehicle_name();
+                        if (followsDataItemList.get(position).getImageid() == status_images[0]) {
+                            status = "online";
+                        } else {
+                            status = "offline";
+                        }
+                        if (block_unblock.equalsIgnoreCase("1") | subscriber_invite.equalsIgnoreCase("Demo")) {
 
+
+                            Intent i1 = new Intent(context, Map_activity.class);
+                            i1.putExtra("subscriber", subscriber);
+                            i1.putExtra("status", status);
+                            i1.putExtra("name", subscriber_name);
+                            i1.putExtra("vnumber", followsDataItemList.get(position).getSubscriber_vehicle_no());
+                            context.startActivity(i1);
+                            //System.gc();
+                            Activity activity=(Activity)context;
+                            activity.finish();
+
+                        }
+
+
+                    }
                 }
             });
 
